@@ -1,0 +1,135 @@
+import { StyleSheet, Platform } from 'react-native';
+import { colors } from '../../../theme/colors';
+import { spacing } from '../../../theme/spacing';
+
+export const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.background,
+  },
+  headerContainer: {
+    backgroundColor: colors.primaryDark,
+    paddingTop: Platform.OS === 'ios' ? 60 : 40,
+    paddingBottom: spacing.xl,
+    paddingHorizontal: spacing.l,
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
+  },
+  headerTopRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  profileSection: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+    marginRight: 10,
+  },
+  avatar: {
+    width: 45,
+    height: 45,
+    borderRadius: 22.5,
+    marginRight: spacing.s,
+    borderWidth: 2,
+    borderColor: colors.surface,
+  },
+  greetingContainer: {
+    justifyContent: 'center',
+    flex: 1,
+  },
+  greetingText: {
+    color: colors.surface,
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  locationRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 2,
+  },
+  locationText: {
+    color: colors.primaryLight,
+    fontSize: 12,
+    fontWeight: '500',
+    flexShrink: 1,
+  },
+  bellButton: {
+    padding: spacing.xs,
+    position: 'relative',
+  },
+  cartBadge: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    minWidth: 18,
+    height: 18,
+    borderRadius: 9,
+    backgroundColor: '#EF4444',
+    borderWidth: 1.5,
+    borderColor: colors.primaryDark,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 3,
+  },
+  cartBadgeText: {
+    color: '#FFF',
+    fontSize: 10,
+    fontWeight: 'bold',
+    lineHeight: 12,
+  },
+  searchRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: spacing.xl,
+  },
+  searchBarContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.surface,
+    borderRadius: 25,
+    height: 50,
+    paddingHorizontal: spacing.m,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+  },
+  searchIcon: {
+    marginRight: spacing.s,
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: 14,
+    color: colors.textMain,
+    height: '100%',
+  },
+  filterButton: {
+    backgroundColor: colors.surface,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: spacing.m,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: '800',
+    color: colors.textMain,
+    marginHorizontal: spacing.l,
+    marginTop: spacing.xl,
+    marginBottom: spacing.s,
+  },
+  listContainer: {
+    paddingHorizontal: spacing.s,
+    paddingBottom: 100, // accommodates the floating tab bar
+  },
+});
