@@ -85,7 +85,7 @@ export const styles = StyleSheet.create({
   },
   paymentCardSelected: {
     borderColor: colors.primaryButton,
-    backgroundColor: '#F0FDF4', // Very light green tint
+    backgroundColor: '#F0FDF4', 
   },
   paymentIcon: {
     fontSize: 24,

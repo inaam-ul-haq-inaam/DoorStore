@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '100%',
 
-    // Premium soft shadow
+
     shadowColor: colors.primaryDark,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,

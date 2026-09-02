@@ -50,7 +50,7 @@ export const AdminChatScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Header */}
+
       <View style={styles.header}>
         <TouchableOpacity onPress={handleGoBack} style={styles.backBtn}>
           <Icon name="chevron-back" size={24} color={colors.surface} />
@@ -90,7 +90,6 @@ export const AdminChatScreen = () => {
           />
         )}
 
-        {/* Input Bar */}
         <View style={styles.inputBar}>
           <TextInput
             style={styles.input}
@@ -131,7 +130,7 @@ const styles = StyleSheet.create({
   },
   backBtn: { marginRight: 12, padding: 4 },
   headerInfo: { flex: 1, flexDirection: 'row', alignItems: 'center' },
-  /* Avatar styles - REMOVED (now in Avatar component) */
+
   headerTitle: { color: colors.surface, fontSize: 16, fontWeight: 'bold' },
   headerSub: { color: 'rgba(255,255,255,0.7)', fontSize: 12 },
   messagesList: { padding: 16, paddingBottom: 8 },

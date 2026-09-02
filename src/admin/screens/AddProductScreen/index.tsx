@@ -58,7 +58,7 @@ export const AddProductScreen = () => {
         </View>
       </View>
 
-      {/* Category Selection */}
+
       <View style={styles.inputGroup}>
         <Text style={styles.label}>Select Category</Text>
         <View style={styles.unitRow}>
@@ -80,7 +80,7 @@ export const AddProductScreen = () => {
         </View>
       </View>
 
-      {/* Unit Selection */}
+
       <View style={styles.inputGroup}>
         <Text style={styles.label}>Select Unit</Text>
         <View style={styles.unitRow}>

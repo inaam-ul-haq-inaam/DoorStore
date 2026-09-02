@@ -14,7 +14,7 @@ export const SearchBar: React.FC<Props> = ({
 }) => {
   return (
     <View style={styles.container}>
-      {/* Search Icon (Using text for now, can be replaced with SVG/Icon later) */}
+
       <View style={styles.iconContainer}>
         <TextInput editable={false} style={styles.icon}>
           🔍
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     height: 50,
     marginVertical: spacing.m,
 
-    // Soft Shadow
+
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.05,

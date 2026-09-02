@@ -30,13 +30,11 @@ export const CartScreen = () => {
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor={colors.primaryDark} />
 
-      {/* Header */}
       <View style={styles.header}>
         <IconButton icon="‹" onPress={handleGoBack} />
         <Text style={styles.headerTitle}>My Cart</Text>
       </View>
 
-      {/* Empty State */}
       {isEmpty ? (
         <View style={styles.emptyContainer}>
           <Icon name="cart-outline" size={80} color="#D1D5DB" />
@@ -50,7 +48,7 @@ export const CartScreen = () => {
         </View>
       ) : (
         <>
-          {/* Cart Items & Receipt List */}
+
           <FlatList
             data={cartItems}
             keyExtractor={item => item.id}
@@ -77,7 +75,7 @@ export const CartScreen = () => {
             ListFooterComponent={
               <View style={styles.receiptCard}>
                 <Text style={styles.receiptTitle}>Bill Summary</Text>
-                
+
                 <View style={styles.receiptRow}>
                   <Text style={styles.receiptLabel}>Subtotal</Text>
                   <Text style={styles.receiptValue}>Rs. {subTotal.toFixed(2)}</Text>
@@ -85,14 +83,14 @@ export const CartScreen = () => {
 
                 {shopAddress ? (
                   <View style={{ marginBottom: 12, backgroundColor: '#F0F9F4', padding: 12, borderRadius: 8 }}>
-                    <Text style={{ fontSize: 13, color: colors.textDark, fontWeight: 'bold' }}>Shop Location:</Text>
+                    <Text style={{ fontSize: 13, color: colors.textMain, fontWeight: 'bold' }}>Shop Location:</Text>
                     <Text style={{ fontSize: 13, color: colors.textMuted }}>{shopAddress}</Text>
                     <Text style={{ fontSize: 13, color: colors.primaryDark, marginTop: 4, fontWeight: '600' }}>
                       Distance from you: {distance.toFixed(2)} KM
                     </Text>
                   </View>
                 ) : null}
-                
+
                 <View style={styles.receiptRow}>
                   <Text style={styles.receiptLabel}>Delivery Fee</Text>
                   {calculatingFee ? (
@@ -116,7 +114,6 @@ export const CartScreen = () => {
             }
           />
 
-          {/* Sticky Bottom Checkout Bar */}
           <View style={[styles.stickyBottomBar, { paddingBottom: tabBarHeight + 15 }]}>
             <View style={styles.checkoutRow}>
               <View>

@@ -42,13 +42,13 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         return { ...item, quantity: Math.max(0, item.quantity - 1) };
       }
       return item;
-    }).filter(item => item.quantity > 0)); // Also remove item if quantity hits 0
+    }).filter(item => item.quantity > 0)); 
   };
 
   const clearCart = () => setCartItems([]);
 
   const subTotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  const total = subTotal; // No delivery fee anymore
+  const total = subTotal; 
 
   return (
     <CartContext.Provider value={{ cartItems, addToCart, increaseQuantity, decreaseQuantity, clearCart, subTotal, deliveryFee: 0, total }}>

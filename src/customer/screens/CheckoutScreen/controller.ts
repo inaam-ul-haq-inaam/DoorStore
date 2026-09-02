@@ -11,10 +11,10 @@ export const useCheckoutController = () => {
   const navigation = useNavigation<CustomerStackNavigationProp>();
   const route = useRoute<RouteProp<CustomerStackParamList, 'Checkout'>>();
   const { cartItems, total: subTotal, clearCart } = useCart();
-  
+
   const deliveryFee = route.params?.deliveryFee || 0;
   const grandTotal = subTotal + deliveryFee;
-  
+
   const [fullName, setFullName] = useState('');
   const [address, setAddress] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -22,7 +22,7 @@ export const useCheckoutController = () => {
 
   const { profile } = useCustomerProfileCache();
 
-  // Auto-fill logic
+
   useEffect(() => {
     if (profile.fullName) setFullName(profile.fullName);
     if (profile.address) setAddress(profile.address);
@@ -45,7 +45,7 @@ export const useCheckoutController = () => {
       return;
     }
 
-    // Instead of placing order directly, show the bill modal
+
     setBillModalVisible(true);
   };
 
@@ -56,10 +56,10 @@ export const useCheckoutController = () => {
     setIsSubmitting(true);
 
     try {
-      // 1. Save profile locally for future auto-fill
+
       await AsyncStorage.setItem('@customer_profile', JSON.stringify({ fullName: fullName.trim(), address: address.trim() }));
 
-      // 2. Prepare Order Data
+
       const orderData = {
         customer_id: user.uid,
         customer_name: fullName.trim(),
@@ -69,23 +69,23 @@ export const useCheckoutController = () => {
         total_amount: grandTotal,
         delivery_fee: deliveryFee,
         distance_km: route.params?.distance || 0,
-        status: 'incoming', // Default status for new orders
-        created_at: new Date().toISOString(), // Safe ISO string to prevent bridge crashes
+        status: 'incoming', 
+        created_at: new Date().toISOString(), 
         payment_method: 'COD',
         is_rated: false
       };
 
-      // 3. Save to Firestore 'orders' collection
+
       const newOrderRef = firebaseDb.collection('orders').doc();
-      
+
       const firestorePromise = newOrderRef.set(orderData);
       const timeoutPromise = new Promise((_, reject) => {
         setTimeout(() => reject(new Error('Timeout connecting to server.')), 10000);
       });
-      
+
       await Promise.race([firestorePromise, timeoutPromise]);
 
-      // 4. Clear Cart, Hide Modal, and Navigate
+
       clearCart();
       setBillModalVisible(false);
       setIsSubmitting(false);
@@ -105,7 +105,7 @@ export const useCheckoutController = () => {
     }
   };
 
-  // Remaining props returned just in case the UI still references them temporarily, though we removed them
+
   return {
     fullName,
     setFullName,

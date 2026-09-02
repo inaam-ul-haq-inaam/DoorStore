@@ -37,7 +37,7 @@ export const InventoryScreen = () => {
         <Text style={styles.price} numberOfLines={1} adjustsFontSizeToFit>
           Rs. {item.price_pkr} <Text style={{ color: colors.textMuted, fontSize: 12 }}>/ {item.unit_quantity} {item.unit}</Text>
         </Text>
-        
+
         <View style={styles.actionRow}>
           <View style={styles.stockControl}>
             <TouchableOpacity 
@@ -47,9 +47,9 @@ export const InventoryScreen = () => {
             >
               <Text style={styles.stockBtnText}>-</Text>
             </TouchableOpacity>
-            
+
             <Text style={styles.stockCount}>{item.stock_available}</Text>
-            
+
             <TouchableOpacity style={styles.stockBtn} onPress={() => handleIncrement(item.id)}>
               <Text style={styles.stockBtnText}>+</Text>
             </TouchableOpacity>

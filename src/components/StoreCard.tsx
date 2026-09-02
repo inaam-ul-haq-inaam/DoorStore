@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing.m,
     alignItems: 'center',
 
-    // Soft shadow
+
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.05,

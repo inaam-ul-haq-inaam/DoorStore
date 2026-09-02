@@ -3,18 +3,17 @@ import { View, Text, Image, ScrollView, StatusBar } from 'react-native';
 import { useProductDetailsController } from './controller';
 import { styles } from './styles';
 
-// Components import karein
 import { IconButton } from '../../../components/IconButton';
 import { CartBadgeIcon } from '../../../components/CartBadgeIcon';
 import { QuantityStepper } from '../../../components/QuantityStepper';
 import { PrimaryButton } from '../../../components/PrimaryButton';
 
 export const ProductDetailsScreen = () => {
-  const { 
-    product, 
-    quantity, 
-    handleIncrease, 
-    handleDecrease, 
+  const {
+    product,
+    quantity,
+    handleIncrease,
+    handleDecrease,
     handleAddToCart,
     handleGoBack,
     handleGoToCart
@@ -24,10 +23,9 @@ export const ProductDetailsScreen = () => {
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#024036" />
 
-      {/* Background Curved Green Header */}
       <View style={styles.headerBackground} />
 
-      {/* Top Navigation Bar */}
+
       <View style={styles.topBar}>
         <IconButton icon="‹" onPress={handleGoBack} />
         <Text style={styles.headerTitle}>Product Details</Text>
@@ -41,12 +39,12 @@ export const ProductDetailsScreen = () => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 100 }}
       >
-        {/* Product Image */}
+
         <View style={styles.imageContainer}>
           <Image source={{ uri: product.image }} style={styles.productImage} />
         </View>
 
-        {/* Product Information */}
+
         <View style={styles.detailsContainer}>
           <View style={styles.titleRow}>
             <Text style={styles.title}>{product.name}</Text>
@@ -73,7 +71,7 @@ export const ProductDetailsScreen = () => {
         </View>
       </ScrollView>
 
-      {/* Bottom Action Bar */}
+
       <View style={styles.bottomBar}>
         <View style={styles.stepperContainer}>
           <QuantityStepper

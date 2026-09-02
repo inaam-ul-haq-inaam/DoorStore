@@ -25,7 +25,7 @@ export const CategoryPill: React.FC<Props> = ({
       <View
         style={[
           styles.circle,
-          isSelected && styles.circleSelected, // Agar select ho toh color change
+          isSelected && styles.circleSelected, 
         ]}
       >
         <Image source={{ uri: image }} style={styles.image} />
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     width: 65,
     height: 65,
     borderRadius: 35,
-    backgroundColor: '#FEF08A', // Light yellow background (reference image se)
+    backgroundColor: '#FEF08A', 
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: spacing.xs,

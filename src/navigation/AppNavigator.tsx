@@ -6,16 +6,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { colors } from '../theme/colors';
 import { useAuth } from '../context/AuthContext';
 
-// Navigators
 import { CustomerNavigator } from '../customer/navigation/CustomerNavigator';
 import { AdminNavigator } from '../admin/navigation/AdminNavigator';
 import { AuthNavigator } from '../auth/navigation/AuthNavigator';
 
-// Screens
 import { OnboardingScreen } from '../onboarding/screens/OnboardingScreen';
 import { SplashScreen } from '../splash/SplashScreen';
 
-// Types
 import { RootStackParamList } from './types';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -39,11 +36,10 @@ export const AppNavigator = () => {
         setIsFirstLaunch(false); 
       }
     };
-    
+
     checkFirstLaunch();
   }, []);
 
-  // Wait for both First Launch verification, Firebase Auth, and Splash Animation
   if (isFirstLaunch === null || authLoading || !isSplashAnimationDone) {
     return <SplashScreen onAnimationComplete={() => setIsSplashAnimationDone(true)} />;
   }
@@ -54,15 +50,14 @@ export const AppNavigator = () => {
         screenOptions={{ headerShown: false, animation: 'fade' }}
         initialRouteName={isFirstLaunch ? "Onboarding" : (!user || !userProfile?.full_name) ? "AuthStack" : (userProfile?.role === 'admin' || userProfile?.role === 'shopkeeper') ? "AdminApp" : "CustomerApp"}
       >
-        {/* Unauthenticated Stacks */}
+
         {(!user || !userProfile?.full_name) && (
           <>
             <Stack.Screen name="Onboarding" component={OnboardingScreen} />
             <Stack.Screen name="AuthStack" component={AuthNavigator} />
           </>
         )}
-        
-        {/* Main App Stacks (Admin vs Customer) */}
+
         {user && userProfile?.full_name && (userProfile.role === 'admin' || userProfile.role === 'shopkeeper') && (
           <Stack.Screen name="AdminApp" component={AdminNavigator} />
         )}

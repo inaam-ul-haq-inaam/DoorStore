@@ -102,7 +102,6 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 
-  /* Track Order Modal */
   modalOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.6)',
@@ -194,7 +193,6 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 
-  /* Premium Receipt Modal Styles */
   receiptOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.7)',

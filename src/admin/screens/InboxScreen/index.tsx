@@ -50,7 +50,7 @@ export const InboxScreen = () => {
 
   return (
     <View style={styles.container}>
-      {/* Header */}
+
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Messages</Text>
         <Icon name="chatbubbles-outline" size={24} color={colors.surface} />
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     backgroundColor: colors.surface,
   },
-  /* Avatar - REMOVED (now in Avatar component) */
+
   info: { flex: 1 },
   infoTopRow: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 4 },
   infoBottomRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },

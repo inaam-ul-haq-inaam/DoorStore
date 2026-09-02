@@ -83,7 +83,7 @@ export const useShopLocationController = (isVisible: boolean, onClose: () => voi
 
     setLoading(true);
     const hasPermission = await requestLocationPermission();
-    
+
     if (!hasPermission) {
       Alert.alert('Permission Denied', 'Cannot set location without permission.');
       setLoading(false);
@@ -95,10 +95,9 @@ export const useShopLocationController = (isVisible: boolean, onClose: () => voi
         const { latitude, longitude } = position.coords;
         try {
           const locationData = { address: address.trim(), lat: latitude, lng: longitude };
-          // Save locally
+
           await updateLocation(locationData);
-          
-          // Save to Firestore under current user's document
+
           const user = firebaseAuth.currentUser;
           if (user) {
             await firebaseDb.collection('users').doc(user.uid).set({

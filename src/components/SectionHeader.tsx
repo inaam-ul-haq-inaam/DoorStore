@@ -18,7 +18,7 @@ export const SectionHeader: React.FC<Props> = ({
     <View style={styles.container}>
       <Text style={styles.title}>{title}</Text>
 
-      {/* Agar actionTitle pass kiya gaya hai, tabhi yeh button show hoga */}
+
       {actionTitle && (
         <TouchableOpacity activeOpacity={0.7} onPress={onActionPress}>
           <Text style={styles.actionText}>{actionTitle}</Text>
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginHorizontal: spacing.m, // Container ki side padding
+    marginHorizontal: spacing.m, 
     marginTop: spacing.xl,
     marginBottom: spacing.s,
   },

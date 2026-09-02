@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
   },
   header: {
     paddingHorizontal: spacing.l,
-    paddingTop: 60, // Safe area
+    paddingTop: 60, 
     paddingBottom: spacing.m,
     backgroundColor: colors.primaryDark,
     borderBottomLeftRadius: 24,

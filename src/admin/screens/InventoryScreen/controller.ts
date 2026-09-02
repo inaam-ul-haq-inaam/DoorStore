@@ -38,7 +38,7 @@ export const useInventoryController = () => {
               price_pkr: data.price_pkr || 0,
               stock_available: data.stock_available || 0,
               image_url: data.image_url || '',
-              in_stock: data.in_stock !== false, // default true if undefined
+              in_stock: data.in_stock !== false, 
               unit: data.unit || 'Unit',
               unit_quantity: data.unit_quantity || '1',
             };

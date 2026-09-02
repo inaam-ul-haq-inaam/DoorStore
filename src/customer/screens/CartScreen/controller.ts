@@ -42,10 +42,10 @@ export const useCartController = () => {
     let isMounted = true;
 
     const fetchFee = async () => {
-      // 1. Fetch Shop Location and Delivery Settings
+
       let shopLocation = null;
       let deliverySettings = { base_fee: 0, per_km_fee: 0 };
-      
+
       try {
         const adminSnapshot = await firebaseDb.collection('users')
           .where('role', 'in', ['admin', 'shopkeeper'])
@@ -72,7 +72,6 @@ export const useCartController = () => {
         return;
       }
 
-      // 2. Get Buyer Location
       const hasPermission = await requestLocationPermission();
       if (!hasPermission) {
         if (isMounted) {
@@ -87,17 +86,16 @@ export const useCartController = () => {
         async (position) => {
           if (!isMounted) return;
           const { latitude, longitude } = position.coords;
-          
+
           try {
-            // 3. Calculate Distance using OpenRouteService API
+
             const ORS_API_KEY = 'eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjE4OTE1ZTE5ZTQ5NzQxYjc5MWNhZDI0NjMxNjUyNGM1IiwiaCI6Im11cm11cjY0In0=';
-            
-            // Note: ORS requires coordinates in [Longitude, Latitude] format
+
             const startStr = `${shopLocation.longitude},${shopLocation.latitude}`;
             const endStr = `${longitude},${latitude}`;
-            
+
             const response = await fetch(`https://api.openrouteservice.org/v2/directions/driving-car?api_key=${ORS_API_KEY}&start=${startStr}&end=${endStr}`);
-            
+
             let distKm = 0;
             if (response.ok) {
               const data = await response.json();
@@ -106,11 +104,11 @@ export const useCartController = () => {
                 distKm = distMeters / 1000;
               }
             } else {
-              // Fallback to straight line distance if ORS fails
+
               console.warn("ORS API Failed, falling back to straight-line distance.");
               distKm = calculateDistance(latitude, longitude, shopLocation.latitude, shopLocation.longitude);
             }
-            
+
             if (!isMounted) return;
             setDistance(distKm);
 

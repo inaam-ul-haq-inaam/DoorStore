@@ -2,14 +2,12 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { MainTabNavigator } from './MainTabNavigator';
 
-// Screens
 import { ProductDetailsScreen } from '../screens/ProductDetailsScreen';
 import { CheckoutScreen } from '../screens/CheckoutScreen';
 import { OrderSuccessScreen } from '../screens/OrderSuccessScreen';
 import { CustomerChatScreen } from '../screens/CustomerChatScreen';
 import { PolicyScreen } from '../../screens/PolicyScreen';
 
-// Types
 import { CustomerStackParamList } from '../../navigation/types';
 
 const Stack = createNativeStackNavigator<CustomerStackParamList>();

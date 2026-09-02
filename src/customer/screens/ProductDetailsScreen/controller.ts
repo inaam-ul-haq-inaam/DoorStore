@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
 import { CustomerStackParamList, CustomerStackNavigationProp } from '../../../navigation/types';
 
-// Filhal dummy data type, baad mein navigation parameters se aayega
 export interface ProductDetail {
   id: string;
   name: string;
@@ -18,13 +17,12 @@ export const useProductDetailsController = () => {
   const navigation = useNavigation<CustomerStackNavigationProp>();
   const { productId } = route.params;
 
-  // Dummy product based on reference image
   const [product] = useState<ProductDetail>({
     id: productId || '1',
     name: 'Beef Mixed Cut Bone In 50 gm',
     weight: '1000 gm',
     price: 23.46,
-    image: 'https://cdn-icons-png.flaticon.com/512/3143/3143645.png', // Transparent dummy image
+    image: 'https://cdn-icons-png.flaticon.com/512/3143/3143645.png', 
     description:
       '100% satisfaction guarantee. If you experience any of the following issues, missing, poor item, late arrival, unprofessional service... Read more',
     rating: 4.5,

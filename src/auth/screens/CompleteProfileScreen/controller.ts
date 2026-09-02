@@ -25,8 +25,7 @@ export const useCompleteProfileController = () => {
         role: 'buyer',
         created_at: firestore.FieldValue.serverTimestamp(),
       }, { merge: true });
-      
-      // Update Context so router skips this screen
+
       await refreshProfile();
     } catch (e: any) {
       setError(e.message || 'Failed to save profile');

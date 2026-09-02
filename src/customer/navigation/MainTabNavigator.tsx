@@ -5,17 +5,15 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { colors } from '../../theme/colors';
 import { useCart } from '../../context/CartContext';
 
-// Screens
 import { HomeScreen } from '../screens/HomeScreen';
 import { CartScreen } from '../screens/CartScreen';
 import { OrdersScreen } from '../screens/OrdersScreen';
 import { ProfileScreen } from '../screens/ProfileScreen';
 
-// Types
 import { MainTabParamList } from '../../navigation/types';
 
 const { width } = Dimensions.get('window');
-const TAB_WIDTH = width * 0.85; // 85% width
+const TAB_WIDTH = width * 0.85; 
 
 const Tab = createBottomTabNavigator<MainTabParamList>();
 

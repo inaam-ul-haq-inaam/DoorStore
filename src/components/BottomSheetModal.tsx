@@ -14,7 +14,7 @@ interface Props {
   visible: boolean;
   onClose: () => void;
   title?: string;
-  children: React.ReactNode; // Modal ke andar jo bhi custom UI dikhani ho
+  children: React.ReactNode; 
 }
 
 export const BottomSheetModal: React.FC<Props> = ({
@@ -30,19 +30,19 @@ export const BottomSheetModal: React.FC<Props> = ({
       visible={visible}
       onRequestClose={onClose}
     >
-      {/* Dark Transparent Backdrop */}
+
       <TouchableOpacity
         style={styles.overlay}
         activeOpacity={1}
         onPress={onClose}
       >
         <TouchableWithoutFeedback>
-          {/* Main Modal Content (Bottom Sheet) */}
+
           <View style={styles.bottomSheet}>
-            {/* Top Drag Indicator (Pill) */}
+
             <View style={styles.dragIndicator} />
 
-            {/* Optional Header */}
+
             {title && (
               <View style={styles.header}>
                 <Text style={styles.title}>{title}</Text>
@@ -55,7 +55,7 @@ export const BottomSheetModal: React.FC<Props> = ({
               </View>
             )}
 
-            {/* Dynamic Content */}
+
             <View style={styles.content}>{children}</View>
           </View>
         </TouchableWithoutFeedback>
@@ -67,19 +67,19 @@ export const BottomSheetModal: React.FC<Props> = ({
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.4)', // Dark transparent background
-    justifyContent: 'flex-end', // Modal ko bottom par lane ke liye
+    backgroundColor: 'rgba(0, 0, 0, 0.4)', 
+    justifyContent: 'flex-end', 
   },
   bottomSheet: {
     backgroundColor: colors.surface,
     borderTopLeftRadius: spacing.radiusLarge,
     borderTopRightRadius: spacing.radiusLarge,
     paddingHorizontal: spacing.l,
-    paddingBottom: 40, // Safe area space for bottom screen
+    paddingBottom: 40, 
     paddingTop: spacing.s,
-    maxHeight: '80%', // Screen se zyada bara na ho
+    maxHeight: '80%', 
 
-    // Shadow for premium pop feel
+
     shadowColor: '#000',
     shadowOffset: { width: 0, height: -4 },
     shadowOpacity: 0.1,
@@ -111,6 +111,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   content: {
-    // Yahan child components aayenge
+
   },
 });

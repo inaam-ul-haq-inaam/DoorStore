@@ -3,7 +3,6 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
 
-// --- CUSTOMER TYPES ---
 export type MainTabParamList = {
   Home: undefined;
   Cart: undefined;
@@ -20,7 +19,6 @@ export type CustomerStackParamList = {
   Policy: undefined;
 };
 
-// --- ADMIN TYPES ---
 export type AdminDrawerParamList = {
   Dashboard: undefined;
   AddProduct: undefined;
@@ -33,13 +31,12 @@ export type AdminDrawerParamList = {
   AdminReviews: undefined;
 };
 
-// --- AUTH TYPES ---
 export type AuthStackParamList = {
-  PhoneAuth: undefined;
+  Login: undefined;
+  Register: undefined;
   CompleteProfile: undefined;
 };
 
-// --- ROOT TYPES ---
 export type RootStackParamList = {
   Onboarding: undefined;
   AuthStack: NavigatorScreenParams<AuthStackParamList>;
@@ -47,7 +44,6 @@ export type RootStackParamList = {
   AdminApp: NavigatorScreenParams<AdminDrawerParamList>;
 };
 
-// Helper types
 export type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 export type CustomerStackNavigationProp = NativeStackNavigationProp<CustomerStackParamList>;
 export type AdminDrawerNavigationProp = DrawerNavigationProp<AdminDrawerParamList>;

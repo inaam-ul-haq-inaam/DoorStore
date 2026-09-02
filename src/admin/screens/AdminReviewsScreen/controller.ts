@@ -31,10 +31,9 @@ export const useAdminReviewsController = () => {
             review_text: data.review_text || '',
           });
         });
-        
-        // Sort by date descending
+
         fetched.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
-        
+
         setReviews(fetched);
         setLoading(false);
       }, (error) => {

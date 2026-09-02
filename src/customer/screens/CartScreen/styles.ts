@@ -5,13 +5,13 @@ import { spacing } from '../../../theme/spacing';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F3F4F6', // Lighter background for better contrast
+    backgroundColor: '#F3F4F6',
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: spacing.l,
-    paddingTop: 60, // Safe area
+    paddingTop: 60, 
     paddingBottom: spacing.m,
     backgroundColor: colors.primaryDark,
     borderBottomLeftRadius: 24,
@@ -27,10 +27,9 @@ export const styles = StyleSheet.create({
   },
   listContainer: {
     padding: spacing.m,
-    paddingBottom: 250, // Extra space for bottom invoice
+    paddingBottom: 250,
   },
 
-  /* Empty Cart State */
   emptyContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -62,7 +61,6 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 
-  /* Cart Item Card */
   cartItemCard: {
     flexDirection: 'row',
     backgroundColor: colors.surface,
@@ -102,7 +100,6 @@ export const styles = StyleSheet.create({
     color: colors.primaryDark,
   },
 
-  /* Receipt / Invoice Section */
   receiptCard: {
     backgroundColor: '#FFF',
     borderRadius: 16,
@@ -110,7 +107,7 @@ export const styles = StyleSheet.create({
     marginTop: 10,
     borderWidth: 1,
     borderColor: '#E5E7EB',
-    borderStyle: 'dashed', // Gives it a parchi/receipt feel
+    borderStyle: 'dashed', 
   },
   receiptTitle: {
     fontSize: 16,
@@ -153,7 +150,6 @@ export const styles = StyleSheet.create({
     fontWeight: '900',
   },
 
-  /* Bottom Sticky Bar */
   stickyBottomBar: {
     position: 'absolute',
     bottom: 0,

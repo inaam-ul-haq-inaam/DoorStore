@@ -19,15 +19,15 @@ export const OrdersScreen = () => {
     switch (status) {
       case 'incoming':
       case 'pending':
-        return { backgroundColor: '#F59E0B' }; // Orange/Yellow
+        return { backgroundColor: '#F59E0B' }; 
       case 'preparing':
-      case 'accepted': // If client meant this, we just map it
-        return { backgroundColor: '#3B82F6' }; // Blue
+      case 'accepted': 
+        return { backgroundColor: '#3B82F6' }; 
       case 'completed':
       case 'delivered':
-        return { backgroundColor: '#10B981' }; // Green
+        return { backgroundColor: '#10B981' }; 
       default:
-        return { backgroundColor: '#9CA3AF' }; // Gray
+        return { backgroundColor: '#9CA3AF' }; 
     }
   };
 
@@ -88,12 +88,11 @@ export const OrdersScreen = () => {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor={colors.primaryDark} />
-      
+
       <View style={styles.header}>
         <Text style={styles.headerTitle}>My Orders</Text>
       </View>
 
-      {/* Tabs Container */}
       <View style={styles.tabsContainer}>
         <TouchableOpacity 
           style={[styles.tabButton, selectedTab === 'Active' && styles.tabButtonActive]}
@@ -101,7 +100,7 @@ export const OrdersScreen = () => {
         >
           <Text style={[styles.tabText, selectedTab === 'Active' && styles.tabTextActive]}>Active</Text>
         </TouchableOpacity>
-        
+
         <TouchableOpacity 
           style={[styles.tabButton, selectedTab === 'Delivered' && styles.tabButtonActive]}
           onPress={() => setSelectedTab('Delivered')}
@@ -131,7 +130,6 @@ export const OrdersScreen = () => {
         />
       )}
 
-      {/* Rating Modal */}
       <RatingModal
         visible={isRatingModalVisible}
         orderId={selectedOrderToRate?.id}

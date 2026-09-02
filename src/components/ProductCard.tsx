@@ -55,16 +55,16 @@ const styles = StyleSheet.create({
     padding: 12,
     marginHorizontal: 8,
     marginVertical: 12,
-    flex: 1, // Ensures cards take equal width in 2 columns
+    flex: 1, 
     alignItems: 'center',
 
-    // Premium Soft Shadow (iOS)
+
     shadowColor: '#000000',
     shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 0.04,
     shadowRadius: 8,
 
-    // Premium Soft Shadow (Android)
+
     elevation: 3,
   },
   image: {
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '700',
     textAlign: 'center',
-    minHeight: 40, // Keeps card heights consistent even if title is 1 line
+    minHeight: 40, 
   },
   weight: {
     color: colors.textMuted,
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
   price: {
     color: colors.textMain,
     fontSize: 18,
-    fontWeight: '900', // Extra bold for price to make it pop
+    fontWeight: '900', 
     marginTop: 8,
   },
   addButton: {

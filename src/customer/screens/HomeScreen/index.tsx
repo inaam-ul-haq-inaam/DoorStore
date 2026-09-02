@@ -13,6 +13,7 @@ import { useCart } from '../../../context/CartContext';
 import { Avatar } from '../../../components/Avatar';
 import { ScreenLoader } from '../../../components/ScreenLoader';
 import { EmptyState } from '../../../components/EmptyState';
+import { WhatsAppFloatButton } from '../../../components/WhatsAppFloatButton';
 import { RatingModal } from '../../../components/RatingModal';
 
 export const HomeScreen = () => {
@@ -54,8 +55,7 @@ export const HomeScreen = () => {
   const navigation = useNavigation<CustomerStackNavigationProp>();
   const { cartItems } = useCart();
   const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-  
-  // Animation State
+
   const cartIconRef = useRef<View>(null);
   const [cartPos, setCartPos] = useState({ x: 300, y: 50 });
   const [flyingItems, setFlyingItems] = useState<{ id: string, image: string, startPos: {x: number, y: number}, animatedValue: Animated.Value }[]>([]);
@@ -68,11 +68,10 @@ export const HomeScreen = () => {
 
   const handleAddToCartWithAnimation = (product: Product, startPos: {x: number, y: number}) => {
     handleAddToCart(product);
-    
-    // If modal is open, close it since we added to cart
+
     if (selectedProduct) {
       closeProductDetails();
-      // Animation will still trigger from where the button was
+
     }
 
     const animatedValue = new Animated.Value(0);
@@ -105,7 +104,7 @@ export const HomeScreen = () => {
       <StatusBar barStyle="light-content" backgroundColor={colors.primaryDark} />
 
       <View style={styles.headerContainer}>
-        {/* Top Row: Profile & Location */}
+
         <View style={styles.headerTopRow}>
           <View style={styles.profileSection}>
             <View style={{ marginRight: 8 }}>
@@ -153,7 +152,6 @@ export const HomeScreen = () => {
           </View>
         </View>
 
-        {/* Bottom Row: Search Bar */}
         <View style={styles.searchRow}>
           <View style={styles.searchBarContainer}>
             <Icon name="search-outline" size={20} color={colors.textMuted} style={styles.searchIcon} />
@@ -174,7 +172,6 @@ export const HomeScreen = () => {
         </View>
       </View>
 
-      {/* Category Filter Bar */}
       <View style={{ paddingVertical: 16 }}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 16 }}>
           {categories.map((cat) => {
@@ -198,10 +195,10 @@ export const HomeScreen = () => {
                   isSelected ? { 
                     borderWidth: 2, 
                     borderColor: '#004d40', 
-                    padding: 4 // Creates the inner ring effect
+                    padding: 4 
                   } : { borderWidth: 0 }
                 ]}>
-                  {/* Inner circle if padding is used, image takes up remaining space */}
+
                   <View style={{ width: '100%', height: '100%', borderRadius: 35, overflow: 'hidden', alignItems: 'center', justifyContent: 'center' }}>
                     <Image source={{ uri: cat.imageUrl }} style={{ width: '100%', height: '100%', resizeMode: 'cover' }} />
                   </View>
@@ -252,27 +249,24 @@ export const HomeScreen = () => {
         </View>
       )}
 
-      {/* Product Details Bottom Sheet Modal */}
       <Modal visible={!!selectedProduct} transparent={true} animationType="slide">
         <View style={modalStyles.overlay}>
-          {/* Tapping outside closes the modal */}
+
           <TouchableOpacity style={modalStyles.backdrop} onPress={closeProductDetails} activeOpacity={1} />
-          
+
           <View style={modalStyles.sheet}>
             <View style={modalStyles.dragIndicator} />
             <TouchableOpacity style={{ position: 'absolute', top: 16, right: 16, zIndex: 10 }} onPress={closeProductDetails}>
               <Icon name="close-circle" size={32} color="#D1D5DB" />
             </TouchableOpacity>
-            
+
             {selectedProduct && (
               <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={modalStyles.scrollContent}>
-                
-                {/* Big Product Image */}
+
                 <View style={modalStyles.imageContainer}>
                   <Image source={{ uri: selectedProduct.image }} style={modalStyles.image} />
                 </View>
 
-                {/* Details */}
                 <View style={modalStyles.headerRow}>
                   <View style={{ flex: 1 }}>
                     <Text style={modalStyles.productName}>{selectedProduct.name}</Text>
@@ -296,7 +290,6 @@ export const HomeScreen = () => {
                   <Text style={modalStyles.productPrice}>Rs. {selectedProduct.price}</Text>
                 </View>
 
-                {/* Optional Description */}
                 {selectedProduct.description ? (
                   <View style={modalStyles.descContainer}>
                     <Text style={modalStyles.descTitle}>About this product</Text>
@@ -304,7 +297,6 @@ export const HomeScreen = () => {
                   </View>
                 ) : null}
 
-                {/* Empty Space for scrolling */}
                 <View style={{ height: 20 }} />
 
                 <PrimaryButton 
@@ -317,7 +309,6 @@ export const HomeScreen = () => {
         </View>
       </Modal>
 
-      {/* Flying Items for Cart Animation */}
       {flyingItems.map(item => {
         const translateX = item.animatedValue.interpolate({
           inputRange: [0, 1],
@@ -358,14 +349,12 @@ export const HomeScreen = () => {
         )
       })}
 
-      {/* Global Location Modal */}
       <Modal visible={isLocationModalVisible} transparent={true} animationType="fade">
         <View style={modalStyles.centerOverlay}>
           <View style={modalStyles.centerSheet}>
             <Text style={modalStyles.locationModalTitle}>Set Your Delivery Address</Text>
             <Text style={modalStyles.locationModalSub}>Type manually or use GPS to auto-detect your location.</Text>
-            
-            {/* GPS Button */}
+
             <TouchableOpacity
               style={modalStyles.gpsButton}
               onPress={handleUseGpsLocation}
@@ -387,7 +376,7 @@ export const HomeScreen = () => {
               placeholder="e.g. House 123, Street 4, Islamabad"
               multiline
             />
-            
+
             <View style={modalStyles.locationActionRow}>
               <TouchableOpacity onPress={() => setLocationModalVisible(false)} style={modalStyles.locationCancelBtn}>
                 <Text style={modalStyles.locationCancelText}>Cancel</Text>
@@ -398,7 +387,6 @@ export const HomeScreen = () => {
         </View>
       </Modal>
 
-      {/* Store Closed Full Screen Overlay */}
       {!isStoreOpen && (
         <View style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(255,255,255,0.95)', justifyContent: 'center', alignItems: 'center', zIndex: 999 }]}>
           <Icon name="storefront" size={80} color={colors.primaryDark} />
@@ -409,7 +397,6 @@ export const HomeScreen = () => {
         </View>
       )}
 
-      {/* Rating Modal */}
       <RatingModal
         visible={isRatingModalVisible}
         orderId={unratedOrder?.id}
@@ -422,6 +409,8 @@ export const HomeScreen = () => {
         cancelLabel="Not Now"
         loading={ratingLoading}
       />
+
+      <WhatsAppFloatButton phoneNumber="923025769675" />
 
     </View>
   );
@@ -513,7 +502,7 @@ const modalStyles = StyleSheet.create({
     color: colors.textMuted,
     lineHeight: 20,
   },
-  // Location Modal Styles
+
   centerOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.5)',
@@ -587,5 +576,5 @@ const modalStyles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 14,
   },
-  // Rating Modal Styles - REMOVED (now in RatingModal component)
+
 });

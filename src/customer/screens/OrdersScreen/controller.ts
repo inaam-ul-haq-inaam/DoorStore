@@ -17,20 +17,17 @@ export interface Order {
 
 export const useOrdersController = () => {
   const user = firebaseAuth.currentUser;
-  
+
   const { orders, loading } = useOrdersFetch<Order>({
     filters: [{ field: 'customer_id', operator: '==', value: user?.uid }],
   });
 
   const [selectedTab, setSelectedTab] = useState<'Active' | 'Delivered'>('Active');
 
-  // Rating State
   const [selectedOrderToRate, setSelectedOrderToRate] = useState<Order | null>(null);
   const [isRatingModalVisible, setRatingModalVisible] = useState(false);
   const [rating, setRating] = useState(0);
   const [reviewText, setReviewText] = useState('');
-
-  // Rating State
 
   const filteredOrders = orders.filter(order => {
     if (selectedTab === 'Active') {
@@ -61,7 +58,6 @@ export const useOrdersController = () => {
         review_text: reviewText,
       });
 
-      // Propagate rating to each product in the order
       if (selectedOrderToRate.items && Array.isArray(selectedOrderToRate.items)) {
         for (const item of selectedOrderToRate.items) {
           if (item.id) {
@@ -72,11 +68,11 @@ export const useOrdersController = () => {
                 const prodData = prodDoc.data();
                 const currentCount = typeof prodData?.rating_count === 'number' ? prodData.rating_count : 0;
                 const currentRating = typeof prodData?.rating === 'number' ? prodData.rating : 0;
-                
+
                 const newCount = currentCount + 1;
                 const newTotal = (currentRating * currentCount) + rating;
                 const newAvg = Number((newTotal / newCount).toFixed(1));
-                
+
                 await prodRef.update({
                   rating: newAvg,
                   rating_count: newCount

@@ -20,12 +20,10 @@ export const Avatar: React.FC<AvatarProps> = ({ name, imageUrl, size = 'medium',
   const sizeConfig = SIZE_MAP[size];
   const borderRadius = sizeConfig.container / 2;
 
-  // Generate initials
   const initials = name
     ? name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
     : '?';
 
-  // Auto-pick background color from name
   const autoBg = backgroundColor || AVATAR_COLORS[initials.charCodeAt(0) % AVATAR_COLORS.length];
 
   if (imageUrl) {

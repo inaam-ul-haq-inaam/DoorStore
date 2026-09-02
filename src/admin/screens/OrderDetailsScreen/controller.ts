@@ -19,7 +19,6 @@ export const useOrderDetailsController = () => {
       return;
     }
 
-    // Fetch real order from Firestore
     const unsubscribe = firebaseDb.collection('orders').doc(orderId).onSnapshot((doc) => {
       if (doc.exists()) {
         setOrderDetails({ id: doc.id, ...doc.data() });
@@ -32,13 +31,13 @@ export const useOrderDetailsController = () => {
 
   const handleAction = async (newStatus: 'pending' | 'completed') => {
     if (!orderDetails) return;
-    
+
     setIsUpdating(true);
     try {
       await firebaseDb.collection('orders').doc(orderId).update({
         status: newStatus
       });
-      // Admin dashboard par auto update ho jayega
+
     } catch (error) {
       console.error("Error updating status: ", error);
       Alert.alert("Error", "Could not update order status.");

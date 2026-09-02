@@ -52,7 +52,7 @@ export const useChat = ({
           }));
           setMessages(fetched);
           setLoading(false);
-          // scroll to bottom
+
           setTimeout(() => flatListRef.current?.scrollToEnd({ animated: true }), 100);
         },
         (error) => {
@@ -61,7 +61,6 @@ export const useChat = ({
         }
       );
 
-    // Apply on-open updates to the parent chat document (e.g. mark as read)
     if (onOpenPayload) {
       firebaseDb.collection('chats').doc(chatId).set(onOpenPayload, { merge: true });
     }
@@ -84,16 +83,14 @@ export const useChat = ({
         isAdmin,
       };
 
-      // Save message to chat subcollection
       await firebaseDb
         .collection('chats')
         .doc(chatId)
         .collection('messages')
         .add(messageData);
 
-      // Update the parent chat document
       if (onSendParentPayload) {
-        // Evaluate dynamic payload items if needed, or assume static
+
         const payload = {
           ...onSendParentPayload,
           lastMessage: text,

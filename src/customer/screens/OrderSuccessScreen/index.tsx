@@ -21,25 +21,22 @@ export const OrderSuccessScreen = () => {
     handleSaveReceipt
   } = useOrderSuccessController();
 
-  // Helper to determine active steps based on Firestore status
-  // statuses: 'incoming', 'pending', 'completed'
-  const isStep1 = true; // Always placed
+  const isStep1 = true; 
   const isStep2 = orderStatus === 'pending' || orderStatus === 'completed';
   const isStep3 = orderStatus === 'pending' || orderStatus === 'completed';
   const isStep4 = orderStatus === 'completed';
 
   return (
     <View style={styles.container}>
-      {/* Immersive Dark Status Bar */}
+
       <StatusBar barStyle="light-content" backgroundColor={colors.primaryDark} />
 
-      {/* Big Animated Success Icon */}
       <View style={styles.iconCircle}>
         <Text style={styles.iconText}>✓</Text>
       </View>
 
       <Text style={styles.title}>Order Placed!</Text>
-      
+
       <Text style={styles.subtitle}>
         Thank you! Your grocery order has been successfully placed. We're preparing it for delivery.
       </Text>
@@ -63,7 +60,6 @@ export const OrderSuccessScreen = () => {
         </TouchableOpacity>
       </View>
 
-      {/* Track Order Modal */}
       <Modal visible={isTrackModalVisible} transparent animationType="slide">
         <View style={styles.modalOverlay}>
           <View style={styles.modalSheet}>
@@ -71,7 +67,7 @@ export const OrderSuccessScreen = () => {
             <Text style={styles.modalTitle}>Order Status</Text>
 
             <View style={styles.timelineContainer}>
-              {/* Step 1: Placed */}
+
               <View style={styles.timelineItem}>
                 <View style={styles.timelineLineBox}>
                   <View style={isStep1 ? styles.timelineDotActive : styles.timelineDotInactive} />
@@ -83,7 +79,6 @@ export const OrderSuccessScreen = () => {
                 </View>
               </View>
 
-              {/* Step 2: Accepted */}
               <View style={styles.timelineItem}>
                 <View style={styles.timelineLineBox}>
                   <View style={isStep2 ? styles.timelineDotActive : styles.timelineDotInactive} />
@@ -95,7 +90,6 @@ export const OrderSuccessScreen = () => {
                 </View>
               </View>
 
-              {/* Step 3: Preparing */}
               <View style={styles.timelineItem}>
                 <View style={styles.timelineLineBox}>
                   <View style={isStep3 ? styles.timelineDotActive : styles.timelineDotInactive} />
@@ -107,7 +101,6 @@ export const OrderSuccessScreen = () => {
                 </View>
               </View>
 
-              {/* Step 4: Delivered */}
               <View style={styles.timelineItem}>
                 <View style={styles.timelineLineBox}>
                   <View style={isStep4 ? styles.timelineDotActive : styles.timelineDotInactive} />
@@ -126,13 +119,11 @@ export const OrderSuccessScreen = () => {
         </View>
       </Modal>
 
-      {/* Premium FoodPanda Style Receipt Modal */}
       <Modal visible={isReceiptModalVisible} transparent animationType="fade">
         <View style={styles.receiptOverlay}>
           <ViewShot ref={viewRef} style={styles.receiptPaper} options={{ format: 'png', quality: 1 }}>
             <ScrollView showsVerticalScrollIndicator={false}>
-              
-              {/* Receipt Header */}
+
               <View style={styles.receiptHeader}>
                 <Text style={styles.receiptBrand}>DOOR STORE</Text>
                 <Text style={styles.receiptSlogan}>Your fresh food partner</Text>
@@ -140,7 +131,6 @@ export const OrderSuccessScreen = () => {
 
               <Text style={styles.receiptDashedLine}>- - - - - - - - - - - - - - - - - - - - - - - -</Text>
 
-              {/* Order Info */}
               <View style={styles.receiptInfoSection}>
                 <View style={styles.receiptRowInfo}>
                   <Text style={styles.receiptLabelText}>Order ID:</Text>
@@ -164,7 +154,6 @@ export const OrderSuccessScreen = () => {
 
               <Text style={styles.receiptDashedLine}>- - - - - - - - - - - - - - - - - - - - - - - -</Text>
 
-              {/* Items Table */}
               <View style={styles.receiptItemsSection}>
                 <View style={[styles.receiptRowItem, { marginBottom: 8 }]}>
                   <Text style={[styles.receiptLabelText, { flex: 0.2 }]}>Qty</Text>
@@ -183,7 +172,6 @@ export const OrderSuccessScreen = () => {
 
               <Text style={styles.receiptDashedLine}>- - - - - - - - - - - - - - - - - - - - - - - -</Text>
 
-              {/* Totals */}
               <View style={styles.receiptTotalsSection}>
                 <View style={styles.receiptRowInfo}>
                   <Text style={styles.receiptLabelText}>Subtotal</Text>
@@ -200,17 +188,16 @@ export const OrderSuccessScreen = () => {
               </View>
 
               <Text style={styles.receiptDashedLine}>- - - - - - - - - - - - - - - - - - - - - - - -</Text>
-              
+
               <Text style={styles.receiptFooterText}>Thank you for your order!</Text>
             </ScrollView>
           </ViewShot>
-          
+
           <TouchableOpacity style={styles.receiptSaveBtn} onPress={handleSaveReceipt}>
             <Icon name="download-outline" size={20} color="#FFF" />
             <Text style={styles.receiptSaveBtnText}>Save to Gallery</Text>
           </TouchableOpacity>
 
-          {/* Close Button below receipt */}
           <TouchableOpacity style={styles.receiptCloseBtn} onPress={() => setReceiptModalVisible(false)}>
             <Text style={styles.receiptCloseBtnText}>Close</Text>
           </TouchableOpacity>

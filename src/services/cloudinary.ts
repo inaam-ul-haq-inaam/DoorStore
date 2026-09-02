@@ -5,8 +5,7 @@ export const CLOUDINARY_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOU
 
 export const uploadImageToCloudinary = async (base64Image: string): Promise<string> => {
   const data = new FormData();
-  // Send the image as a Data URI string instead of a local file object
-  // This bypasses all React Native file system reading bugs
+
   data.append('file', `data:image/jpeg;base64,${base64Image}`);
   data.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
 
@@ -18,7 +17,7 @@ export const uploadImageToCloudinary = async (base64Image: string): Promise<stri
 
     const result = await response.json();
     if (result.secure_url) {
-      return result.secure_url; // This is the live public URL
+      return result.secure_url; 
     } else {
       console.error('Cloudinary Error:', result);
       throw new Error(result.error?.message || 'Cloudinary returned an error');

@@ -9,8 +9,8 @@ export const styles = StyleSheet.create({
   },
   header: {
     paddingHorizontal: spacing.l,
-    paddingTop: 60, // Safe area
-    paddingBottom: 40, // Increased to make room for overlapping tabs
+    paddingTop: 60,
+    paddingBottom: 40,
     backgroundColor: colors.primaryDark,
     borderBottomLeftRadius: 24,
     borderBottomRightRadius: 24,
@@ -26,7 +26,7 @@ export const styles = StyleSheet.create({
     backgroundColor: '#FFF',
     padding: 8,
     marginHorizontal: spacing.m,
-    marginTop: -20, // Overlap the header slightly
+    marginTop: -20, 
     borderRadius: 25,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
@@ -54,7 +54,7 @@ export const styles = StyleSheet.create({
   },
   listContainer: {
     padding: spacing.m,
-    paddingBottom: 100, // For bottom tab bar
+    paddingBottom: 100, 
   },
   card: {
     backgroundColor: '#FFF',

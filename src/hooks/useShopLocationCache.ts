@@ -17,7 +17,6 @@ export const useShopLocationCache = () => {
         setShopLocation(JSON.parse(stored));
       }
 
-      // Force sync from Firebase for Admin
       const { firebaseAuth, firebaseDb } = require('../services/firebase');
       const user = firebaseAuth.currentUser;
       if (user) {

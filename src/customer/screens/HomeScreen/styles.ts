@@ -130,6 +130,6 @@ export const styles = StyleSheet.create({
   },
   listContainer: {
     paddingHorizontal: spacing.s,
-    paddingBottom: 100, // accommodates the floating tab bar
+    paddingBottom: 100, 
   },
 });

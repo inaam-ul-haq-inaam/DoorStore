@@ -45,7 +45,7 @@ export const AdminReviewsScreen = () => {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor={colors.primaryDark} />
-      
+
       <View style={styles.header}>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
           <TouchableOpacity onPress={handleGoBack} style={{ position: 'absolute', left: 0, padding: 8 }}>

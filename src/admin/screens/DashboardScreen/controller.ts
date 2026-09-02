@@ -19,7 +19,7 @@ export const useAdminDashboardController = () => {
   const [shopRating, setShopRating] = useState<string>('0.0');
   const [totalReviews, setTotalReviews] = useState(0);
 
-  // Listen to live orders to calculate stats
+
   useEffect(() => {
     const unsubscribeOrders = firebaseDb.collection('orders').onSnapshot(snapshot => {
       let incoming = 0;
@@ -42,7 +42,7 @@ export const useAdminDashboardController = () => {
       });
 
       setStats({ incoming, pending, completed });
-      
+
       if (ratedOrdersCount > 0) {
         setShopRating((totalRatingValue / ratedOrdersCount).toFixed(1));
       } else {

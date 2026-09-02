@@ -47,11 +47,11 @@ export const OrdersScreen = () => {
         <Text style={styles.customerName}>{item.customer_name}</Text>
         <Text style={styles.orderTotal}>Rs. {item.total_amount.toFixed(2)}</Text>
       </View>
-      
+
       <Text style={styles.phoneText}>
         <Icon name="call-outline" size={14} color={colors.textMuted} /> {item.customer_phone}
       </Text>
-      
+
       <Text style={styles.addressText} numberOfLines={2}>
         <Icon name="location-outline" size={14} color={colors.textMuted} /> {item.delivery_address}
       </Text>
@@ -88,7 +88,6 @@ export const OrdersScreen = () => {
         />
       )}
 
-      {/* Full Screen Order Details Modal */}
       <Modal visible={!!selectedOrder} animationType="slide" presentationStyle="pageSheet">
         <SafeAreaView style={styles.modalContainer}>
           <View style={styles.modalHeader}>
@@ -110,7 +109,7 @@ export const OrdersScreen = () => {
               <View style={styles.sectionCard}>
                 <Text style={styles.sectionLabel}>Delivery Address</Text>
                 <Text style={styles.modalValue}>{selectedOrder.delivery_address}</Text>
-                
+
                 <TouchableOpacity 
                   style={styles.modalRouteBtn} 
                   onPress={() => {
@@ -178,7 +177,6 @@ export const OrdersScreen = () => {
             </ScrollView>
           )}
 
-          {/* Fixed Bottom Actions in Modal */}
           {selectedOrder && status !== 'completed' && (
             <View style={styles.modalBottomBar}>
               <PrimaryButton 
@@ -192,7 +190,6 @@ export const OrdersScreen = () => {
             </View>
           )}
 
-          {/* Fixed Save Receipt + Print Button if completed */}
           {selectedOrder && status === 'completed' && (
             <View style={styles.modalBottomBar}>
               <TouchableOpacity style={styles.saveReceiptBtn} onPress={handleSaveReceipt}>
@@ -297,7 +294,6 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
 
-  // Modal Styles
   modalContainer: {
     flex: 1,
     backgroundColor: '#f1f5f9',

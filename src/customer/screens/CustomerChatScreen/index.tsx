@@ -50,7 +50,7 @@ export const CustomerChatScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Header */}
+
       <View style={styles.header}>
         <TouchableOpacity onPress={handleGoBack} style={styles.backBtn}>
           <Icon name="chevron-back" size={24} color={colors.surface} />
@@ -90,7 +90,6 @@ export const CustomerChatScreen = () => {
           />
         )}
 
-        {/* Input Bar */}
         <View style={styles.inputBar}>
           <TextInput
             style={styles.input}
@@ -140,7 +139,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: { color: colors.surface, fontSize: 16, fontWeight: 'bold' },
   headerSub: { color: 'rgba(255,255,255,0.7)', fontSize: 12 },
-  /* Avatar, loading, empty styles - REMOVED (now in reusable components) */
+
   messagesList: { padding: 16, paddingBottom: 8 },
   msgRow: { flexDirection: 'row', marginBottom: 12, alignItems: 'flex-end' },
   msgRowRight: { justifyContent: 'flex-end' },

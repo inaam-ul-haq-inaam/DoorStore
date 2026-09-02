@@ -40,7 +40,6 @@ export const RatingModal: React.FC<RatingModalProps> = ({
           How was your experience with order #{orderId?.slice(0, 8).toUpperCase() || ''}?
         </Text>
 
-        {/* Stars Row */}
         <View style={styles.starsRow}>
           {[1, 2, 3, 4, 5].map((star) => (
             <TouchableOpacity key={star} onPress={() => setRating(star)}>

@@ -14,7 +14,7 @@ import { useCheckoutController } from './controller';
 import { styles } from './styles';
 import { colors } from '../../../theme/colors';
 
-// Components
+
 import { IconButton } from '../../../components/IconButton';
 import { PrimaryButton } from '../../../components/PrimaryButton';
 
@@ -76,14 +76,14 @@ export const CheckoutScreen = () => {
         </View>
 
         <Text style={styles.sectionTitle}>Payment Method</Text>
-        
+
         <View style={[styles.paymentCard, styles.paymentCardSelected, { marginTop: 8 }]}>
           <Text style={styles.paymentIcon}>💵</Text>
           <Text style={styles.paymentText}>Cash on Delivery (COD)</Text>
         </View>
       </ScrollView>
 
-      {/* Fixed Bottom Action Bar */}
+
       <View style={styles.bottomBar}>
         <PrimaryButton
           title="Place Order"
@@ -91,13 +91,13 @@ export const CheckoutScreen = () => {
         />
       </View>
 
-      {/* Bill Confirmation Modal */}
+
       <Modal visible={isBillModalVisible} transparent={true} animationType="slide">
         <View style={modalStyles.overlay}>
           <View style={modalStyles.sheet}>
             <Text style={modalStyles.title}>Order Summary</Text>
-            
-            {/* Bill Items List */}
+
+
             <View style={modalStyles.itemsListContainer}>
               <View style={modalStyles.itemsListHeader}>
                 <Text style={[modalStyles.itemsListHeaderText, { flex: 2 }]}>Item</Text>

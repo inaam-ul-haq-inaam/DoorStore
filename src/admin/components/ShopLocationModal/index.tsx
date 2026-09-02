@@ -20,8 +20,7 @@ export const ShopLocationModal = ({ visible, onClose, onSave }: Props) => {
         <View style={styles.modalContainer}>
           <Text style={styles.title}>Set Shop Location</Text>
           <Text style={styles.subtitle}>Type manually or use GPS to auto-detect your location.</Text>
-          
-          {/* GPS Button */}
+
           <TouchableOpacity
             style={styles.gpsButton}
             onPress={handleUseGpsLocation}
@@ -43,7 +42,7 @@ export const ShopLocationModal = ({ visible, onClose, onSave }: Props) => {
             onChangeText={setAddress}
             placeholderTextColor={colors.textMuted}
           />
-          
+
           {loading ? (
             <ActivityIndicator size="large" color={colors.primaryDark} style={{ marginVertical: spacing.m }} />
           ) : (

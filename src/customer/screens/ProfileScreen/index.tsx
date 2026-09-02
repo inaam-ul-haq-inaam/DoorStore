@@ -28,7 +28,6 @@ export const ProfileScreen = () => {
 
   const { profile, updateProfile } = useCustomerProfileCache();
 
-  // Load saved location
   useEffect(() => {
     if (profile.address) {
       setLocation(profile.address);
@@ -41,7 +40,6 @@ export const ProfileScreen = () => {
     setLocationModalVisible(false);
   };
 
-  // Generate avatar initials from name
   const name = userProfile?.full_name || 'Guest User';
   const phone = user?.phoneNumber || userProfile?.phone || 'N/A';
 
@@ -53,14 +51,13 @@ export const ProfileScreen = () => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 120 }}
       >
-        {/* ── Header ── */}
+
         <View style={styles.header}>
           <Avatar name={name} size="large" />
           <Text style={styles.name}>{name}</Text>
           <Text style={styles.phone}>{phone}</Text>
         </View>
 
-        {/* ── Section: My Info ── */}
         <View style={styles.sectionCard}>
           <Text style={styles.sectionLabel}>My Information</Text>
 
@@ -88,7 +85,6 @@ export const ProfileScreen = () => {
           />
         </View>
 
-        {/* ── Section: Quick Actions ── */}
         <View style={styles.sectionCard}>
           <Text style={styles.sectionLabel}>Quick Actions</Text>
 
@@ -107,7 +103,6 @@ export const ProfileScreen = () => {
           />
         </View>
 
-        {/* ── Section: App Info ── */}
         <View style={styles.sectionCard}>
           <Text style={styles.sectionLabel}>About</Text>
           <MenuItem
@@ -125,11 +120,9 @@ export const ProfileScreen = () => {
           />
         </View>
 
-        {/* ── Logout ── */}
         <LogoutButton variant="fullWidth" />
       </ScrollView>
 
-      {/* ── Location Edit Modal ── */}
       <Modal visible={isLocationModalVisible} transparent animationType="slide">
         <View style={styles.modalOverlay}>
           <View style={styles.modalSheet}>
@@ -158,7 +151,6 @@ export const ProfileScreen = () => {
   );
 };
 
-// ─── Reusable Menu Item Component ───
 const MenuItem = ({
   icon,
   label,
@@ -220,7 +212,6 @@ const styles = StyleSheet.create({
   safeArea: { flex: 1, backgroundColor: colors.primaryDark },
   container: { flex: 1, backgroundColor: '#F0F4F8' },
 
-  /* Header */
   header: {
     backgroundColor: colors.primaryDark,
     alignItems: 'center',
@@ -230,11 +221,10 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 36,
     borderBottomRightRadius: 36,
   },
-  /* Avatar - REMOVED (now in Avatar component) */
+
   name: { color: '#FFF', fontSize: 22, fontWeight: 'bold', marginBottom: 4 },
   phone: { color: 'rgba(255,255,255,0.7)', fontSize: 15 },
 
-  /* Cards */
   sectionCard: {
     backgroundColor: '#FFF',
     marginHorizontal: 16,
@@ -263,9 +253,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
   },
 
-  /* Logout - REMOVED (now in LogoutButton component) */
-
-  /* Location Modal */
   modalOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.5)',

@@ -16,14 +16,13 @@ export const useOrdersFetch = <T extends { id: string; created_at: string }>(
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Wait until all required filter values are defined (e.g. user.uid might be empty initially)
     if (options.filters.some(f => f.value === undefined || f.value === null || f.value === '')) {
       setLoading(false);
       return;
     }
 
     let query: any = firebaseDb.collection('orders');
-    
+
     options.filters.forEach(f => {
       query = query.where(f.field, f.operator, f.value);
     });
@@ -35,7 +34,6 @@ export const useOrdersFetch = <T extends { id: string; created_at: string }>(
           ...doc.data(),
         }));
 
-        // Sort by date descending
         fetchedOrders.sort(
           (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
         );
@@ -50,7 +48,7 @@ export const useOrdersFetch = <T extends { id: string; created_at: string }>(
     );
 
     return () => unsubscribe();
-  }, [JSON.stringify(options.filters)]); // Use stringify to prevent infinite loops if filters object is recreated
+  }, [JSON.stringify(options.filters)]); 
 
   return { orders, loading };
 };

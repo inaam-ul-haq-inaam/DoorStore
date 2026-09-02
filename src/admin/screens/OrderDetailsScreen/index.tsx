@@ -40,7 +40,7 @@ export const OrderDetailsScreen = () => {
         <Text style={styles.value}>{orderDetails.customer_phone}</Text>
         <Text style={styles.label}>Address:</Text>
         <Text style={styles.value}>{orderDetails.delivery_address}</Text>
-        
+
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
           <View>
             <Text style={styles.label}>Delivery Fee:</Text>

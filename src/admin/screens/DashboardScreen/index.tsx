@@ -36,27 +36,27 @@ export const AdminDashboardScreen = () => {
 
   return (
     <View style={styles.container}>
-      {/* Header */}
+
       <View style={styles.header}>
         <View style={styles.topBar}>
           <TouchableOpacity style={styles.locationBadge} onPress={handleSetLocation}>
             <Icon name="location-outline" size={16} color={colors.surface} />
             <Text style={styles.locationText} numberOfLines={1}>{shopAddress}</Text>
           </TouchableOpacity>
-          
+
           <LogoutButton variant="icon" />
         </View>
         <Text style={styles.headerTitle}>Shopkeeper Portal</Text>
       </View>
 
-      {/* Stats Section */}
+
       <View style={styles.statsRow}>
         <StatItem title="Incoming" count={stats.incoming} color="#3B82F6" onPress={() => handleStatPress('incoming')} />
         <StatItem title="Pending" count={stats.pending} color="#F59E0B" onPress={() => handleStatPress('pending')} />
         <StatItem title="Completed" count={stats.completed} color="#10B981" onPress={() => handleStatPress('completed')} />
       </View>
 
-      {/* Store Status Toggle */}
+
       <View style={styles.toggleRow}>
         <Text style={styles.toggleText}>Store Status: {isStoreOpen ? 'Open' : 'Closed'}</Text>
         <Switch
@@ -67,7 +67,7 @@ export const AdminDashboardScreen = () => {
         />
       </View>
 
-      {/* Ratings Summary Card */}
+
       <TouchableOpacity style={styles.ratingCard} onPress={handleReviews} activeOpacity={0.8}>
         <View style={styles.ratingLeft}>
           <Icon name="star" size={32} color="#FBBF24" />
@@ -81,7 +81,7 @@ export const AdminDashboardScreen = () => {
 
       <Text style={styles.sectionTitle}>Shop Settings & Actions</Text>
 
-      {/* Action Grid */}
+
       <View style={styles.actionGrid}>
         <TouchableOpacity style={styles.actionButton} onPress={handleAddProduct}>
           <Icon name="add-circle-outline" size={24} color={colors.surface} />
@@ -120,7 +120,7 @@ export const AdminDashboardScreen = () => {
   );
 };
 
-// Helper Component for Stats
+
 const StatItem = ({
   title,
   count,
@@ -251,7 +251,7 @@ const styles = StyleSheet.create({
   actionButton: {
     backgroundColor: colors.primaryDark,
     padding: spacing.m,
-    marginBottom: spacing.m, // Added to prevent overlap when wrapped
+    marginBottom: spacing.m, 
     borderRadius: spacing.radiusMedium,
     alignItems: 'center',
     justifyContent: 'center',

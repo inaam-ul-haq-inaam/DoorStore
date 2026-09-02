@@ -8,10 +8,10 @@ export const useOnboardingController = () => {
   const handleGetStarted = async () => {
     try {
       await AsyncStorage.setItem('@has_launched', 'true');
-      navigation.replace('AuthStack', { screen: 'PhoneAuth' });
+      navigation.replace('AuthStack', { screen: 'Login' });
     } catch (error) {
       console.error('Error setting item in AsyncStorage:', error);
-      navigation.replace('AuthStack', { screen: 'PhoneAuth' });
+      navigation.replace('AuthStack', { screen: 'Login' });
     }
   };
 

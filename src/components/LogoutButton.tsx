@@ -35,7 +35,6 @@ export const LogoutButton: React.FC<LogoutButtonProps> = ({ variant = 'icon' }) 
     );
   }
 
-  // Icon variant (for headers)
   return (
     <TouchableOpacity style={styles.iconBtn} onPress={handleLogout}>
       <Icon name="log-out-outline" size={24} color={colors.surface} />

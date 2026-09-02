@@ -29,8 +29,7 @@ export const useHomeController = () => {
   const [loading, setLoading] = useState(true);
   const { isStoreOpen } = useStoreStatus(true);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  
-  // Category State — using high-quality, full-color photo URLs
+
   const categories = [
     { id: 'cat_1', name: 'All', imageUrl: 'https://images.unsplash.com/photo-1543168256-418811576931?w=200&q=80&auto=format&fit=crop' },
     { id: 'cat_2', name: 'Vegetables', imageUrl: 'https://images.unsplash.com/photo-1597362925123-77861d3fbac7?w=200&q=80&auto=format&fit=crop' },
@@ -39,15 +38,12 @@ export const useHomeController = () => {
   ];
   const [selectedCategoryId, setSelectedCategoryId] = useState(categories[0].id);
 
-  // Search State
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Location States
   const [userLocation, setUserLocation] = useState('Islamabad, Pakistan');
   const [isLocationModalVisible, setLocationModalVisible] = useState(false);
   const [tempLocation, setTempLocation] = useState('');
 
-  // Rating State
   const [unratedOrder, setUnratedOrder] = useState<any>(null);
   const [isRatingModalVisible, setRatingModalVisible] = useState(false);
   const [rating, setRating] = useState(0);
@@ -55,14 +51,12 @@ export const useHomeController = () => {
   const [shopRating, setShopRating] = useState<number | null>(null);
   const [ratingLoading, setRatingLoading] = useState(false);
 
-  // Shop Contact
   const [shopPhoneNumber, setShopPhoneNumber] = useState<string | null>('03025769675');
 
-  // GPS Location
   const [fetchingGpsLocation, setFetchingGpsLocation] = useState(false);
 
   useEffect(() => {
-    // Load existing location from storage
+
     const loadLocation = async () => {
       try {
         const stored = await AsyncStorage.getItem('@customer_profile');
@@ -78,7 +72,6 @@ export const useHomeController = () => {
     };
     loadLocation();
 
-    // Fetch shop phone from Firestore
     firebaseDb.collection('shop_info').doc('contact').get().then(doc => {
       if (doc.exists()) {
         const data = doc.data();
@@ -171,7 +164,7 @@ export const useHomeController = () => {
   const handleSaveLocation = async () => {
     if (tempLocation.trim()) {
       setUserLocation(tempLocation.trim());
-      // Save it back to storage so Checkout screen pre-fills it
+
       try {
         const stored = await AsyncStorage.getItem('@customer_profile');
         const profile = stored ? JSON.parse(stored) : {};
@@ -206,7 +199,6 @@ export const useHomeController = () => {
 
   const activeCategory = categories.find(c => c.id === selectedCategoryId);
 
-  // GPS Location Handler
   const handleUseGpsLocation = async () => {
     try {
       if (Platform.OS === 'android') {
@@ -253,7 +245,7 @@ export const useHomeController = () => {
 
   const handleSubmitRating = async () => {
     if (!unratedOrder || rating === 0) return;
-    if (ratingLoading) return; // prevent double submit
+    if (ratingLoading) return; 
     setRatingLoading(true);
     try {
       await firebaseDb.collection('orders').doc(unratedOrder.id).update({
@@ -262,7 +254,6 @@ export const useHomeController = () => {
         review_text: reviewText,
       });
 
-      // Propagate rating to each product in the order
       if (unratedOrder.items && Array.isArray(unratedOrder.items)) {
         for (const item of unratedOrder.items) {
           if (item.id) {
@@ -273,11 +264,11 @@ export const useHomeController = () => {
                 const prodData = prodDoc.data();
                 const currentCount = typeof prodData?.rating_count === 'number' ? prodData.rating_count : 0;
                 const currentRating = typeof prodData?.rating === 'number' ? prodData.rating : 0;
-                
+
                 const newCount = currentCount + 1;
                 const newTotal = (currentRating * currentCount) + rating;
                 const newAvg = Number((newTotal / newCount).toFixed(1));
-                
+
                 await prodRef.update({
                   rating: newAvg,
                   rating_count: newCount
@@ -306,12 +297,7 @@ export const useHomeController = () => {
   const handleSkipRating = async () => {
     if (!unratedOrder) return;
     setRatingModalVisible(false);
-    // Optional: we don't update is_rated to true here if we want them to rate from Orders screen later.
-    // But since onSnapshot will trigger again, let's just mark it as dismissed locally by setting the unratedOrder to null
-    // Actually, onSnapshot will fire again if they return to this screen.
-    // So let's mark it as skipped in Firestore so it doesn't bother them again on the Home Screen.
-    // But we still want them to be able to rate from Orders Screen.
-    // Actually, `is_rated: 'skipped'` would be better. Let's just set `prompt_skipped: true` in Firestore.
+
     try {
       await firebaseDb.collection('orders').doc(unratedOrder.id).update({
         prompt_skipped: true

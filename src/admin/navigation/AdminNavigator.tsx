@@ -3,7 +3,6 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { colors } from '../../theme/colors';
 
-// Screens
 import { AdminDashboardScreen } from '../screens/DashboardScreen';
 import { InventoryScreen } from '../screens/InventoryScreen';
 import { AddProductScreen } from '../screens/AddProductScreen';
@@ -14,7 +13,6 @@ import { AdminChatScreen } from '../screens/AdminChatScreen';
 import { DeliverySettingsScreen } from '../screens/DeliverySettingsScreen';
 import { AdminReviewsScreen } from '../screens/AdminReviewsScreen';
 
-// Types
 import { AdminDrawerParamList } from '../../navigation/types';
 
 const Drawer = createDrawerNavigator<AdminDrawerParamList>();
@@ -77,7 +75,7 @@ export const AdminNavigator = () => {
         name="OrderDetail" 
         component={OrderDetailsScreen}
         options={{
-          drawerItemStyle: { display: 'none' } // Hide from drawer menu
+          drawerItemStyle: { display: 'none' } 
         }}
       />
       <Drawer.Screen 

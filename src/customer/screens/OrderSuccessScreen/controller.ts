@@ -18,7 +18,6 @@ export const useOrderSuccessController = () => {
   const [orderData, setOrderData] = useState<any>(null);
   const viewRef = useRef<any>(null);
 
-  // Real-time listener on the order
   useEffect(() => {
     if (orderId === 'UNKNOWN') return;
 
@@ -59,7 +58,7 @@ export const useOrderSuccessController = () => {
     if (Platform.OS !== 'android') return true;
 
     if (Platform.Version >= 29) {
-      return true; // Android 10+ uses scoped storage, no permission needed to save
+      return true; 
     }
 
     const permission = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;

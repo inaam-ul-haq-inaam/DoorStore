@@ -22,7 +22,6 @@ export const PolicyScreen = () => {
           <Text style={styles.lastUpdated}>Last updated: July 2026</Text>
         </View>
 
-        {/* Welcome Section */}
         <View style={styles.card}>
           <Text style={styles.welcomeText}>Assalamualaikum! DoorStore pe khush aamdeed</Text>
           <Text style={styles.bodyText}>
@@ -30,7 +29,6 @@ export const PolicyScreen = () => {
           </Text>
         </View>
 
-        {/* 1. Order Kaise Hoga? */}
         <View style={styles.card}>
           <Text style={styles.sectionTitle}>1. Order Kaise Hoga?</Text>
           <Text style={styles.listItem}>1. App se product select karein, cart mein add karein.</Text>
@@ -38,14 +36,12 @@ export const PolicyScreen = () => {
           <Text style={styles.listItem}>3. Order Confirm hote hi aapko SMS/Call aa jayega.</Text>
         </View>
 
-        {/* 2. Payment Ka Tareeqa */}
         <View style={styles.card}>
           <Text style={styles.sectionTitle}>2. Payment Ka Tareeqa</Text>
           <Text style={styles.bodyText}>Abhi sirf <Text style={styles.highlight}>Cash on Delivery (COD)</Text> hai ✅</Text>
           <Text style={styles.bodyText}>Rider samaan dega, aap usi waqt cash pay karein.</Text>
         </View>
 
-        {/* 3. Delivery Area, Time & Charges */}
         <View style={styles.card}>
           <Text style={styles.sectionTitle}>3. Delivery Area, Time & Charges 🚚</Text>
           <Text style={styles.listItem}><Text style={styles.bold}>Area:</Text> Hum <Text style={styles.highlight}>Thokar Niaz Baig se le kar Bahria Town</Text> aur is darmiyan aane wali tamam societies mein deliver karte hain.</Text>
@@ -53,13 +49,11 @@ export const PolicyScreen = () => {
           <Text style={styles.listItem}><Text style={styles.bold}>Charges:</Text> Delivery charges aapke area ke hisaab se honge. App pe order karte waqt show ho jayenge.</Text>
         </View>
 
-        {/* 4. Minimum Order */}
         <View style={styles.card}>
           <Text style={styles.sectionTitle}>4. Minimum Order 🚨</Text>
           <Text style={styles.bodyText}><Text style={styles.highlight}>Minimum Order Rs. 500</Text> hai. Rs. 500 se kam ka order accept nahi hoga.</Text>
         </View>
 
-        {/* 5. Samaan Kharab Nikla To? */}
         <View style={styles.card}>
           <Text style={styles.sectionTitle}>5. Samaan Kharab Nikla To?</Text>
           <Text style={styles.bodyText}>Sabzi, Phal, Gosht ki guarantee hai ✅</Text>
@@ -67,21 +61,18 @@ export const PolicyScreen = () => {
           <Text style={styles.bodyText}>Same day replacement ya paise wapis.</Text>
         </View>
 
-        {/* 6. Order Cancel Kaise Hoga? */}
         <View style={styles.card}>
           <Text style={styles.sectionTitle}>6. Order Cancel Kaise Hoga?</Text>
           <Text style={styles.bodyText}>Rider nikalne se pehle tak cancel kar sakte hain. Call kar dein.</Text>
           <Text style={styles.bodyText}>Rider nikal gaya to cancel nahi hoga kyunki COD hai.</Text>
         </View>
 
-        {/* 7. Hamara Wada */}
         <View style={styles.card}>
           <Text style={styles.sectionTitle}>7. Hamara Wada 🔒</Text>
           <Text style={styles.listItem}>1. Taza samaan, sahi wazan, 1 Ghante ki Delivery.</Text>
           <Text style={styles.listItem}>2. Aapka Naam, Number aur Address hamare paas mehfooz rahega. Ye data 100% secret hai aur kisi 3rd party ko nahi diya jayega.</Text>
         </View>
 
-        {/* Contact Info */}
         <View style={[styles.card, styles.contactCard]}>
           <Text style={styles.contactTitle}>Koi masla ho to Contact karein:</Text>
           <View style={styles.contactRow}>
@@ -157,7 +148,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 17,
     fontWeight: '700',
-    color: colors.textDark,
+    color: colors.text,
     marginBottom: 10,
   },
   bodyText: {
@@ -179,7 +170,7 @@ const styles = StyleSheet.create({
   },
   bold: {
     fontWeight: '700',
-    color: colors.textDark,
+    color: colors.text,
   },
   contactCard: {
     backgroundColor: '#F0F9F4',
@@ -202,7 +193,7 @@ const styles = StyleSheet.create({
   },
   contactText: {
     fontSize: 15,
-    color: colors.textDark,
+    color: colors.textMain,
     fontWeight: '500',
   },
 });

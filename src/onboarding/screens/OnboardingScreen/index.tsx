@@ -14,7 +14,7 @@ export const OnboardingScreen = () => {
         <Text style={styles.title}>Door Store</Text>
         <Text style={styles.tagline}>Fresh groceries, right at your door</Text>
       </View>
-      
+
       <View style={styles.bottomContent}>
         <Text style={styles.subtitle}>Get fresh vegetables, meats at your doorstep</Text>
         <PrimaryButton title="Get Started" onPress={handleGetStarted} />

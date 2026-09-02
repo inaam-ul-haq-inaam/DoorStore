@@ -3,7 +3,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { AuthStackParamList } from '../../navigation/types';
 import { useAuth } from '../../context/AuthContext';
 
-import { PhoneAuthScreen } from '../screens/PhoneAuthScreen';
+import { LoginScreen } from '../screens/LoginScreen';
+import { RegisterScreen } from '../screens/RegisterScreen';
 import { CompleteProfileScreen } from '../screens/CompleteProfileScreen';
 
 const Stack = createNativeStackNavigator<AuthStackParamList>();
@@ -16,7 +17,10 @@ export const AuthNavigator = () => {
       {user && !userProfile?.full_name ? (
         <Stack.Screen name="CompleteProfile" component={CompleteProfileScreen} />
       ) : (
-        <Stack.Screen name="PhoneAuth" component={PhoneAuthScreen} />
+        <>
+          <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="Register" component={RegisterScreen} />
+        </>
       )}
     </Stack.Navigator>
   );

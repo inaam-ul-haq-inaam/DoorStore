@@ -41,12 +41,12 @@ export const useAddProductController = () => {
     }
 
     setLoading(true);
-    
+
     try {
       const user = firebaseAuth.currentUser;
       if (!user) throw new Error('Not authenticated');
 
-      // Upload Base64 Image to Cloudinary
+
       const downloadURL = await uploadImageToCloudinary(imageBase64);
 
       if (!downloadURL) throw new Error('Cloudinary returned empty URL');
@@ -65,15 +65,15 @@ export const useAddProductController = () => {
         image_url: downloadURL,
         shopkeeper_id: user.uid,
         in_stock: true,
-        created_at: new Date().toISOString(), // Using ISO string to prevent ANY silent Native Bridge crashes
+        created_at: new Date().toISOString(), 
       };
 
       console.log('Attempting to save to Firestore:', productData);
 
-      // Use doc().set() instead of .add() as it handles offline/bridge better in RN
+
       const newDocRef = firebaseDb.collection('products').doc();
       const firestorePromise = newDocRef.set(productData);
-      
+
       const timeoutPromise = new Promise((_, reject) => {
         setTimeout(() => reject(new Error('Firestore took too long to respond (Timeout)!')), 10000);
       });
@@ -81,8 +81,8 @@ export const useAddProductController = () => {
       await Promise.race([firestorePromise, timeoutPromise]);
 
       Alert.alert('Success', 'Product added successfully!');
-      
-      // Reset form
+
+
       setName('');
       setDescription('');
       setPrice('');
@@ -92,7 +92,7 @@ export const useAddProductController = () => {
       setCategory('Vegetables');
       setImageUri(null);
       setImageBase64(null);
-      
+
       navigation.navigate('Dashboard');
     } catch (error: any) {
       console.error('Error saving product:', error);

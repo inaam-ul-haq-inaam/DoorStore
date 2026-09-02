@@ -14,7 +14,6 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onAnimationComplete 
   const textOpacity = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    // 1. Zoom and fade in the logo
     Animated.parallel([
       Animated.timing(logoScale, {
         toValue: 1,
@@ -29,7 +28,6 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onAnimationComplete 
         useNativeDriver: true,
       }),
     ]).start(() => {
-      // 2. Slide up and fade in the text
       Animated.parallel([
         Animated.timing(textTranslateY, {
           toValue: 0,
@@ -44,7 +42,6 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onAnimationComplete 
           useNativeDriver: true,
         }),
       ]).start(() => {
-        // Give it a brief pause so the user can see it fully
         setTimeout(() => {
           onAnimationComplete();
         }, 600);
@@ -54,7 +51,6 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onAnimationComplete 
 
   return (
     <View style={styles.container}>
-      {/* Decorative Background Elements */}
       <Icon name="basket" size={150} color="rgba(255,255,255,0.05)" style={styles.bgIconLeft} />
       <Icon name="leaf" size={120} color="rgba(255,255,255,0.05)" style={styles.bgIconRight} />
 
@@ -69,7 +65,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onAnimationComplete 
       >
         <Image source={require('../assets/logo.png')} style={{ width: 100, height: 100, resizeMode: 'contain' }} />
       </Animated.View>
-      
+
       <Animated.View
         style={{
           opacity: textOpacity,
@@ -90,7 +86,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primaryDark,
     justifyContent: 'center',
     alignItems: 'center',
-    overflow: 'hidden', // to keep background icons inside
+    overflow: 'hidden',
   },
   bgIconLeft: {
     position: 'absolute',

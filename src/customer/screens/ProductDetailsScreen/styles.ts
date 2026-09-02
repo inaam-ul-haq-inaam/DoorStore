@@ -24,7 +24,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: spacing.l,
-    paddingTop: 60, // Safe area padding
+    paddingTop: 60, 
     zIndex: 10,
   },
   headerTitle: {

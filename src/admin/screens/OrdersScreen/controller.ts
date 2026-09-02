@@ -21,7 +21,7 @@ export interface Order {
   status: string;
   items: any[];
   created_at: string;
-  created_at: string;
+  distance_km?: number;
   delivery_fee?: number | 'Pending';
 }
 
@@ -45,7 +45,7 @@ export const useOrdersController = () => {
     if (Platform.OS !== 'android') return true;
 
     if (Platform.Version >= 29) {
-      return true; // Android 10+ uses scoped storage
+      return true; 
     }
 
     const permission = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
@@ -79,7 +79,7 @@ export const useOrdersController = () => {
   };
 
   useEffect(() => {
-    // If the selected order status changes, we might want to close the modal if it moved out of this list
+
     if (selectedOrder) {
       const stillExists = orders.find(o => o.id === selectedOrder.id);
       if (!stillExists) {
@@ -91,7 +91,7 @@ export const useOrdersController = () => {
   const updateOrderStatus = async (orderId: string, newStatus: string) => {
     try {
       await firebaseDb.collection('orders').doc(orderId).update({ status: newStatus });
-      setSelectedOrder(null); // Close modal on action
+      setSelectedOrder(null); 
     } catch (error) {
       console.error('Error updating order status', error);
       Alert.alert('Error', 'Failed to update order status');
@@ -206,9 +206,9 @@ export const useOrdersController = () => {
     }
 
     const url = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(shopAddress)}&destination=${encodeURIComponent(buyerAddress)}`;
-    
+
     try {
-      // Direct openURL is better for Android 11+ without needing AndroidManifest changes
+
       await Linking.openURL(url);
     } catch (error) {
       console.error('Error opening maps:', error);
