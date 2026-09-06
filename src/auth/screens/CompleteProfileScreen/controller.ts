@@ -19,9 +19,11 @@ export const useCompleteProfileController = () => {
     setLoading(true);
     setError('');
     try {
+      // user.phoneNumber is null with email/password auth, so pass
+      // undefined to avoid overwriting the phone saved at registration
       await firebaseDb.collection('users').doc(user.uid).set({
         full_name: fullName,
-        phone: user.phoneNumber,
+        phone: user.phoneNumber || undefined,
         role: 'buyer',
         created_at: firestore.FieldValue.serverTimestamp(),
       }, { merge: true });

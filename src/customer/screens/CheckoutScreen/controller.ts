@@ -5,6 +5,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { firebaseDb, firebaseAuth } from '../../../services/firebase';
 import { useCart } from '../../../context/CartContext';
 import { useCustomerProfileCache } from '../../../hooks/useCustomerProfileCache';
+import { useAuth } from '../../../context/AuthContext';
+import { normalizePhone } from '../../../utils/phoneUtils';
 import { Alert } from 'react-native';
 
 export const useCheckoutController = () => {
@@ -21,6 +23,7 @@ export const useCheckoutController = () => {
   const [isBillModalVisible, setBillModalVisible] = useState(false);
 
   const { profile } = useCustomerProfileCache();
+  const { userProfile } = useAuth();
 
 
   useEffect(() => {
@@ -63,7 +66,9 @@ export const useCheckoutController = () => {
       const orderData = {
         customer_id: user.uid,
         customer_name: fullName.trim(),
-        customer_phone: user.phoneNumber || 'Unknown',
+        // user.phoneNumber is null with email/password auth — use the
+        // Firestore profile phone (saved at registration); normalize it
+        customer_phone: normalizePhone(userProfile?.phone || user.phoneNumber) || 'Unknown',
         delivery_address: address.trim(),
         items: cartItems,
         total_amount: grandTotal,

@@ -131,6 +131,10 @@ export const useAdminDashboardController = () => {
     navigation.navigate('AdminReviews');
   };
 
+  const handleUsers = () => {
+    navigation.navigate('UsersList');
+  };
+
   return { 
     stats, 
     isStoreOpen, 
@@ -149,6 +153,7 @@ export const useAdminDashboardController = () => {
     handleLogout,
     shopRating,
     totalReviews,
-    handleReviews
+    handleReviews,
+    handleUsers
   };
 };

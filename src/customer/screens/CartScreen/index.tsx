@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, FlatList, Image, StatusBar, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useCartController } from './controller';
 import { styles } from './styles';
@@ -10,6 +11,7 @@ import { colors } from '../../../theme/colors';
 
 export const CartScreen = () => {
   const tabBarHeight = useBottomTabBarHeight();
+  const insets = useSafeAreaInsets();
   const {
     cartItems,
     subTotal,
@@ -114,7 +116,7 @@ export const CartScreen = () => {
             }
           />
 
-          <View style={[styles.stickyBottomBar, { paddingBottom: tabBarHeight + 15 }]}>
+          <View style={[styles.stickyBottomBar, { paddingBottom: tabBarHeight + insets.bottom + 15 }]}>
             <View style={styles.checkoutRow}>
               <View>
                 <Text style={styles.bottomTotalLabel}>Total Pay</Text>

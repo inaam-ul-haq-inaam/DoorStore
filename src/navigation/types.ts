@@ -29,6 +29,8 @@ export type AdminDrawerParamList = {
   AdminChat: { customerId: string, customerName: string };
   DeliverySettings: undefined;
   AdminReviews: undefined;
+  UsersList: undefined;
+  UserDetails: { userId: string };
 };
 
 export type AuthStackParamList = {

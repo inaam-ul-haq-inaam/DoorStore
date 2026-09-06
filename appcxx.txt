@@ -1,0 +1,14 @@
+﻿
+Name                                             KB LastWriteTime       
+----                                             -- -------------       
+libc++_shared.so                               1753 9/5/2026 1:19:05 PM 
+libreactnative.so                            137363 9/5/2026 1:19:01 PM 
+libjsi.so                                      4154 9/5/2026 1:19:00 PM 
+libfbjni.so                                    2129 9/5/2026 1:19:00 PM 
+libappmodules.so                              10864 9/5/2026 1:19:00 PM 
+libreact_codegen_rnscreens.so                 14075 9/5/2026 1:18:50 PM 
+libreact_codegen_safeareacontext.so            2811 9/5/2026 12:52:37 PM
+libreact_codegen_rngesturehandler_codegen.so   5271 9/5/2026 12:51:01 PM
+
+
+

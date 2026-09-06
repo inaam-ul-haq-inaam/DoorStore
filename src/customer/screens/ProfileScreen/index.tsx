@@ -18,6 +18,7 @@ import { CustomerStackNavigationProp } from '../../../navigation/types';
 import { Avatar } from '../../../components/Avatar';
 import { LogoutButton } from '../../../components/LogoutButton';
 import { useCustomerProfileCache } from '../../../hooks/useCustomerProfileCache';
+import { normalizePhone } from '../../../utils/phoneUtils';
 
 export const ProfileScreen = () => {
   const { user, userProfile } = useAuth();
@@ -41,7 +42,10 @@ export const ProfileScreen = () => {
   };
 
   const name = userProfile?.full_name || 'Guest User';
-  const phone = user?.phoneNumber || userProfile?.phone || 'N/A';
+  // Phone is stored in Firestore (userProfile.phone) — auth's phoneNumber
+  // stays null with email/password auth, so prefer the profile value.
+  // normalizePhone cleans messy values (double "+") for display.
+  const phone = normalizePhone(userProfile?.phone || user?.phoneNumber) || 'N/A';
 
   return (
     <SafeAreaView style={styles.safeArea}>

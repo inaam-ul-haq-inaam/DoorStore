@@ -5,24 +5,44 @@ import {
   Animated,
   PanResponder,
   Linking,
-  Platform,
+  Dimensions,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 interface WhatsAppFloatButtonProps {
   phoneNumber: string;
+  message?: string;
 }
 
-export const WhatsAppFloatButton: React.FC<WhatsAppFloatButtonProps> = ({ phoneNumber }) => {
+const BUTTON_SIZE = 60;
+const MARGIN = 12;
+// Reserve space for the floating tab bar (bottom: 20, height: 65)
+// so the button never slides behind it.
+const TAB_RESERVE = 100;
+
+export const WhatsAppFloatButton: React.FC<WhatsAppFloatButtonProps> = ({
+  phoneNumber,
+  message = 'Hello DoorStore! I would like to place an order.',
+}) => {
+  const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
+  const insets = useSafeAreaInsets();
   const pan = useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;
   const isDragging = useRef(false);
   const lastTap = useRef(0);
 
+  const openWhatsApp = () => {
+    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    Linking.openURL(url).catch(() => {
+      Linking.openURL(`https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`);
+    });
+  };
+
   const panResponder = useRef(
     PanResponder.create({
       onStartShouldSetPanResponder: () => true,
-      onMoveShouldSetPanResponder: (_, gestureState) => {
-        return Math.abs(gestureState.dx) > 5 || Math.abs(gestureState.dy) > 5;
+      onMoveShouldSetPanResponder: (_, g) => {
+        return Math.abs(g.dx) > 5 || Math.abs(g.dy) > 5;
       },
       onPanResponderGrant: () => {
         isDragging.current = false;
@@ -31,37 +51,39 @@ export const WhatsAppFloatButton: React.FC<WhatsAppFloatButtonProps> = ({ phoneN
           y: (pan.y as any)._value,
         });
       },
-      onPanResponderMove: (_, gestureState) => {
+      onPanResponderMove: (_, g) => {
         isDragging.current = true;
-        pan.setValue({ x: gestureState.dx, y: gestureState.dy });
+        pan.setValue({ x: g.dx, y: g.dy });
       },
-      onPanResponderRelease: (_, gestureState) => {
+      onPanResponderRelease: (_, g) => {
         pan.flattenOffset();
 
         if (!isDragging.current) {
           const now = Date.now();
           if (now - lastTap.current > 300) {
             lastTap.current = now;
-            const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent('Hello DoorStore!')}`;
-            Linking.openURL(url).catch(() => {
-              Linking.openURL(`https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent('Hello DoorStore!')}`);
-            });
+            openWhatsApp();
           }
           return;
         }
 
-        const screenWidth = Platform.OS === 'web' ? 400 : 380;
-        const buttonWidth = 60;
-        const margin = 16;
+        const currentX = (pan.x as any)._value;
+        const currentY = (pan.y as any)._value;
 
-        const targetX = gestureState.moveX > screenWidth / 2
-          ? screenWidth - buttonWidth - margin
-          : margin;
+        // Snap to nearest horizontal edge
+        const snapX = currentX + BUTTON_SIZE / 2 < screenWidth / 2
+          ? MARGIN
+          : screenWidth - BUTTON_SIZE - MARGIN;
+
+        // Keep the button above the tab bar and inside the screen
+        const topLimit = MARGIN;
+        const bottomLimit = screenHeight - TAB_RESERVE - insets.bottom - BUTTON_SIZE - MARGIN;
+        const clampedY = Math.max(topLimit, Math.min(bottomLimit, currentY));
 
         Animated.spring(pan, {
-          toValue: { x: targetX, y: 0 },
+          toValue: { x: snapX, y: clampedY },
           useNativeDriver: false,
-          bounciness: 10,
+          bounciness: 8,
         }).start();
       },
     })
@@ -71,6 +93,7 @@ export const WhatsAppFloatButton: React.FC<WhatsAppFloatButtonProps> = ({ phoneN
     <Animated.View
       style={[
         styles.container,
+        { bottom: TAB_RESERVE + 10 + insets.bottom },
         {
           transform: pan.getTranslateTransform(),
         },
@@ -87,15 +110,14 @@ export const WhatsAppFloatButton: React.FC<WhatsAppFloatButtonProps> = ({ phoneN
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    bottom: 30,
     right: 20,
     zIndex: 9999,
     elevation: 15,
   },
   button: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
+    width: BUTTON_SIZE,
+    height: BUTTON_SIZE,
+    borderRadius: BUTTON_SIZE / 2,
     backgroundColor: '#25D366',
     justifyContent: 'center',
     alignItems: 'center',

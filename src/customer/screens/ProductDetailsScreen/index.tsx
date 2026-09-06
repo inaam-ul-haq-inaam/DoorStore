@@ -1,7 +1,9 @@
 import React from 'react';
 import { View, Text, Image, ScrollView, StatusBar } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useProductDetailsController } from './controller';
 import { styles } from './styles';
+import { spacing } from '../../../theme/spacing';
 
 import { IconButton } from '../../../components/IconButton';
 import { CartBadgeIcon } from '../../../components/CartBadgeIcon';
@@ -9,6 +11,7 @@ import { QuantityStepper } from '../../../components/QuantityStepper';
 import { PrimaryButton } from '../../../components/PrimaryButton';
 
 export const ProductDetailsScreen = () => {
+  const insets = useSafeAreaInsets();
   const {
     product,
     quantity,
@@ -72,7 +75,7 @@ export const ProductDetailsScreen = () => {
       </ScrollView>
 
 
-      <View style={styles.bottomBar}>
+      <View style={[styles.bottomBar, { paddingBottom: insets.bottom + spacing.m }]}>
         <View style={styles.stepperContainer}>
           <QuantityStepper
             quantity={quantity}

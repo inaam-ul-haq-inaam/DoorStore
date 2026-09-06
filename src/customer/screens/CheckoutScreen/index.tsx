@@ -13,12 +13,14 @@ import {
 import { useCheckoutController } from './controller';
 import { styles } from './styles';
 import { colors } from '../../../theme/colors';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 
 import { IconButton } from '../../../components/IconButton';
 import { PrimaryButton } from '../../../components/PrimaryButton';
 
 export const CheckoutScreen = () => {
+  const insets = useSafeAreaInsets();
   const {
     fullName,
     setFullName,
@@ -84,7 +86,7 @@ export const CheckoutScreen = () => {
       </ScrollView>
 
 
-      <View style={styles.bottomBar}>
+      <View style={[styles.bottomBar, { paddingBottom: insets.bottom + 16 }]}>
         <PrimaryButton
           title="Place Order"
           onPress={handlePlaceOrderClick}
@@ -94,7 +96,7 @@ export const CheckoutScreen = () => {
 
       <Modal visible={isBillModalVisible} transparent={true} animationType="slide">
         <View style={modalStyles.overlay}>
-          <View style={modalStyles.sheet}>
+          <View style={[modalStyles.sheet, { paddingBottom: insets.bottom + 24 }]}>
             <Text style={modalStyles.title}>Order Summary</Text>
 
 

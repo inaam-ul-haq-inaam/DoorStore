@@ -1,0 +1,119 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ============================================
+    // Helper functions
+    // ============================================
+    function isLoggedIn() {
+      return request.auth != null;
+    }
+
+    function userRole(uid) {
+      return get(/databases/$(database)/documents/users/$(uid)).data.role;
+    }
+
+    function isAdmin() {
+      return isLoggedIn() && userRole(request.auth.uid) == 'admin';
+    }
+
+    function isShopkeeper() {
+      return isLoggedIn() && userRole(request.auth.uid) == 'shopkeeper';
+    }
+
+    function isStaff() {
+      return isAdmin() || isShopkeeper();
+    }
+
+    // ============================================
+    // users — profiles + roles
+    // ============================================
+    match /users/{userId} {
+      // User apna profile padh sakta hai; staff (admin/shopkeeper)
+      // sab users padh sakte hain (Customers list feature)
+      allow read: if isLoggedIn()
+        && (request.auth.uid == userId || isStaff());
+
+      // Registration — user sirf apna account bana sakta hai,
+      // role hamesha 'buyer' hi set ho sakta hai
+      allow create: if isLoggedIn()
+        && request.auth.uid == userId
+        && request.resource.data.role == 'buyer';
+
+      // Profile update — user apna data update kar sakta hai,
+      // lekin apna role change nahi kar sakta
+      allow update: if isLoggedIn()
+        && request.auth.uid == userId
+        && request.resource.data.role == resource.data.role;
+
+      // Staff apna profile update kar sakta hai (delivery settings etc.)
+      // Aur SIRF admin kisi aur user ka role badal sakta hai
+      // (yahi se aap kisi ko admin/shopkeeper banate ho)
+      allow update: if isStaff()
+        && (request.auth.uid == userId || isAdmin());
+    }
+
+    // ============================================
+    // products — admin/shopkeeper manage karte hain
+    // ============================================
+    match /products/{productId} {
+      allow read: if isLoggedIn();
+      allow write: if isStaff();
+    }
+
+    // ============================================
+    // orders
+    // ============================================
+    match /orders/{orderId} {
+      // Order owner (customer) ya staff
+      allow read: if isLoggedIn()
+        && (resource.data.customer_id == request.auth.uid || isStaff());
+
+      // Naya order — customer sirf apna order bana sakta hai,
+      // status hamesha 'incoming' se start hota hai
+      allow create: if isLoggedIn()
+        && request.resource.data.customer_id == request.auth.uid
+        && request.resource.data.status == 'incoming';
+
+      // Customer sirf rating/review update kar sakta hai
+      // (status, delivery fee waghera nahi)
+      allow update: if isLoggedIn()
+        && resource.data.customer_id == request.auth.uid
+        && request.resource.data.diff(resource.data).affectedKeys()
+             .hasOnly(['rating', 'review_text', 'is_rated']);
+
+      // Staff order status / delivery fee update kar sakta hai
+      allow update: if isStaff();
+    }
+
+    // ============================================
+    // chats — chatId customer ka UID hai
+    // ============================================
+    match /chats/{chatId} {
+      // Customer apna chat; staff sab chats
+      allow read, write: if isLoggedIn()
+        && (request.auth.uid == chatId || isStaff());
+
+      match /messages/{messageId} {
+        allow read, write: if isLoggedIn()
+          && (request.auth.uid == chatId || isStaff());
+      }
+    }
+
+    // ============================================
+    // settings — store status
+    // ============================================
+    match /settings/{docId} {
+      allow read: if isLoggedIn();
+      allow write: if isStaff();
+    }
+
+    // ============================================
+    // shop_info — contact info
+    // ============================================
+    match /shop_info/{docId} {
+      allow read: if isLoggedIn();
+      allow write: if isStaff();
+    }
+  }
+}

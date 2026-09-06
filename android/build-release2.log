@@ -1,0 +1,551 @@
+Starting a Gradle Daemon, 5 stopped Daemons could not be reused, use --status for details
+> Task :gradle-plugin:settings-plugin:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :gradle-plugin:shared:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :gradle-plugin:shared:compileKotlin FROM-CACHE
+> Task :gradle-plugin:shared:compileJava NO-SOURCE
+> Task :gradle-plugin:shared:processResources NO-SOURCE
+> Task :gradle-plugin:shared:classes UP-TO-DATE
+> Task :gradle-plugin:shared:jar
+> Task :gradle-plugin:settings-plugin:compileKotlin FROM-CACHE
+> Task :gradle-plugin:settings-plugin:compileJava NO-SOURCE
+> Task :gradle-plugin:settings-plugin:pluginDescriptors
+> Task :gradle-plugin:settings-plugin:processResources
+> Task :gradle-plugin:settings-plugin:classes
+> Task :gradle-plugin:settings-plugin:jar
+> Task :gradle-plugin:react-native-gradle-plugin:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :gradle-plugin:react-native-gradle-plugin:compileKotlin FROM-CACHE
+> Task :gradle-plugin:react-native-gradle-plugin:compileJava NO-SOURCE
+> Task :gradle-plugin:react-native-gradle-plugin:pluginDescriptors
+> Task :gradle-plugin:react-native-gradle-plugin:processResources
+> Task :gradle-plugin:react-native-gradle-plugin:classes
+> Task :gradle-plugin:react-native-gradle-plugin:jar
+
+> Configure project :react-native-firebase_app
+:react-native-firebase_app package.json found at E:\DoorStore\node_modules\@react-native-firebase\app\package.json
+:react-native-firebase_app:firebase.bom using default value: 34.15.0
+:react-native-firebase_app:play.play-services-auth using default value: 21.5.0
+:react-native-firebase_app package.json found at E:\DoorStore\node_modules\@react-native-firebase\app\package.json
+:react-native-firebase_app:version set from package.json: 25.1.0 (25,1,0 - 25001000)
+:react-native-firebase_app:android.compileSdk using custom value: 36
+:react-native-firebase_app:android.targetSdk using custom value: 36
+:react-native-firebase_app:android.minSdk using custom value: 24
+:react-native-firebase_app:reactNativeAndroidDir E:\DoorStore\node_modules\react-native
+
+> Configure project :react-native-firebase_auth
+:react-native-firebase_auth package.json found at E:\DoorStore\node_modules\@react-native-firebase\auth\package.json
+:react-native-firebase_app package.json found at E:\DoorStore\node_modules\@react-native-firebase\app\package.json
+:react-native-firebase_auth:firebase.bom using default value: 34.15.0
+:react-native-firebase_auth package.json found at E:\DoorStore\node_modules\@react-native-firebase\auth\package.json
+:react-native-firebase_auth:version set from package.json: 25.1.0 (25,1,0 - 25001000)
+:react-native-firebase_auth:android.compileSdk using custom value: 36
+:react-native-firebase_auth:android.targetSdk using custom value: 36
+:react-native-firebase_auth:android.minSdk using custom value: 24
+:react-native-firebase_auth:reactNativeAndroidDir E:\DoorStore\node_modules\react-native
+
+> Configure project :react-native-firebase_firestore
+:react-native-firebase_firestore package.json found at E:\DoorStore\node_modules\@react-native-firebase\firestore\package.json
+:react-native-firebase_app package.json found at E:\DoorStore\node_modules\@react-native-firebase\app\package.json
+:react-native-firebase_firestore:firebase.bom using default value: 34.15.0
+:react-native-firebase_firestore package.json found at E:\DoorStore\node_modules\@react-native-firebase\firestore\package.json
+:react-native-firebase_firestore:version set from package.json: 25.1.0 (25,1,0 - 25001000)
+:react-native-firebase_firestore:android.compileSdk using custom value: 36
+:react-native-firebase_firestore:android.targetSdk using custom value: 36
+:react-native-firebase_firestore:android.minSdk using custom value: 24
+:react-native-firebase_firestore:reactNativeAndroidDir E:\DoorStore\node_modules\react-native
+WARNING: The specified Android SDK Build Tools version (31.0.0) is ignored, as it is below the minimum supported version (35.0.0) for Android Gradle Plugin 8.12.0.
+Android SDK Build Tools 35.0.0 will be used.
+To suppress this warning, remove "buildToolsVersion '31.0.0'" from your build.gradle file, as each version of the Android Gradle Plugin now has a default version of the build tools.
+
+> Task :app:generateAutolinkingNewArchitectureFiles UP-TO-DATE
+> Task :app:generateAutolinkingPackageList UP-TO-DATE
+> Task :app:generateCodegenSchemaFromJavaScript SKIPPED
+> Task :app:generateCodegenArtifactsFromSchema SKIPPED
+> Task :app:generateReactNativeEntryPoint UP-TO-DATE
+> Task :react-native-async-storage_async-storage:generateCodegenSchemaFromJavaScript UP-TO-DATE
+> Task :react-native-async-storage_async-storage:generateCodegenArtifactsFromSchema UP-TO-DATE
+> Task :react-native-async-storage_async-storage:preBuild UP-TO-DATE
+> Task :react-native-camera-roll_camera-roll:generateCodegenSchemaFromJavaScript UP-TO-DATE
+> Task :react-native-camera-roll_camera-roll:generateCodegenArtifactsFromSchema UP-TO-DATE
+> Task :react-native-camera-roll_camera-roll:preBuild UP-TO-DATE
+> Task :react-native-firebase_app:preBuild UP-TO-DATE
+> Task :react-native-firebase_auth:preBuild UP-TO-DATE
+> Task :react-native-firebase_firestore:preBuild UP-TO-DATE
+> Task :react-native-geolocation-service:preBuild UP-TO-DATE
+> Task :react-native-gesture-handler:generateCodegenSchemaFromJavaScript UP-TO-DATE
+> Task :react-native-gesture-handler:generateCodegenArtifactsFromSchema UP-TO-DATE
+> Task :react-native-gesture-handler:preBuild UP-TO-DATE
+> Task :react-native-image-picker:generateCodegenSchemaFromJavaScript UP-TO-DATE
+> Task :react-native-image-picker:generateCodegenArtifactsFromSchema UP-TO-DATE
+> Task :react-native-image-picker:preBuild UP-TO-DATE
+> Task :react-native-print:preBuild UP-TO-DATE
+> Task :react-native-reanimated:assertMinimalReactNativeVersionTask
+> Task :react-native-reanimated:assertWorkletsVersionTask
+> Task :react-native-reanimated:generateCodegenSchemaFromJavaScript UP-TO-DATE
+> Task :react-native-reanimated:generateCodegenArtifactsFromSchema UP-TO-DATE
+> Task :react-native-reanimated:prepareReanimatedHeadersForPrefabs UP-TO-DATE
+> Task :react-native-reanimated:preBuild
+> Task :react-native-safe-area-context:generateCodegenSchemaFromJavaScript UP-TO-DATE
+> Task :react-native-safe-area-context:generateCodegenArtifactsFromSchema UP-TO-DATE
+> Task :react-native-safe-area-context:preBuild UP-TO-DATE
+> Task :react-native-screens:generateCodegenSchemaFromJavaScript
+> Task :react-native-screens:generateCodegenArtifactsFromSchema
+> Task :react-native-screens:preBuild
+> Task :react-native-vector-icons:generateCodegenSchemaFromJavaScript UP-TO-DATE
+> Task :react-native-vector-icons:generateCodegenArtifactsFromSchema UP-TO-DATE
+> Task :react-native-vector-icons:preBuild UP-TO-DATE
+> Task :react-native-view-shot:generateCodegenSchemaFromJavaScript UP-TO-DATE
+> Task :react-native-view-shot:generateCodegenArtifactsFromSchema UP-TO-DATE
+> Task :react-native-view-shot:preBuild UP-TO-DATE
+> Task :react-native-worklets:assertMinimalReactNativeVersionTask
+> Task :react-native-worklets:generateCodegenSchemaFromJavaScript UP-TO-DATE
+> Task :react-native-worklets:generateCodegenArtifactsFromSchema UP-TO-DATE
+> Task :react-native-worklets:prepareWorkletsHeadersForPrefabs UP-TO-DATE
+> Task :react-native-worklets:preBuild
+> Task :app:preBuild
+> Task :app:preReleaseBuild
+> Task :react-native-reanimated:preReleaseBuild
+> Task :react-native-worklets:preReleaseBuild
+> Task :react-native-worklets:configureCMakeRelWithDebInfo[arm64-v8a]
+
+> Task :react-native-worklets:buildCMakeRelWithDebInfo[arm64-v8a][worklets]
+C/C++: Hard link from 'C:\Users\NaAmiii\.gradle\caches\8.14.3\transforms\eebc3fe92139cdc37998aefc142d01ce\transformed\react-android-0.86.0-release\prefab\modules\reactnative\libs\android.arm64-v8a\libreactnative.so' to 'E:\DoorStore\node_modules\react-native-worklets\android\build\intermediates\cxx\RelWithDebInfo\4b2l2931\obj\arm64-v8a\libreactnative.so' failed. Doing a slower copy instead.
+C/C++: Hard link from 'C:\Users\NaAmiii\.gradle\caches\8.14.3\transforms\eebc3fe92139cdc37998aefc142d01ce\transformed\react-android-0.86.0-release\prefab\modules\reactnative\libs\android.arm64-v8a\libreactnative.so' to 'E:\DoorStore\node_modules\react-native-worklets\android\build\intermediates\cxx\RelWithDebInfo\4b2l2931\obj\arm64-v8a\libreactnative.so' failed. Doing a slower copy instead.
+
+> Task :react-native-worklets:externalNativeBuildRelease
+> Task :react-native-worklets:generateJsonModelRelease
+> Task :react-native-worklets:prefabReleaseConfigurePackage
+> Task :react-native-reanimated:configureCMakeRelWithDebInfo[arm64-v8a]
+> Task :react-native-reanimated:generateJsonModelRelease
+> Task :react-native-reanimated:prefabReleaseConfigurePackage UP-TO-DATE
+> Task :app:configureCMakeRelWithDebInfo[arm64-v8a]
+> Task :react-native-worklets:prefabReleasePackage UP-TO-DATE
+
+> Task :react-native-reanimated:buildCMakeRelWithDebInfo[arm64-v8a][reanimated]
+C/C++: Hard link from 'C:\Users\NaAmiii\.gradle\caches\8.14.3\transforms\eebc3fe92139cdc37998aefc142d01ce\transformed\react-android-0.86.0-release\prefab\modules\reactnative\libs\android.arm64-v8a\libreactnative.so' to 'E:\DoorStore\node_modules\react-native-reanimated\android\build\intermediates\cxx\RelWithDebInfo\x5a3d5k2\obj\arm64-v8a\libreactnative.so' failed. Doing a slower copy instead.
+C/C++: Hard link from 'C:\Users\NaAmiii\.gradle\caches\8.14.3\transforms\eebc3fe92139cdc37998aefc142d01ce\transformed\react-android-0.86.0-release\prefab\modules\reactnative\libs\android.arm64-v8a\libreactnative.so' to 'E:\DoorStore\node_modules\react-native-reanimated\android\build\intermediates\cxx\RelWithDebInfo\x5a3d5k2\obj\arm64-v8a\libreactnative.so' failed. Doing a slower copy instead.
+
+> Task :react-native-worklets:mergeReleaseJniLibFolders UP-TO-DATE
+> Task :react-native-worklets:mergeReleaseNativeLibs UP-TO-DATE
+> Task :react-native-worklets:copyReleaseJniLibsProjectOnly UP-TO-DATE
+> Task :react-native-reanimated:externalNativeBuildRelease
+> Task :react-native-reanimated:prefabReleasePackage UP-TO-DATE
+> Task :app:buildCMakeRelWithDebInfo[arm64-v8a]
+C/C++: Hard link from 'C:\Users\NaAmiii\.gradle\caches\8.14.3\transforms\eebc3fe92139cdc37998aefc142d01ce\transformed\react-android-0.86.0-release\prefab\modules\reactnative\libs\android.arm64-v8a\libreactnative.so' to 'E:\DoorStore\android\app\build\intermediates\cxx\RelWithDebInfo\5h1h6435\obj\arm64-v8a\libreactnative.so' failed. Doing a slower copy instead.
+C/C++: Hard link from 'C:\Users\NaAmiii\.gradle\caches\8.14.3\transforms\eebc3fe92139cdc37998aefc142d01ce\transformed\react-android-0.86.0-release\prefab\modules\reactnative\libs\android.arm64-v8a\libreactnative.so' to 'E:\DoorStore\android\app\build\intermediates\cxx\RelWithDebInfo\5h1h6435\obj\arm64-v8a\libreactnative.so' failed. Doing a slower copy instead.
+
+> Task :app:mergeReleaseJniLibFolders UP-TO-DATE
+> Task :react-native-async-storage_async-storage:preReleaseBuild UP-TO-DATE
+> Task :react-native-async-storage_async-storage:mergeReleaseJniLibFolders UP-TO-DATE
+> Task :react-native-async-storage_async-storage:mergeReleaseNativeLibs NO-SOURCE
+> Task :react-native-async-storage_async-storage:copyReleaseJniLibsProjectOnly UP-TO-DATE
+> Task :react-native-camera-roll_camera-roll:preReleaseBuild UP-TO-DATE
+> Task :react-native-camera-roll_camera-roll:mergeReleaseJniLibFolders UP-TO-DATE
+> Task :react-native-camera-roll_camera-roll:mergeReleaseNativeLibs NO-SOURCE
+> Task :react-native-camera-roll_camera-roll:copyReleaseJniLibsProjectOnly UP-TO-DATE
+> Task :react-native-firebase_app:preReleaseBuild UP-TO-DATE
+> Task :react-native-firebase_app:mergeReleaseJniLibFolders UP-TO-DATE
+> Task :react-native-firebase_app:mergeReleaseNativeLibs NO-SOURCE
+> Task :react-native-firebase_app:copyReleaseJniLibsProjectOnly UP-TO-DATE
+> Task :react-native-firebase_auth:preReleaseBuild UP-TO-DATE
+> Task :react-native-firebase_auth:mergeReleaseJniLibFolders UP-TO-DATE
+> Task :react-native-firebase_auth:mergeReleaseNativeLibs NO-SOURCE
+> Task :react-native-firebase_auth:copyReleaseJniLibsProjectOnly UP-TO-DATE
+> Task :react-native-firebase_firestore:preReleaseBuild UP-TO-DATE
+> Task :react-native-firebase_firestore:mergeReleaseJniLibFolders UP-TO-DATE
+> Task :react-native-firebase_firestore:mergeReleaseNativeLibs NO-SOURCE
+> Task :react-native-firebase_firestore:copyReleaseJniLibsProjectOnly UP-TO-DATE
+> Task :react-native-geolocation-service:preReleaseBuild UP-TO-DATE
+> Task :react-native-geolocation-service:mergeReleaseJniLibFolders UP-TO-DATE
+> Task :react-native-geolocation-service:mergeReleaseNativeLibs NO-SOURCE
+> Task :react-native-geolocation-service:copyReleaseJniLibsProjectOnly UP-TO-DATE
+> Task :react-native-gesture-handler:preReleaseBuild UP-TO-DATE
+> Task :react-native-gesture-handler:configureCMakeRelWithDebInfo[arm64-v8a]
+> Task :react-native-gesture-handler:buildCMakeRelWithDebInfo[arm64-v8a]
+> Task :react-native-gesture-handler:mergeReleaseJniLibFolders UP-TO-DATE
+> Task :react-native-gesture-handler:mergeReleaseNativeLibs UP-TO-DATE
+> Task :react-native-gesture-handler:copyReleaseJniLibsProjectOnly UP-TO-DATE
+> Task :react-native-image-picker:preReleaseBuild UP-TO-DATE
+> Task :react-native-image-picker:mergeReleaseJniLibFolders UP-TO-DATE
+> Task :react-native-image-picker:mergeReleaseNativeLibs NO-SOURCE
+> Task :react-native-image-picker:copyReleaseJniLibsProjectOnly UP-TO-DATE
+> Task :react-native-print:preReleaseBuild UP-TO-DATE
+> Task :react-native-print:mergeReleaseJniLibFolders UP-TO-DATE
+> Task :react-native-print:mergeReleaseNativeLibs NO-SOURCE
+> Task :react-native-print:copyReleaseJniLibsProjectOnly UP-TO-DATE
+> Task :react-native-reanimated:mergeReleaseJniLibFolders UP-TO-DATE
+> Task :react-native-reanimated:mergeReleaseNativeLibs UP-TO-DATE
+> Task :react-native-reanimated:copyReleaseJniLibsProjectOnly UP-TO-DATE
+> Task :react-native-safe-area-context:preReleaseBuild UP-TO-DATE
+> Task :react-native-safe-area-context:mergeReleaseJniLibFolders UP-TO-DATE
+> Task :react-native-safe-area-context:mergeReleaseNativeLibs NO-SOURCE
+> Task :react-native-safe-area-context:copyReleaseJniLibsProjectOnly UP-TO-DATE
+> Task :react-native-screens:preReleaseBuild
+> Task :react-native-screens:configureCMakeRelWithDebInfo[arm64-v8a]
+
+> Task :react-native-screens:buildCMakeRelWithDebInfo[arm64-v8a]
+C/C++: Hard link from 'C:\Users\NaAmiii\.gradle\caches\8.14.3\transforms\eebc3fe92139cdc37998aefc142d01ce\transformed\react-android-0.86.0-release\prefab\modules\reactnative\libs\android.arm64-v8a\libreactnative.so' to 'E:\DoorStore\node_modules\react-native-screens\android\build\intermediates\cxx\RelWithDebInfo\r4a4z6v2\obj\arm64-v8a\libreactnative.so' failed. Doing a slower copy instead.
+C/C++: Hard link from 'C:\Users\NaAmiii\.gradle\caches\8.14.3\transforms\eebc3fe92139cdc37998aefc142d01ce\transformed\react-android-0.86.0-release\prefab\modules\reactnative\libs\android.arm64-v8a\libreactnative.so' to 'E:\DoorStore\node_modules\react-native-screens\android\build\intermediates\cxx\RelWithDebInfo\r4a4z6v2\obj\arm64-v8a\libreactnative.so' failed. Doing a slower copy instead.
+
+> Task :react-native-screens:mergeReleaseJniLibFolders
+> Task :react-native-vector-icons:preReleaseBuild UP-TO-DATE
+> Task :react-native-vector-icons:mergeReleaseJniLibFolders UP-TO-DATE
+> Task :react-native-vector-icons:mergeReleaseNativeLibs NO-SOURCE
+> Task :react-native-vector-icons:copyReleaseJniLibsProjectOnly UP-TO-DATE
+> Task :react-native-view-shot:preReleaseBuild UP-TO-DATE
+> Task :react-native-view-shot:mergeReleaseJniLibFolders UP-TO-DATE
+> Task :react-native-view-shot:mergeReleaseNativeLibs NO-SOURCE
+> Task :react-native-view-shot:copyReleaseJniLibsProjectOnly UP-TO-DATE
+> Task :react-native-async-storage_async-storage:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :react-native-async-storage_async-storage:generateReleaseBuildConfig UP-TO-DATE
+> Task :react-native-async-storage_async-storage:generateReleaseResValues UP-TO-DATE
+> Task :react-native-async-storage_async-storage:generateReleaseResources UP-TO-DATE
+> Task :react-native-async-storage_async-storage:packageReleaseResources UP-TO-DATE
+> Task :react-native-async-storage_async-storage:parseReleaseLocalResources UP-TO-DATE
+> Task :react-native-async-storage_async-storage:generateReleaseRFile UP-TO-DATE
+> Task :react-native-screens:mergeReleaseNativeLibs
+> Task :react-native-async-storage_async-storage:kspReleaseKotlin UP-TO-DATE
+> Task :react-native-screens:copyReleaseJniLibsProjectOnly
+> Task :react-native-async-storage_async-storage:compileReleaseKotlin UP-TO-DATE
+> Task :app:mergeReleaseNativeLibs UP-TO-DATE
+> Task :app:stripReleaseDebugSymbols UP-TO-DATE
+> Task :app:extractReleaseNativeSymbolTables UP-TO-DATE
+> Task :app:mergeReleaseNativeDebugMetadata UP-TO-DATE
+> Task :react-native-async-storage_async-storage:javaPreCompileRelease UP-TO-DATE
+> Task :react-native-async-storage_async-storage:compileReleaseJavaWithJavac UP-TO-DATE
+> Task :react-native-async-storage_async-storage:bundleLibRuntimeToDirRelease UP-TO-DATE
+> Task :react-native-gesture-handler:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :react-native-gesture-handler:generateReleaseBuildConfig UP-TO-DATE
+> Task :react-native-gesture-handler:generateReleaseResValues UP-TO-DATE
+> Task :react-native-gesture-handler:generateReleaseResources UP-TO-DATE
+> Task :react-native-gesture-handler:packageReleaseResources UP-TO-DATE
+> Task :react-native-gesture-handler:parseReleaseLocalResources UP-TO-DATE
+> Task :react-native-gesture-handler:generateReleaseRFile UP-TO-DATE
+> Task :react-native-reanimated:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :react-native-reanimated:generateReleaseBuildConfig UP-TO-DATE
+> Task :react-native-reanimated:generateReleaseResValues UP-TO-DATE
+> Task :react-native-reanimated:generateReleaseResources UP-TO-DATE
+> Task :react-native-reanimated:packageReleaseResources UP-TO-DATE
+> Task :react-native-reanimated:parseReleaseLocalResources UP-TO-DATE
+> Task :react-native-reanimated:generateReleaseRFile UP-TO-DATE
+> Task :react-native-worklets:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :react-native-worklets:generateReleaseBuildConfig UP-TO-DATE
+> Task :react-native-worklets:generateReleaseResValues UP-TO-DATE
+> Task :react-native-worklets:generateReleaseResources UP-TO-DATE
+> Task :react-native-worklets:packageReleaseResources UP-TO-DATE
+> Task :react-native-worklets:parseReleaseLocalResources UP-TO-DATE
+> Task :react-native-worklets:generateReleaseRFile UP-TO-DATE
+> Task :react-native-worklets:compileReleaseKotlin UP-TO-DATE
+> Task :react-native-worklets:javaPreCompileRelease UP-TO-DATE
+> Task :react-native-worklets:compileReleaseJavaWithJavac UP-TO-DATE
+> Task :react-native-worklets:bundleLibCompileToJarRelease UP-TO-DATE
+> Task :react-native-reanimated:compileReleaseKotlin UP-TO-DATE
+> Task :react-native-reanimated:javaPreCompileRelease UP-TO-DATE
+> Task :react-native-reanimated:compileReleaseJavaWithJavac UP-TO-DATE
+> Task :react-native-reanimated:bundleLibCompileToJarRelease UP-TO-DATE
+> Task :react-native-gesture-handler:compileReleaseKotlin UP-TO-DATE
+> Task :react-native-gesture-handler:javaPreCompileRelease UP-TO-DATE
+> Task :react-native-gesture-handler:compileReleaseJavaWithJavac UP-TO-DATE
+> Task :react-native-gesture-handler:bundleLibRuntimeToDirRelease UP-TO-DATE
+> Task :react-native-reanimated:bundleLibRuntimeToDirRelease UP-TO-DATE
+> Task :react-native-safe-area-context:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :react-native-safe-area-context:generateReleaseBuildConfig UP-TO-DATE
+> Task :react-native-safe-area-context:generateReleaseResValues UP-TO-DATE
+> Task :react-native-safe-area-context:generateReleaseResources UP-TO-DATE
+> Task :react-native-safe-area-context:packageReleaseResources UP-TO-DATE
+> Task :react-native-safe-area-context:parseReleaseLocalResources UP-TO-DATE
+> Task :react-native-safe-area-context:generateReleaseRFile UP-TO-DATE
+> Task :react-native-safe-area-context:compileReleaseKotlin UP-TO-DATE
+> Task :react-native-safe-area-context:javaPreCompileRelease UP-TO-DATE
+> Task :react-native-safe-area-context:compileReleaseJavaWithJavac UP-TO-DATE
+> Task :react-native-safe-area-context:bundleLibRuntimeToDirRelease UP-TO-DATE
+> Task :react-native-screens:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :react-native-screens:generateReleaseBuildConfig FROM-CACHE
+> Task :react-native-screens:generateReleaseResValues FROM-CACHE
+> Task :react-native-screens:generateReleaseResources FROM-CACHE
+> Task :react-native-screens:packageReleaseResources FROM-CACHE
+> Task :react-native-screens:parseReleaseLocalResources FROM-CACHE
+> Task :react-native-screens:generateReleaseRFile FROM-CACHE
+> Task :react-native-screens:compileReleaseKotlin FROM-CACHE
+> Task :react-native-screens:javaPreCompileRelease FROM-CACHE
+> Task :react-native-screens:compileReleaseJavaWithJavac FROM-CACHE
+> Task :react-native-worklets:bundleLibRuntimeToDirRelease UP-TO-DATE
+> Task :react-native-camera-roll_camera-roll:generateReleaseBuildConfig UP-TO-DATE
+> Task :react-native-camera-roll_camera-roll:generateReleaseResValues UP-TO-DATE
+> Task :react-native-camera-roll_camera-roll:generateReleaseResources UP-TO-DATE
+> Task :react-native-camera-roll_camera-roll:packageReleaseResources UP-TO-DATE
+> Task :react-native-camera-roll_camera-roll:parseReleaseLocalResources UP-TO-DATE
+> Task :react-native-camera-roll_camera-roll:generateReleaseRFile UP-TO-DATE
+> Task :react-native-camera-roll_camera-roll:javaPreCompileRelease UP-TO-DATE
+> Task :react-native-camera-roll_camera-roll:compileReleaseJavaWithJavac UP-TO-DATE
+> Task :react-native-camera-roll_camera-roll:bundleLibRuntimeToDirRelease UP-TO-DATE
+> Task :react-native-firebase_app:generateReleaseBuildConfig UP-TO-DATE
+> Task :react-native-firebase_app:generateReleaseResValues UP-TO-DATE
+> Task :react-native-firebase_app:generateReleaseResources UP-TO-DATE
+> Task :react-native-firebase_app:packageReleaseResources UP-TO-DATE
+> Task :react-native-firebase_app:parseReleaseLocalResources UP-TO-DATE
+> Task :react-native-firebase_app:generateReleaseRFile UP-TO-DATE
+> Task :react-native-firebase_app:javaPreCompileRelease UP-TO-DATE
+> Task :react-native-firebase_app:compileReleaseJavaWithJavac UP-TO-DATE
+> Task :react-native-firebase_app:bundleLibCompileToJarRelease UP-TO-DATE
+> Task :react-native-firebase_auth:generateReleaseBuildConfig UP-TO-DATE
+> Task :react-native-firebase_auth:generateReleaseResValues UP-TO-DATE
+> Task :react-native-firebase_auth:generateReleaseResources UP-TO-DATE
+> Task :react-native-firebase_auth:packageReleaseResources UP-TO-DATE
+> Task :react-native-firebase_auth:parseReleaseLocalResources UP-TO-DATE
+> Task :react-native-firebase_auth:generateReleaseRFile UP-TO-DATE
+> Task :react-native-firebase_auth:javaPreCompileRelease UP-TO-DATE
+> Task :react-native-firebase_auth:compileReleaseJavaWithJavac UP-TO-DATE
+> Task :react-native-firebase_auth:bundleLibRuntimeToDirRelease UP-TO-DATE
+> Task :react-native-firebase_firestore:generateReleaseBuildConfig UP-TO-DATE
+> Task :react-native-firebase_firestore:generateReleaseResValues UP-TO-DATE
+> Task :react-native-firebase_firestore:generateReleaseResources UP-TO-DATE
+> Task :react-native-firebase_firestore:packageReleaseResources UP-TO-DATE
+> Task :react-native-firebase_firestore:parseReleaseLocalResources UP-TO-DATE
+> Task :react-native-firebase_firestore:generateReleaseRFile UP-TO-DATE
+> Task :react-native-firebase_firestore:javaPreCompileRelease UP-TO-DATE
+> Task :react-native-firebase_firestore:compileReleaseJavaWithJavac UP-TO-DATE
+> Task :react-native-firebase_firestore:bundleLibRuntimeToDirRelease UP-TO-DATE
+> Task :react-native-firebase_app:bundleLibRuntimeToDirRelease UP-TO-DATE
+> Task :react-native-geolocation-service:generateReleaseBuildConfig UP-TO-DATE
+> Task :react-native-geolocation-service:generateReleaseResValues UP-TO-DATE
+> Task :react-native-geolocation-service:generateReleaseResources UP-TO-DATE
+> Task :react-native-geolocation-service:packageReleaseResources UP-TO-DATE
+> Task :react-native-geolocation-service:parseReleaseLocalResources UP-TO-DATE
+> Task :react-native-geolocation-service:generateReleaseRFile UP-TO-DATE
+> Task :react-native-geolocation-service:javaPreCompileRelease UP-TO-DATE
+> Task :react-native-geolocation-service:compileReleaseJavaWithJavac UP-TO-DATE
+> Task :react-native-geolocation-service:bundleLibRuntimeToDirRelease UP-TO-DATE
+> Task :react-native-image-picker:generateReleaseBuildConfig UP-TO-DATE
+> Task :react-native-image-picker:generateReleaseResValues UP-TO-DATE
+> Task :react-native-image-picker:generateReleaseResources UP-TO-DATE
+> Task :react-native-image-picker:packageReleaseResources UP-TO-DATE
+> Task :react-native-image-picker:parseReleaseLocalResources UP-TO-DATE
+> Task :react-native-image-picker:generateReleaseRFile UP-TO-DATE
+> Task :react-native-image-picker:javaPreCompileRelease UP-TO-DATE
+> Task :react-native-image-picker:compileReleaseJavaWithJavac UP-TO-DATE
+> Task :react-native-image-picker:bundleLibRuntimeToDirRelease UP-TO-DATE
+> Task :react-native-print:generateReleaseBuildConfig UP-TO-DATE
+> Task :react-native-print:generateReleaseResValues UP-TO-DATE
+> Task :react-native-print:generateReleaseResources UP-TO-DATE
+> Task :react-native-print:packageReleaseResources UP-TO-DATE
+> Task :react-native-print:parseReleaseLocalResources UP-TO-DATE
+> Task :react-native-print:generateReleaseRFile UP-TO-DATE
+> Task :react-native-print:javaPreCompileRelease UP-TO-DATE
+> Task :react-native-print:compileReleaseJavaWithJavac UP-TO-DATE
+> Task :react-native-print:bundleLibRuntimeToDirRelease UP-TO-DATE
+> Task :react-native-vector-icons:generateReleaseBuildConfig UP-TO-DATE
+> Task :react-native-vector-icons:generateReleaseResValues UP-TO-DATE
+> Task :react-native-vector-icons:generateReleaseResources UP-TO-DATE
+> Task :react-native-vector-icons:packageReleaseResources UP-TO-DATE
+> Task :react-native-vector-icons:parseReleaseLocalResources UP-TO-DATE
+> Task :react-native-vector-icons:generateReleaseRFile UP-TO-DATE
+> Task :react-native-vector-icons:javaPreCompileRelease UP-TO-DATE
+> Task :react-native-vector-icons:compileReleaseJavaWithJavac UP-TO-DATE
+> Task :react-native-vector-icons:bundleLibRuntimeToDirRelease UP-TO-DATE
+> Task :react-native-view-shot:generateReleaseBuildConfig UP-TO-DATE
+> Task :react-native-view-shot:generateReleaseResValues UP-TO-DATE
+> Task :react-native-view-shot:generateReleaseResources UP-TO-DATE
+> Task :react-native-view-shot:packageReleaseResources UP-TO-DATE
+> Task :react-native-view-shot:parseReleaseLocalResources UP-TO-DATE
+> Task :react-native-view-shot:generateReleaseRFile UP-TO-DATE
+> Task :react-native-view-shot:javaPreCompileRelease UP-TO-DATE
+> Task :react-native-view-shot:compileReleaseJavaWithJavac UP-TO-DATE
+> Task :react-native-view-shot:bundleLibRuntimeToDirRelease UP-TO-DATE
+> Task :app:checkReleaseDuplicateClasses UP-TO-DATE
+> Task :app:buildKotlinToolingMetadata UP-TO-DATE
+> Task :app:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :app:generateReleaseBuildConfig UP-TO-DATE
+> Task :react-native-async-storage_async-storage:writeReleaseAarMetadata UP-TO-DATE
+> Task :react-native-camera-roll_camera-roll:writeReleaseAarMetadata UP-TO-DATE
+> Task :react-native-firebase_app:writeReleaseAarMetadata UP-TO-DATE
+> Task :react-native-firebase_auth:writeReleaseAarMetadata UP-TO-DATE
+> Task :react-native-firebase_firestore:writeReleaseAarMetadata UP-TO-DATE
+> Task :react-native-geolocation-service:writeReleaseAarMetadata UP-TO-DATE
+> Task :react-native-gesture-handler:writeReleaseAarMetadata UP-TO-DATE
+> Task :react-native-image-picker:writeReleaseAarMetadata UP-TO-DATE
+> Task :react-native-print:writeReleaseAarMetadata UP-TO-DATE
+> Task :react-native-reanimated:writeReleaseAarMetadata UP-TO-DATE
+> Task :react-native-safe-area-context:writeReleaseAarMetadata UP-TO-DATE
+> Task :react-native-vector-icons:writeReleaseAarMetadata UP-TO-DATE
+> Task :react-native-view-shot:writeReleaseAarMetadata UP-TO-DATE
+> Task :react-native-worklets:writeReleaseAarMetadata UP-TO-DATE
+> Task :react-native-screens:writeReleaseAarMetadata
+> Task :app:createBundleReleaseJsAndAssets UP-TO-DATE
+> Task :app:checkReleaseAarMetadata UP-TO-DATE
+> Task :app:generateReleaseResValues UP-TO-DATE
+> Task :app:processReleaseGoogleServices UP-TO-DATE
+> Task :react-native-screens:bundleLibRuntimeToDirRelease
+> Task :app:mapReleaseSourceSetPaths UP-TO-DATE
+> Task :app:generateReleaseResources UP-TO-DATE
+> Task :app:mergeReleaseResources UP-TO-DATE
+> Task :app:packageReleaseResources UP-TO-DATE
+> Task :app:parseReleaseLocalResources UP-TO-DATE
+> Task :app:createReleaseCompatibleScreenManifests UP-TO-DATE
+> Task :app:extractDeepLinksRelease UP-TO-DATE
+> Task :react-native-async-storage_async-storage:extractDeepLinksRelease UP-TO-DATE
+> Task :react-native-async-storage_async-storage:processReleaseManifest UP-TO-DATE
+> Task :react-native-camera-roll_camera-roll:extractDeepLinksRelease UP-TO-DATE
+> Task :react-native-camera-roll_camera-roll:processReleaseManifest UP-TO-DATE
+> Task :react-native-firebase_app:extractDeepLinksRelease UP-TO-DATE
+> Task :react-native-firebase_app:processReleaseManifest UP-TO-DATE
+> Task :react-native-firebase_auth:extractDeepLinksRelease UP-TO-DATE
+> Task :react-native-firebase_auth:processReleaseManifest UP-TO-DATE
+> Task :react-native-firebase_firestore:extractDeepLinksRelease UP-TO-DATE
+> Task :react-native-firebase_firestore:processReleaseManifest UP-TO-DATE
+> Task :react-native-geolocation-service:extractDeepLinksRelease UP-TO-DATE
+> Task :react-native-geolocation-service:processReleaseManifest UP-TO-DATE
+> Task :react-native-gesture-handler:extractDeepLinksRelease UP-TO-DATE
+> Task :react-native-gesture-handler:processReleaseManifest UP-TO-DATE
+> Task :react-native-image-picker:extractDeepLinksRelease UP-TO-DATE
+> Task :react-native-image-picker:processReleaseManifest UP-TO-DATE
+> Task :react-native-print:extractDeepLinksRelease UP-TO-DATE
+> Task :react-native-print:processReleaseManifest UP-TO-DATE
+> Task :react-native-reanimated:extractDeepLinksRelease UP-TO-DATE
+> Task :react-native-reanimated:processReleaseManifest UP-TO-DATE
+> Task :react-native-safe-area-context:extractDeepLinksRelease UP-TO-DATE
+> Task :react-native-safe-area-context:processReleaseManifest UP-TO-DATE
+> Task :react-native-screens:extractDeepLinksRelease FROM-CACHE
+> Task :react-native-screens:processReleaseManifest FROM-CACHE
+> Task :react-native-vector-icons:extractDeepLinksRelease UP-TO-DATE
+> Task :react-native-vector-icons:processReleaseManifest UP-TO-DATE
+> Task :react-native-view-shot:extractDeepLinksRelease UP-TO-DATE
+> Task :react-native-view-shot:processReleaseManifest UP-TO-DATE
+> Task :react-native-worklets:extractDeepLinksRelease UP-TO-DATE
+> Task :react-native-worklets:processReleaseManifest UP-TO-DATE
+> Task :app:processReleaseMainManifest UP-TO-DATE
+> Task :app:processReleaseManifest UP-TO-DATE
+> Task :app:processReleaseManifestForPackage UP-TO-DATE
+> Task :react-native-async-storage_async-storage:compileReleaseLibraryResources UP-TO-DATE
+> Task :react-native-camera-roll_camera-roll:compileReleaseLibraryResources UP-TO-DATE
+> Task :react-native-firebase_app:compileReleaseLibraryResources UP-TO-DATE
+> Task :react-native-firebase_auth:compileReleaseLibraryResources UP-TO-DATE
+> Task :react-native-firebase_firestore:compileReleaseLibraryResources UP-TO-DATE
+> Task :react-native-geolocation-service:compileReleaseLibraryResources UP-TO-DATE
+> Task :react-native-gesture-handler:compileReleaseLibraryResources UP-TO-DATE
+> Task :react-native-image-picker:compileReleaseLibraryResources UP-TO-DATE
+> Task :react-native-print:compileReleaseLibraryResources UP-TO-DATE
+> Task :react-native-reanimated:compileReleaseLibraryResources UP-TO-DATE
+> Task :react-native-safe-area-context:compileReleaseLibraryResources UP-TO-DATE
+> Task :react-native-screens:compileReleaseLibraryResources FROM-CACHE
+> Task :react-native-vector-icons:compileReleaseLibraryResources UP-TO-DATE
+> Task :react-native-view-shot:compileReleaseLibraryResources UP-TO-DATE
+> Task :react-native-worklets:compileReleaseLibraryResources UP-TO-DATE
+> Task :app:processReleaseResources UP-TO-DATE
+> Task :react-native-async-storage_async-storage:bundleLibCompileToJarRelease UP-TO-DATE
+> Task :react-native-camera-roll_camera-roll:bundleLibCompileToJarRelease UP-TO-DATE
+> Task :react-native-firebase_auth:bundleLibCompileToJarRelease UP-TO-DATE
+> Task :react-native-firebase_firestore:bundleLibCompileToJarRelease UP-TO-DATE
+> Task :react-native-geolocation-service:bundleLibCompileToJarRelease UP-TO-DATE
+> Task :react-native-gesture-handler:bundleLibCompileToJarRelease UP-TO-DATE
+> Task :react-native-image-picker:bundleLibCompileToJarRelease UP-TO-DATE
+> Task :react-native-print:bundleLibCompileToJarRelease UP-TO-DATE
+> Task :react-native-safe-area-context:bundleLibCompileToJarRelease UP-TO-DATE
+> Task :react-native-vector-icons:bundleLibCompileToJarRelease UP-TO-DATE
+> Task :react-native-view-shot:bundleLibCompileToJarRelease UP-TO-DATE
+> Task :app:javaPreCompileRelease UP-TO-DATE
+> Task :app:desugarReleaseFileDependencies UP-TO-DATE
+> Task :app:mergeReleaseStartupProfile UP-TO-DATE
+> Task :app:mergeExtDexRelease UP-TO-DATE
+> Task :react-native-async-storage_async-storage:prepareReleaseArtProfile UP-TO-DATE
+> Task :react-native-camera-roll_camera-roll:prepareReleaseArtProfile UP-TO-DATE
+> Task :react-native-firebase_app:prepareReleaseArtProfile UP-TO-DATE
+> Task :react-native-firebase_auth:prepareReleaseArtProfile UP-TO-DATE
+> Task :react-native-firebase_firestore:prepareReleaseArtProfile UP-TO-DATE
+> Task :react-native-geolocation-service:prepareReleaseArtProfile UP-TO-DATE
+> Task :react-native-gesture-handler:prepareReleaseArtProfile UP-TO-DATE
+> Task :react-native-image-picker:prepareReleaseArtProfile UP-TO-DATE
+> Task :react-native-print:prepareReleaseArtProfile UP-TO-DATE
+> Task :react-native-reanimated:prepareReleaseArtProfile UP-TO-DATE
+> Task :react-native-safe-area-context:prepareReleaseArtProfile UP-TO-DATE
+> Task :react-native-screens:prepareReleaseArtProfile UP-TO-DATE
+> Task :react-native-vector-icons:prepareReleaseArtProfile UP-TO-DATE
+> Task :react-native-view-shot:prepareReleaseArtProfile UP-TO-DATE
+> Task :react-native-worklets:prepareReleaseArtProfile UP-TO-DATE
+> Task :app:mergeReleaseArtProfile UP-TO-DATE
+> Task :react-native-async-storage_async-storage:bundleLibRuntimeToJarRelease UP-TO-DATE
+> Task :react-native-gesture-handler:bundleLibRuntimeToJarRelease UP-TO-DATE
+> Task :react-native-reanimated:bundleLibRuntimeToJarRelease UP-TO-DATE
+> Task :react-native-safe-area-context:bundleLibRuntimeToJarRelease UP-TO-DATE
+> Task :react-native-screens:bundleLibRuntimeToJarRelease UP-TO-DATE
+> Task :react-native-worklets:bundleLibRuntimeToJarRelease UP-TO-DATE
+> Task :react-native-camera-roll_camera-roll:bundleLibRuntimeToJarRelease UP-TO-DATE
+> Task :react-native-firebase_auth:bundleLibRuntimeToJarRelease UP-TO-DATE
+> Task :react-native-firebase_firestore:bundleLibRuntimeToJarRelease UP-TO-DATE
+> Task :react-native-firebase_app:bundleLibRuntimeToJarRelease UP-TO-DATE
+> Task :react-native-geolocation-service:bundleLibRuntimeToJarRelease UP-TO-DATE
+> Task :react-native-image-picker:bundleLibRuntimeToJarRelease UP-TO-DATE
+> Task :react-native-print:bundleLibRuntimeToJarRelease UP-TO-DATE
+> Task :react-native-vector-icons:bundleLibRuntimeToJarRelease UP-TO-DATE
+> Task :react-native-view-shot:bundleLibRuntimeToJarRelease UP-TO-DATE
+> Task :app:mergeReleaseShaders UP-TO-DATE
+> Task :app:compileReleaseShaders NO-SOURCE
+> Task :app:copyReactNativeVectorIconFonts UP-TO-DATE
+> Task :app:generateReleaseAssets UP-TO-DATE
+> Task :react-native-async-storage_async-storage:mergeReleaseShaders UP-TO-DATE
+> Task :react-native-async-storage_async-storage:compileReleaseShaders NO-SOURCE
+> Task :react-native-async-storage_async-storage:generateReleaseAssets UP-TO-DATE
+> Task :react-native-async-storage_async-storage:mergeReleaseAssets UP-TO-DATE
+> Task :react-native-camera-roll_camera-roll:mergeReleaseShaders UP-TO-DATE
+> Task :react-native-camera-roll_camera-roll:compileReleaseShaders NO-SOURCE
+> Task :react-native-camera-roll_camera-roll:generateReleaseAssets UP-TO-DATE
+> Task :react-native-camera-roll_camera-roll:mergeReleaseAssets UP-TO-DATE
+> Task :react-native-firebase_app:mergeReleaseShaders UP-TO-DATE
+> Task :react-native-firebase_app:compileReleaseShaders NO-SOURCE
+> Task :react-native-firebase_app:generateReleaseAssets UP-TO-DATE
+> Task :react-native-firebase_app:mergeReleaseAssets UP-TO-DATE
+> Task :react-native-firebase_auth:mergeReleaseShaders UP-TO-DATE
+> Task :react-native-firebase_auth:compileReleaseShaders NO-SOURCE
+> Task :react-native-firebase_auth:generateReleaseAssets UP-TO-DATE
+> Task :react-native-firebase_auth:mergeReleaseAssets UP-TO-DATE
+> Task :react-native-firebase_firestore:mergeReleaseShaders UP-TO-DATE
+> Task :react-native-firebase_firestore:compileReleaseShaders NO-SOURCE
+> Task :react-native-firebase_firestore:generateReleaseAssets UP-TO-DATE
+> Task :react-native-firebase_firestore:mergeReleaseAssets UP-TO-DATE
+> Task :react-native-geolocation-service:mergeReleaseShaders UP-TO-DATE
+> Task :react-native-geolocation-service:compileReleaseShaders NO-SOURCE
+> Task :react-native-geolocation-service:generateReleaseAssets UP-TO-DATE
+> Task :react-native-geolocation-service:mergeReleaseAssets UP-TO-DATE
+> Task :react-native-gesture-handler:mergeReleaseShaders UP-TO-DATE
+> Task :react-native-gesture-handler:compileReleaseShaders NO-SOURCE
+> Task :react-native-gesture-handler:generateReleaseAssets UP-TO-DATE
+> Task :react-native-gesture-handler:mergeReleaseAssets UP-TO-DATE
+> Task :react-native-image-picker:mergeReleaseShaders UP-TO-DATE
+> Task :react-native-image-picker:compileReleaseShaders NO-SOURCE
+> Task :react-native-image-picker:generateReleaseAssets UP-TO-DATE
+> Task :react-native-image-picker:mergeReleaseAssets UP-TO-DATE
+> Task :react-native-print:mergeReleaseShaders UP-TO-DATE
+> Task :react-native-print:compileReleaseShaders NO-SOURCE
+> Task :react-native-print:generateReleaseAssets UP-TO-DATE
+> Task :react-native-print:mergeReleaseAssets UP-TO-DATE
+> Task :react-native-reanimated:mergeReleaseShaders UP-TO-DATE
+> Task :react-native-reanimated:compileReleaseShaders NO-SOURCE
+> Task :react-native-reanimated:generateReleaseAssets UP-TO-DATE
+> Task :react-native-reanimated:mergeReleaseAssets UP-TO-DATE
+> Task :react-native-safe-area-context:mergeReleaseShaders UP-TO-DATE
+> Task :react-native-safe-area-context:compileReleaseShaders NO-SOURCE
+> Task :react-native-safe-area-context:generateReleaseAssets UP-TO-DATE
+> Task :react-native-safe-area-context:mergeReleaseAssets UP-TO-DATE
+> Task :react-native-screens:mergeReleaseShaders
+> Task :react-native-screens:compileReleaseShaders NO-SOURCE
+> Task :react-native-screens:generateReleaseAssets UP-TO-DATE
+> Task :react-native-screens:mergeReleaseAssets
+> Task :react-native-vector-icons:mergeReleaseShaders UP-TO-DATE
+> Task :react-native-vector-icons:compileReleaseShaders NO-SOURCE
+> Task :react-native-vector-icons:generateReleaseAssets UP-TO-DATE
+> Task :react-native-vector-icons:mergeReleaseAssets UP-TO-DATE
+> Task :react-native-view-shot:mergeReleaseShaders UP-TO-DATE
+> Task :react-native-view-shot:compileReleaseShaders NO-SOURCE
+> Task :react-native-view-shot:generateReleaseAssets UP-TO-DATE
+> Task :react-native-view-shot:mergeReleaseAssets UP-TO-DATE
+> Task :react-native-worklets:mergeReleaseShaders UP-TO-DATE
+> Task :react-native-worklets:compileReleaseShaders NO-SOURCE
+> Task :react-native-worklets:generateReleaseAssets UP-TO-DATE
+> Task :react-native-worklets:mergeReleaseAssets UP-TO-DATE
+> Task :app:mergeReleaseAssets UP-TO-DATE
+> Task :app:compressReleaseAssets UP-TO-DATE
+> Task :app:extractReleaseVersionControlInfo
+> Task :app:extractProguardFiles
+> Task :react-native-async-storage_async-storage:processReleaseJavaRes
+> Task :react-native-async-storage_async-storage:createFullJarRelease
+> Task :react-native-async-storage_async-storage:extractProguardFiles
+> Task :react-native-screens:bundleLibCompileToJarRelease

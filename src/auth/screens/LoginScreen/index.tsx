@@ -30,6 +30,7 @@ export const LoginScreen = () => {
     password, setPassword,
     showPassword, setShowPassword,
     loading, error,
+    phoneStatus,
     isFormValid, handleLogin,
   } = useLoginController();
 
@@ -95,6 +96,37 @@ export const LoginScreen = () => {
               placeholderTextColor={colors.textMuted}
             />
           </View>
+
+          {/* Phone status message */}
+          {phoneStatus === 'checking' && (
+            <View style={[styles.statusBox, styles.statusInfo]}>
+              <ActivityIndicator size="small" color={colors.primaryDark} style={{ marginRight: 8 }} />
+              <Text style={styles.statusInfoText}>Checking number...</Text>
+            </View>
+          )}
+
+          {phoneStatus === 'not_found' && (
+            <View style={[styles.statusBox, styles.statusWarning]}>
+              <Icon name="alert-circle" size={18} color="#B45309" style={{ marginRight: 8 }} />
+              <View style={{ flex: 1 }}>
+                <Text style={styles.statusWarningText}>
+                  This phone number is not registered yet.
+                </Text>
+                <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+                  <Text style={styles.statusWarningLink}>Create an account now →</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          )}
+
+          {phoneStatus === 'registered' && (
+            <View style={[styles.statusBox, styles.statusSuccess]}>
+              <Icon name="checkmark-circle" size={18} color="#047857" style={{ marginRight: 8 }} />
+              <Text style={styles.statusSuccessText}>
+                Number found! Enter your password to continue.
+              </Text>
+            </View>
+          )}
 
           {/* Password */}
           <View style={styles.inputHeaderRow}>
@@ -238,6 +270,52 @@ const styles = StyleSheet.create({
     color: colors.textMain,
   },
   errorText: { color: '#EF4444', marginBottom: 12, textAlign: 'center', fontSize: 13 },
+  statusBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    marginBottom: 18,
+    marginTop: -6,
+  },
+  statusInfo: {
+    backgroundColor: '#EFF6FF',
+    borderWidth: 1,
+    borderColor: '#BFDBFE',
+  },
+  statusInfoText: {
+    color: '#1D4ED8',
+    fontSize: 13,
+    fontWeight: '600',
+  },
+  statusWarning: {
+    backgroundColor: '#FFFBEB',
+    borderWidth: 1,
+    borderColor: '#FDE68A',
+  },
+  statusWarningText: {
+    color: '#B45309',
+    fontSize: 13,
+    fontWeight: '600',
+  },
+  statusWarningLink: {
+    color: '#B45309',
+    fontSize: 13,
+    fontWeight: '800',
+    textDecorationLine: 'underline',
+    marginTop: 4,
+  },
+  statusSuccess: {
+    backgroundColor: '#ECFDF5',
+    borderWidth: 1,
+    borderColor: '#A7F3D0',
+  },
+  statusSuccessText: {
+    color: '#047857',
+    fontSize: 13,
+    fontWeight: '600',
+  },
   phoneRow: {
     flexDirection: 'row',
     alignItems: 'center',

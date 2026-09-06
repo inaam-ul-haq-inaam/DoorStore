@@ -12,6 +12,8 @@ import { InboxScreen } from '../screens/InboxScreen';
 import { AdminChatScreen } from '../screens/AdminChatScreen';
 import { DeliverySettingsScreen } from '../screens/DeliverySettingsScreen';
 import { AdminReviewsScreen } from '../screens/AdminReviewsScreen';
+import { UsersListScreen } from '../screens/UsersListScreen';
+import { UserDetailsScreen } from '../screens/UserDetailsScreen';
 
 import { AdminDrawerParamList } from '../../navigation/types';
 
@@ -108,6 +110,25 @@ export const AdminNavigator = () => {
         component={AdminReviewsScreen} 
         options={{
           title: 'Customer Reviews',
+        }}
+      />
+      <Drawer.Screen 
+        name="UsersList" 
+        component={UsersListScreen} 
+        options={{
+          title: 'Customers',
+          drawerIcon: ({ color, size }) => (
+            <Icon name="people-outline" size={size} color={color} />
+          ),
+        }}
+      />
+      <Drawer.Screen 
+        name="UserDetails" 
+        component={UserDetailsScreen} 
+        options={{
+          title: 'User Details',
+          headerShown: false,
+          drawerItemStyle: { display: 'none' },
         }}
       />
     </Drawer.Navigator>

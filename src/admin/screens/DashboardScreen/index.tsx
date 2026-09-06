@@ -31,7 +31,8 @@ export const AdminDashboardScreen = () => {
     handleLocationSaved,
     shopRating,
     totalReviews,
-    handleReviews
+    handleReviews,
+    handleUsers
   } = useAdminDashboardController();
 
   return (
@@ -98,7 +99,7 @@ export const AdminDashboardScreen = () => {
           <Text style={[styles.actionButtonText, { marginTop: 8 }]}>Delivery Fee</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={[styles.actionButton, { width: '100%', marginTop: spacing.m, flexDirection: 'row', justifyContent: 'center', gap: 10 }]} onPress={handleMessages}>
+        <TouchableOpacity style={[styles.actionButton, { width: '100%', marginTop: spacing.m, flexDirection: 'row', justifyContent: 'center' }]} onPress={handleMessages}>
           <View>
             <Icon name="chatbubbles-outline" size={24} color={colors.surface} />
             {unreadChats > 0 && (
@@ -107,7 +108,12 @@ export const AdminDashboardScreen = () => {
               </View>
             )}
           </View>
-          <Text style={styles.actionButtonText}>Messages / Inbox</Text>
+          <Text style={[styles.actionButtonText, { marginLeft: 10 }]}>Messages / Inbox</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={[styles.actionButton, { width: '100%', flexDirection: 'row', justifyContent: 'center' }]} onPress={handleUsers}>
+          <Icon name="people-outline" size={24} color={colors.surface} />
+          <Text style={[styles.actionButtonText, { marginLeft: 10 }]}>Customers</Text>
         </TouchableOpacity>
       </View>
 

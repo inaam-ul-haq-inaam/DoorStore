@@ -13,7 +13,6 @@ import { useCart } from '../../../context/CartContext';
 import { Avatar } from '../../../components/Avatar';
 import { ScreenLoader } from '../../../components/ScreenLoader';
 import { EmptyState } from '../../../components/EmptyState';
-import { WhatsAppFloatButton } from '../../../components/WhatsAppFloatButton';
 import { RatingModal } from '../../../components/RatingModal';
 
 export const HomeScreen = () => {
@@ -108,7 +107,7 @@ export const HomeScreen = () => {
         <View style={styles.headerTopRow}>
           <View style={styles.profileSection}>
             <View style={{ marginRight: 8 }}>
-              <Avatar name={userProfile?.full_name || 'Guest'} size="small" imageUrl="https://i.pravatar.cc/150?img=11" />
+              <Avatar name={userProfile?.full_name || 'Guest'} size="small" />
             </View>
             <View style={styles.greetingContainer}>
               <Text style={styles.greetingText}>
@@ -410,8 +409,6 @@ export const HomeScreen = () => {
         loading={ratingLoading}
       />
 
-      <WhatsAppFloatButton phoneNumber="923025769675" />
-
     </View>
   );
 };
@@ -422,7 +419,7 @@ const modalStyles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   backdrop: {
-    ...StyleSheet.absoluteFill,
+    ...StyleSheet.absoluteFillObject,
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
   sheet: {

@@ -2,8 +2,12 @@ import { useState } from 'react';
 import auth from '@react-native-firebase/auth';
 import { firebaseDb } from '../../../services/firebase';
 import firestore from '@react-native-firebase/firestore';
+import { useAuth } from '../../../context/AuthContext';
+
+export type PhoneStatus = 'idle' | 'checking' | 'registered' | 'available';
 
 export const useRegisterController = () => {
+  const { refreshProfile } = useAuth();
   const [fullName, setFullName] = useState('');
   const [phonePart1, setPhonePart1] = useState('');
   const [phonePart2, setPhonePart2] = useState('');
@@ -13,15 +17,39 @@ export const useRegisterController = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [phoneStatus, setPhoneStatus] = useState<PhoneStatus>('idle');
+
+  const checkPhoneRegistered = async (fullNumber: string) => {
+    try {
+      const snapshot = await firebaseDb
+        .collection('users')
+        .where('phone', '==', fullNumber)
+        .limit(1)
+        .get();
+      setPhoneStatus(snapshot.empty ? 'available' : 'registered');
+    } catch (e) {
+      console.log('Phone check error:', e);
+      setPhoneStatus('idle');
+    }
+  };
 
   const handlePart1Change = (text: string) => {
     const cleaned = text.replace(/[^0-9]/g, '').slice(0, 3);
     setPhonePart1(cleaned);
+    setPhoneStatus('idle');
   };
 
   const handlePart2Change = (text: string) => {
     const cleaned = text.replace(/[^0-9]/g, '').slice(0, 7);
     setPhonePart2(cleaned);
+
+    if (cleaned.length === 7 && phonePart1.length === 3) {
+      const fullNumber = `+92${phonePart1}${cleaned}`;
+      setPhoneStatus('checking');
+      checkPhoneRegistered(fullNumber);
+    } else {
+      setPhoneStatus('idle');
+    }
   };
 
   const isFormValid =
@@ -67,13 +95,14 @@ export const useRegisterController = () => {
         created_at: firestore.FieldValue.serverTimestamp(),
       }, { merge: true });
 
-      // Firebase will automatically sign in the user after registration
-      // AuthContext onAuthStateChanged will pick up the new user
+      // Firebase auto-logs-in the new user; refresh profile so the
+      // app lands straight on Home instead of the CompleteProfile/Login screen
+      await refreshProfile();
     } catch (e: any) {
       console.log('REGISTER ERROR:', e.code, e.message);
 
       if (e.code === 'auth/email-already-in-use') {
-        setError('An account with this phone number already exists. Please login.');
+        setError('This phone number is already registered. Please login instead.');
       } else if (e.code === 'auth/weak-password') {
         setError('Password is too weak. Use at least 6 characters.');
       } else if (e.code === 'auth/invalid-email') {
@@ -97,6 +126,7 @@ export const useRegisterController = () => {
     showPassword, setShowPassword,
     showConfirmPassword, setShowConfirmPassword,
     loading, error,
+    phoneStatus,
     isFormValid, handleRegister,
   };
 };

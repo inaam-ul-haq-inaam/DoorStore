@@ -4,11 +4,13 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import ViewShot from 'react-native-view-shot';
 import { colors } from '../../../theme/colors';
 import { useOrdersController, Order } from './controller';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { PrimaryButton } from '../../../components/PrimaryButton';
 import { ScreenLoader } from '../../../components/ScreenLoader';
 import { EmptyState } from '../../../components/EmptyState';
 
 export const OrdersScreen = () => {
+  const insets = useSafeAreaInsets();
   const { 
     status, 
     orders, 
@@ -178,7 +180,7 @@ export const OrdersScreen = () => {
           )}
 
           {selectedOrder && status !== 'completed' && (
-            <View style={styles.modalBottomBar}>
+            <View style={[styles.modalBottomBar, { paddingBottom: insets.bottom + 20 }]}>
               <PrimaryButton 
                 title={getActionText()} 
                 onPress={() => updateOrderStatus(selectedOrder.id, getNextStatus())} 
@@ -191,7 +193,7 @@ export const OrdersScreen = () => {
           )}
 
           {selectedOrder && status === 'completed' && (
-            <View style={styles.modalBottomBar}>
+            <View style={[styles.modalBottomBar, { paddingBottom: insets.bottom + 20 }]}>
               <TouchableOpacity style={styles.saveReceiptBtn} onPress={handleSaveReceipt}>
                 <Icon name="download-outline" size={20} color="#FFF" />
                 <Text style={styles.saveReceiptBtnText}>Save Receipt to Gallery</Text>

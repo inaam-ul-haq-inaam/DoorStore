@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, Platform, TouchableOpacity, Dimensions, Text } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { colors } from '../../theme/colors';
 import { useCart } from '../../context/CartContext';
@@ -20,6 +21,7 @@ const Tab = createBottomTabNavigator<MainTabParamList>();
 export const MainTabNavigator = () => {
   const { cartItems } = useCart();
   const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  const insets = useSafeAreaInsets();
 
   return (
     <Tab.Navigator
@@ -62,7 +64,7 @@ export const MainTabNavigator = () => {
         },
         tabBarActiveTintColor: colors.primaryDark,
         tabBarInactiveTintColor: '#A0A0A0',
-        tabBarStyle: styles.tabBar,
+        tabBarStyle: [styles.tabBar, { bottom: 20 + insets.bottom }],
         tabBarItemStyle: styles.tabBarItem,
       })}
     >
@@ -77,7 +79,6 @@ export const MainTabNavigator = () => {
 const styles = StyleSheet.create({
   tabBar: {
     position: 'absolute',
-    bottom: 20,
     left: '8%',
     right: '8%',
     elevation: 10,
