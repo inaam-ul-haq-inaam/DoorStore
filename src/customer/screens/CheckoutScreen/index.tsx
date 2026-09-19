@@ -31,6 +31,7 @@ export const CheckoutScreen = () => {
     setBillModalVisible,
     subTotal,
     deliveryFee,
+    deliveryFeePending,
     grandTotal,
     cartItems,
     handlePlaceOrderClick,
@@ -130,7 +131,11 @@ export const CheckoutScreen = () => {
 
             <View style={modalStyles.billRow}>
               <Text style={modalStyles.billText}>Delivery Fee</Text>
-              <Text style={modalStyles.billValue}>Rs. {deliveryFee}</Text>
+              {deliveryFeePending ? (
+                <Text style={modalStyles.billValue}>Shop will confirm</Text>
+              ) : (
+                <Text style={modalStyles.billValue}>Rs. {deliveryFee}</Text>
+              )}
             </View>
 
             <View style={[modalStyles.billRow, modalStyles.billTotalRow]}>

@@ -6,6 +6,7 @@ import { colors } from '../../theme/colors';
 import { AdminDashboardScreen } from '../screens/DashboardScreen';
 import { InventoryScreen } from '../screens/InventoryScreen';
 import { AddProductScreen } from '../screens/AddProductScreen';
+import { EditProductScreen } from '../screens/EditProductScreen';
 import { OrderDetailsScreen } from '../screens/OrderDetailsScreen';
 import { OrdersScreen } from '../screens/OrdersScreen';
 import { InboxScreen } from '../screens/InboxScreen';
@@ -16,10 +17,15 @@ import { UsersListScreen } from '../screens/UsersListScreen';
 import { UserDetailsScreen } from '../screens/UserDetailsScreen';
 
 import { AdminDrawerParamList } from '../../navigation/types';
+import { useDeliveryConfigSync } from '../../hooks/useDeliveryConfigSync';
 
 const Drawer = createDrawerNavigator<AdminDrawerParamList>();
 
 export const AdminNavigator = () => {
+  // Shop location / delivery fees ko shared settings/delivery doc mein
+  // mirror karta hai taake customer app fee calculate kar sake.
+  useDeliveryConfigSync();
+
   return (
     <Drawer.Navigator
       initialRouteName="Dashboard"
@@ -71,6 +77,15 @@ export const AdminNavigator = () => {
           drawerIcon: ({ color, size }) => (
             <Icon name="chatbubbles-outline" size={size} color={color} />
           ),
+        }}
+      />
+      <Drawer.Screen
+        name="EditProduct"
+        component={EditProductScreen}
+        options={{
+          title: 'Edit Product',
+          headerShown: false,
+          drawerItemStyle: { display: 'none' },
         }}
       />
       <Drawer.Screen 

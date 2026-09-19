@@ -18,6 +18,7 @@ export const CartScreen = () => {
     dynamicDeliveryFee,
     grandTotal,
     calculatingFee,
+    deliveryFeePending,
     distance,
     shopAddress,
     handleIncrease,
@@ -97,6 +98,8 @@ export const CartScreen = () => {
                   <Text style={styles.receiptLabel}>Delivery Fee</Text>
                   {calculatingFee ? (
                     <ActivityIndicator size="small" color={colors.primaryDark} />
+                  ) : deliveryFeePending ? (
+                    <Text style={styles.receiptValue}>Shop will confirm</Text>
                   ) : (
                     <Text style={styles.receiptValue}>Rs. {dynamicDeliveryFee.toFixed(2)}</Text>
                   )}

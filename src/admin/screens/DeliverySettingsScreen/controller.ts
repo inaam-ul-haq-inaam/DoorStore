@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { firebaseDb, firebaseAuth } from '../../../services/firebase';
+import { readDeliveryConfig, writeDeliveryConfig } from '../../../services/deliveryConfig';
 
 export const useDeliverySettingsController = () => {
   const navigation = useNavigation();
@@ -14,14 +15,22 @@ export const useDeliverySettingsController = () => {
     const fetchSettings = async () => {
       try {
         const user = firebaseAuth.currentUser;
-        if (user) {
-          const doc = await firebaseDb.collection('users').doc(user.uid).get();
-          if (doc.exists()) {
-            const data = doc.data();
-            if (data?.delivery_settings) {
-              setBaseFee(data.delivery_settings.base_fee?.toString() || '0');
-              setPerKmFee(data.delivery_settings.per_km_fee?.toString() || '0');
-            }
+        if (!user) return;
+
+        // Pehle shared config dekho, warna apne profile se (purana data).
+        const config = await readDeliveryConfig();
+        if (config.settings) {
+          setBaseFee(config.settings.base_fee.toString());
+          setPerKmFee(config.settings.per_km_fee.toString());
+          return;
+        }
+
+        const doc = await firebaseDb.collection('users').doc(user.uid).get();
+        if (doc.exists()) {
+          const data = doc.data();
+          if (data?.delivery_settings) {
+            setBaseFee(data.delivery_settings.base_fee?.toString() || '0');
+            setPerKmFee(data.delivery_settings.per_km_fee?.toString() || '0');
           }
         }
       } catch (error) {
@@ -44,12 +53,18 @@ export const useDeliverySettingsController = () => {
 
     setLoading(true);
     try {
+      const deliverySettings = {
+        base_fee: Number(baseFee),
+        per_km_fee: Number(perKmFee),
+      };
+
       await firebaseDb.collection('users').doc(user.uid).set({
-        delivery_settings: {
-          base_fee: Number(baseFee),
-          per_km_fee: Number(perKmFee)
-        }
+        delivery_settings: deliverySettings,
       }, { merge: true });
+
+      // Customer app isi shared doc se fees padhta hai
+      // (users doc customer ke liye readable nahi hai).
+      await writeDeliveryConfig({ delivery_settings: deliverySettings });
 
       Alert.alert('Success', 'Delivery settings saved successfully!');
       if (navigation.canGoBack()) {

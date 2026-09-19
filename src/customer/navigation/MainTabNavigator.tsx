@@ -64,7 +64,7 @@ export const MainTabNavigator = () => {
         },
         tabBarActiveTintColor: colors.primaryDark,
         tabBarInactiveTintColor: '#A0A0A0',
-        tabBarStyle: [styles.tabBar, { bottom: 20 + insets.bottom }],
+        tabBarStyle: [styles.tabBar, { bottom: 10 + insets.bottom }],
         tabBarItemStyle: styles.tabBarItem,
       })}
     >
@@ -83,8 +83,8 @@ const styles = StyleSheet.create({
     right: '8%',
     elevation: 10,
     backgroundColor: 'rgba(255, 255, 255, 0.95)',
-    borderRadius: 30,
-    height: 65,
+    borderRadius: 26,
+    height: 58,
     shadowColor: '#000000',
     shadowOpacity: 0.15,
     shadowOffset: { width: 0, height: 5 },

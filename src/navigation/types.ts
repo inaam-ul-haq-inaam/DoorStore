@@ -13,7 +13,7 @@ export type MainTabParamList = {
 export type CustomerStackParamList = {
   MainTabs: NavigatorScreenParams<MainTabParamList> | undefined;
   ProductDetails: { productId: string };
-  Checkout: { deliveryFee: number, distance: number } | undefined;
+  Checkout: { deliveryFee: number, distance: number, deliveryFeePending?: boolean } | undefined;
   OrderSuccess: { orderId: string };
   CustomerChat: undefined;
   Policy: undefined;
@@ -22,6 +22,7 @@ export type CustomerStackParamList = {
 export type AdminDrawerParamList = {
   Dashboard: undefined;
   AddProduct: undefined;
+  EditProduct: { productId: string };
   Inventory: undefined;
   OrdersList: { status: string };
   OrderDetail: { orderId: string };

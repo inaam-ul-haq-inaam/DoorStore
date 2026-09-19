@@ -7,7 +7,7 @@ import { useInventoryController, InventoryItem } from './controller';
 import { ScreenLoader } from '../../../components/ScreenLoader';
 
 export const InventoryScreen = () => {
-  const { products, loading, handleIncrement, handleDecrement, toggleStock, handleDelete } = useInventoryController();
+  const { products, loading, handleIncrement, handleDecrement, toggleStock, handleDelete, navigation } = useInventoryController();
 
   if (loading) {
     return <ScreenLoader />;
@@ -39,6 +39,14 @@ export const InventoryScreen = () => {
         </Text>
 
         <View style={styles.actionRow}>
+          <TouchableOpacity
+            style={styles.editBtn}
+            onPress={() => navigation.navigate('EditProduct', { productId: item.id })}
+          >
+            <Icon name="create-outline" size={16} color={colors.primaryDark} />
+            <Text style={styles.editBtnText}>Edit</Text>
+          </TouchableOpacity>
+
           <View style={styles.stockControl}>
             <TouchableOpacity 
               style={styles.stockBtn} 
@@ -186,6 +194,20 @@ const styles = StyleSheet.create({
     padding: 8,
     backgroundColor: '#FFE5E5',
     borderRadius: 20,
+  },
+  editBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 20,
+    backgroundColor: '#E8F5E9',
+  },
+  editBtnText: {
+    marginLeft: 6,
+    fontSize: 13,
+    fontWeight: '600',
+    color: colors.primaryDark,
   },
   cardOutOfStock: {
     opacity: 0.7,

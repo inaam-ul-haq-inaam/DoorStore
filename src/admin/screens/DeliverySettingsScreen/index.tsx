@@ -51,6 +51,10 @@ export const DeliverySettingsScreen = () => {
           />
           <Text style={styles.infoText}>Additional fee charged per KM distance from your shop.</Text>
 
+          <Text style={[styles.infoText, { color: colors.primaryDark, fontWeight: '600' }]}>
+            Note: Dono fees 0 hain to customer ko delivery free (Rs. 0) dikhegi. Shop location set na ho to sirf Base Fee lagti hai.
+          </Text>
+
           <TouchableOpacity style={styles.saveButton} onPress={handleSave} disabled={loading}>
             {loading ? (
               <ActivityIndicator color={colors.surface} />

@@ -4,7 +4,7 @@ import { CustomerStackNavigationProp } from '../../../navigation/types';
 import { useCart } from '../../../context/CartContext';
 import { PermissionsAndroid, Platform, Alert } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
-import { firebaseDb } from '../../../services/firebase';
+import { readDeliveryConfig } from '../../../services/deliveryConfig';
 import { calculateDistance } from '../../../utils/distanceUtils';
 
 export const useCartController = () => {
@@ -43,30 +43,23 @@ export const useCartController = () => {
 
     const fetchFee = async () => {
 
-      let shopLocation = null;
-      let deliverySettings = { base_fee: 0, per_km_fee: 0 };
+      // Shop location + fees shared config doc (`settings/delivery`) se aate hain.
+      // Pehle yahan `users` collection par query thi, jo customer ke liye
+      // Firestore rules se reject ho jati thi -> delivery fee hamesha 0.
+      const config = await readDeliveryConfig();
+      const shopLocation = config.shopLocation;
+      const deliverySettings = config.settings || { base_fee: 0, per_km_fee: 0 };
 
-      try {
-        const adminSnapshot = await firebaseDb.collection('users')
-          .where('role', 'in', ['admin', 'shopkeeper'])
-          .limit(1)
-          .get();
-
-        if (!adminSnapshot.empty) {
-          const adminData = adminSnapshot.docs[0].data();
-          if (adminData.shop_location) {
-            shopLocation = adminData.shop_location;
-            if (isMounted) setShopAddress(shopLocation.address || '');
-          }
-          if (adminData.delivery_settings) deliverySettings = adminData.delivery_settings;
-        }
-      } catch (err) {
-        console.error("Error fetching admin data:", err);
+      if (shopLocation?.address && isMounted) {
+        setShopAddress(shopLocation.address);
       }
 
+      const baseFee = Number(deliverySettings.base_fee) || 0;
+
       if (!shopLocation) {
+        // Shop location set nahi hui -> sirf base fee lagti hai
         if (isMounted) {
-          setDynamicDeliveryFee(0);
+          setDynamicDeliveryFee(baseFee);
           setCalculatingFee(false);
         }
         return;
@@ -76,7 +69,7 @@ export const useCartController = () => {
       if (!hasPermission) {
         if (isMounted) {
           Alert.alert('Permission Denied', 'Using default base fee. Cannot calculate distance.');
-          setDynamicDeliveryFee(Number(deliverySettings.base_fee) || 0);
+          setDynamicDeliveryFee(baseFee);
           setCalculatingFee(false);
         }
         return;
@@ -112,16 +105,15 @@ export const useCartController = () => {
             if (!isMounted) return;
             setDistance(distKm);
 
-            const base = Number(deliverySettings.base_fee) || 0;
             const perKm = Number(deliverySettings.per_km_fee) || 0;
-            const calculatedFee = base + (distKm * perKm);
+            const calculatedFee = baseFee + (distKm * perKm);
 
             setDynamicDeliveryFee(Math.round(calculatedFee));
             setCalculatingFee(false);
           } catch (error) {
             console.error("Error calculating dynamic delivery fee", error);
             if (isMounted) {
-              setDynamicDeliveryFee(Number(deliverySettings.base_fee) || 0);
+              setDynamicDeliveryFee(baseFee);
               setCalculatingFee(false);
             }
           }
@@ -130,7 +122,7 @@ export const useCartController = () => {
           console.error("GPS error", error);
           if (isMounted) {
             Alert.alert('GPS Error', 'Could not get your location. Using base fee.');
-            setDynamicDeliveryFee(Number(deliverySettings.base_fee) || 0);
+            setDynamicDeliveryFee(baseFee);
             setCalculatingFee(false);
           }
         },
@@ -150,7 +142,7 @@ export const useCartController = () => {
   }, [cartItems.length]);
 
   const handleCheckout = () => {
-    navigation.navigate('Checkout', { deliveryFee: dynamicDeliveryFee, distance });
+    navigation.navigate('Checkout', { deliveryFee: dynamicDeliveryFee, distance, deliveryFeePending });
   };
 
   const handleGoBack = () => {
@@ -163,12 +155,17 @@ export const useCartController = () => {
 
   const grandTotal = subTotal + dynamicDeliveryFee;
 
+  // Koi fee set na ho (shop ne delivery settings hi nahi bhari) to
+  // customer ko "Rs. 0" ke bajaye bata dena behtar hai.
+  const deliveryFeePending = !calculatingFee && cartItems.length > 0 && dynamicDeliveryFee <= 0;
+
   return {
     cartItems,
     subTotal,
     dynamicDeliveryFee,
     grandTotal,
     calculatingFee,
+    deliveryFeePending,
     distance,
     shopAddress,
     handleIncrease,

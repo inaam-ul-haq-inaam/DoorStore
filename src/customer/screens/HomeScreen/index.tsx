@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react';
-import { View, Text, FlatList, StatusBar, Image, TextInput, TouchableOpacity, Animated, Easing, Modal, StyleSheet, ScrollView } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { View, Text, FlatList, StatusBar, Image, TextInput, TouchableOpacity, Animated, Easing, Modal, StyleSheet, ScrollView, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useHomeController, Product } from './controller';
 import { styles } from './styles';
@@ -8,6 +8,8 @@ import { colors } from '../../../theme/colors';
 import { useAuth } from '../../../context/AuthContext';
 import { PrimaryButton } from '../../../components/PrimaryButton';
 import { useNavigation } from '@react-navigation/native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { CustomerStackNavigationProp } from '../../../navigation/types';
 import { useCart } from '../../../context/CartContext';
 import { Avatar } from '../../../components/Avatar';
@@ -51,6 +53,8 @@ export const HomeScreen = () => {
     handleUseGpsLocation,
   } = useHomeController();
   const { userProfile } = useAuth();
+  const insets = useSafeAreaInsets();
+  const tabBarHeight = useBottomTabBarHeight();
   const navigation = useNavigation<CustomerStackNavigationProp>();
   const { cartItems } = useCart();
   const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
@@ -58,6 +62,37 @@ export const HomeScreen = () => {
   const cartIconRef = useRef<View>(null);
   const [cartPos, setCartPos] = useState({ x: 300, y: 50 });
   const [flyingItems, setFlyingItems] = useState<{ id: string, image: string, startPos: {x: number, y: number}, animatedValue: Animated.Value }[]>([]);
+
+  // Product details sheet: image ke asli size ke mutabiq area —
+  // choti image ke ird-gird extra khali space na dikhe.
+  const [productImageSize, setProductImageSize] = useState<{ width: number; height: number } | null>(null);
+
+  useEffect(() => {
+    if (!selectedProduct?.image) {
+      setProductImageSize(null);
+      return;
+    }
+    let cancelled = false;
+    Image.getSize(
+      selectedProduct.image,
+      (w, h) => { if (!cancelled) setProductImageSize({ width: w, height: h }); },
+      () => { if (!cancelled) setProductImageSize(null); },
+    );
+    return () => { cancelled = true; };
+  }, [selectedProduct?.id]);
+
+  const maxImageWidth = Math.min(Dimensions.get('window').width - 96, 280);
+  let productImageDisplay = { width: 170, height: 170 };
+  if (productImageSize) {
+    const ratio = productImageSize.width / productImageSize.height;
+    let w = maxImageWidth;
+    let h = w / ratio;
+    if (h > 210) {
+      h = 210;
+      w = h * ratio;
+    }
+    productImageDisplay = { width: Math.round(w), height: Math.round(h) };
+  }
 
   const onCartLayout = () => {
     cartIconRef.current?.measure((x, y, width, height, pageX, pageY) => {
@@ -102,7 +137,7 @@ export const HomeScreen = () => {
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor={colors.primaryDark} />
 
-      <View style={styles.headerContainer}>
+      <View style={[styles.headerContainer, { paddingTop: insets.top + 6 }]}>
 
         <View style={styles.headerTopRow}>
           <View style={styles.profileSection}>
@@ -171,25 +206,25 @@ export const HomeScreen = () => {
         </View>
       </View>
 
-      <View style={{ paddingVertical: 16 }}>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 16 }}>
+      <View style={{ paddingVertical: 6 }}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 8, flexGrow: 1, justifyContent: 'space-evenly' }}>
           {categories.map((cat) => {
             const isSelected = selectedCategoryId === cat.id;
             return (
               <TouchableOpacity 
                 key={cat.id} 
                 onPress={() => setSelectedCategoryId(cat.id)}
-                style={{ alignItems: 'center', marginRight: 20 }}
+                style={{ alignItems: 'center' }}
               >
                 <View style={[
                   { 
-                    width: 70, 
-                    height: 70, 
-                    borderRadius: 35, 
+                    width: 56, 
+                    height: 56, 
+                    borderRadius: 28, 
                     backgroundColor: '#F3F4F6',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    marginBottom: 8,
+                    marginBottom: 5,
                   },
                   isSelected ? { 
                     borderWidth: 2, 
@@ -198,12 +233,12 @@ export const HomeScreen = () => {
                   } : { borderWidth: 0 }
                 ]}>
 
-                  <View style={{ width: '100%', height: '100%', borderRadius: 35, overflow: 'hidden', alignItems: 'center', justifyContent: 'center' }}>
+                  <View style={{ width: '100%', height: '100%', borderRadius: 28, overflow: 'hidden', alignItems: 'center', justifyContent: 'center' }}>
                     <Image source={{ uri: cat.imageUrl }} style={{ width: '100%', height: '100%', resizeMode: 'cover' }} />
                   </View>
                 </View>
                 <Text style={[
-                  { color: colors.textMuted, fontSize: 13, fontWeight: '600' },
+                  { color: colors.textMuted, fontSize: 11, fontWeight: '600' },
                   isSelected && { color: '#004d40', fontWeight: 'bold', textDecorationLine: 'underline' }
                 ]}>
                   {cat.name}
@@ -227,8 +262,9 @@ export const HomeScreen = () => {
           <FlatList
             data={products}
             keyExtractor={item => item.id}
-            numColumns={2}
-            contentContainerStyle={styles.listContainer}
+            numColumns={3}
+            key="product-grid-3"
+            contentContainerStyle={[styles.listContainer, { paddingBottom: tabBarHeight + insets.bottom + 16 }]}
             showsVerticalScrollIndicator={false}
             renderItem={({ item }) => (
               <ProductCard 
@@ -262,7 +298,7 @@ export const HomeScreen = () => {
             {selectedProduct && (
               <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={modalStyles.scrollContent}>
 
-                <View style={modalStyles.imageContainer}>
+                <View style={[modalStyles.imageContainer, { width: productImageDisplay.width, height: productImageDisplay.height }]}>
                   <Image source={{ uri: selectedProduct.image }} style={modalStyles.image} />
                 </View>
 
@@ -419,7 +455,11 @@ const modalStyles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   backdrop: {
-    ...StyleSheet.absoluteFillObject,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
   sheet: {
@@ -447,17 +487,19 @@ const modalStyles = StyleSheet.create({
     paddingBottom: 20,
   },
   imageContainer: {
-    width: '100%',
-    height: 200,
+    // Width/height image ke asli aspect ke hisab se inline di jati hai —
+    // area sirf image jitna hi hota hai.
+    alignSelf: 'center',
     backgroundColor: '#F8FAFC',
-    borderRadius: 16,
+    borderRadius: 14,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 20,
+    overflow: 'hidden',
   },
   image: {
-    width: '80%',
-    height: '80%',
+    width: '100%',
+    height: '100%',
     resizeMode: 'contain',
   },
   headerRow: {

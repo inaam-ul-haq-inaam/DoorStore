@@ -3,6 +3,7 @@ import { PermissionsAndroid, Platform, Alert } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { firebaseDb, firebaseAuth } from '../../../services/firebase';
+import { writeDeliveryConfig } from '../../../services/deliveryConfig';
 import { useShopLocationCache } from '../../../hooks/useShopLocationCache';
 
 export const useShopLocationController = (isVisible: boolean, onClose: () => void, onSave?: (address: string) => void) => {
@@ -95,15 +96,20 @@ export const useShopLocationController = (isVisible: boolean, onClose: () => voi
         const { latitude, longitude } = position.coords;
         try {
           const locationData = { address: address.trim(), lat: latitude, lng: longitude };
+          const shopLocation = { latitude, longitude, address: address.trim() };
 
           await updateLocation(locationData);
 
           const user = firebaseAuth.currentUser;
           if (user) {
             await firebaseDb.collection('users').doc(user.uid).set({
-              shop_location: { latitude, longitude, address: address.trim() }
+              shop_location: shopLocation
             }, { merge: true });
           }
+
+          // Customer app isi shared doc se shop location padhta hai
+          // (users doc customer ke liye readable nahi hai).
+          await writeDeliveryConfig({ shop_location: shopLocation });
 
           Alert.alert('Success', 'Shop location saved successfully!');
           if (onSave) onSave(address.trim());

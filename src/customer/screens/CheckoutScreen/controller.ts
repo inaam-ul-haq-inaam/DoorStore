@@ -15,6 +15,7 @@ export const useCheckoutController = () => {
   const { cartItems, total: subTotal, clearCart } = useCart();
 
   const deliveryFee = route.params?.deliveryFee || 0;
+  const deliveryFeePending = route.params?.deliveryFeePending ?? false;
   const grandTotal = subTotal + deliveryFee;
 
   const [fullName, setFullName] = useState('');
@@ -127,6 +128,7 @@ export const useCheckoutController = () => {
     setBillModalVisible,
     subTotal,
     deliveryFee,
+    deliveryFeePending,
     grandTotal,
     cartItems,
     handlePlaceOrderClick,

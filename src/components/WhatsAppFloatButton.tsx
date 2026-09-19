@@ -17,9 +17,9 @@ interface WhatsAppFloatButtonProps {
 
 const BUTTON_SIZE = 60;
 const MARGIN = 12;
-// Reserve space for the floating tab bar (bottom: 20, height: 65)
+// Reserve space for the floating tab bar (bottom: 10, height: 58)
 // so the button never slides behind it.
-const TAB_RESERVE = 100;
+const TAB_RESERVE = 78;
 
 export const WhatsAppFloatButton: React.FC<WhatsAppFloatButtonProps> = ({
   phoneNumber,
@@ -93,7 +93,7 @@ export const WhatsAppFloatButton: React.FC<WhatsAppFloatButtonProps> = ({
     <Animated.View
       style={[
         styles.container,
-        { bottom: TAB_RESERVE + 10 + insets.bottom },
+        { bottom: TAB_RESERVE + insets.bottom },
         {
           transform: pan.getTranslateTransform(),
         },

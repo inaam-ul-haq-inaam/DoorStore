@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
 import { firebaseDb, firebaseAuth } from '../../../services/firebase';
+import { AdminDrawerNavigationProp } from '../../../navigation/types';
 
 export interface InventoryItem {
   id: string;
@@ -15,6 +17,7 @@ export interface InventoryItem {
 }
 
 export const useInventoryController = () => {
+  const navigation = useNavigation<AdminDrawerNavigationProp>();
   const [products, setProducts] = useState<InventoryItem[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -114,6 +117,7 @@ export const useInventoryController = () => {
     handleIncrement,
     handleDecrement,
     toggleStock,
-    handleDelete
+    handleDelete,
+    navigation
   };
 };

@@ -19,14 +19,20 @@ export const useCompleteProfileController = () => {
     setLoading(true);
     setError('');
     try {
-      // user.phoneNumber is null with email/password auth, so pass
-      // undefined to avoid overwriting the phone saved at registration
-      await firebaseDb.collection('users').doc(user.uid).set({
-        full_name: fullName,
-        phone: user.phoneNumber || undefined,
+      // Build data without any undefined values — Firestore rejects
+      // `undefined` with "Unsupported field value: undefined".
+      // user.phoneNumber is null with email/password auth, so omit the
+      // phone key entirely to avoid overwriting the phone saved at registration.
+      const profileData: Record<string, unknown> = {
+        full_name: fullName.trim(),
         role: 'buyer',
         created_at: firestore.FieldValue.serverTimestamp(),
-      }, { merge: true });
+      };
+      if (user.phoneNumber) {
+        profileData.phone = user.phoneNumber;
+      }
+
+      await firebaseDb.collection('users').doc(user.uid).set(profileData, { merge: true });
 
       await refreshProfile();
     } catch (e: any) {

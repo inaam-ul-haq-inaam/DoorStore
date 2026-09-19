@@ -9,11 +9,12 @@ export const styles = StyleSheet.create({
   },
   headerContainer: {
     backgroundColor: colors.primaryDark,
-    paddingTop: Platform.OS === 'ios' ? 60 : 40,
-    paddingBottom: spacing.xl,
+    // Asli paddingTop HomeScreen se safe-area insets ke sath inline aata hai.
+    paddingTop: Platform.OS === 'ios' ? 54 : 34,
+    paddingBottom: 14,
     paddingHorizontal: spacing.l,
-    borderBottomLeftRadius: 30,
-    borderBottomRightRadius: 30,
+    borderBottomLeftRadius: 22,
+    borderBottomRightRadius: 22,
   },
   headerTopRow: {
     flexDirection: 'row',
@@ -81,7 +82,7 @@ export const styles = StyleSheet.create({
   searchRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: spacing.xl,
+    marginTop: 12,
   },
   searchBarContainer: {
     flex: 1,
@@ -121,15 +122,15 @@ export const styles = StyleSheet.create({
     shadowRadius: 8,
   },
   sectionTitle: {
-    fontSize: 20,
+    fontSize: 17,
     fontWeight: '800',
     color: colors.textMain,
     marginHorizontal: spacing.l,
-    marginTop: spacing.xl,
-    marginBottom: spacing.s,
+    marginTop: 10,
+    marginBottom: 4,
   },
   listContainer: {
-    paddingHorizontal: spacing.s,
-    paddingBottom: 100, 
+    paddingHorizontal: 6,
+    paddingBottom: 84,
   },
 });
