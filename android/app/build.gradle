@@ -62,6 +62,20 @@ react {
 def enableProguardInReleaseBuilds = false
 
 /**
+ * Release signing credentials live in android/keystore.properties (gitignored).
+ * When that file is missing the release build falls back to the debug keystore so
+ * local/CI builds still work, but such an artifact CANNOT be uploaded to Play.
+ */
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+def hasReleaseSigning = keystorePropertiesFile.exists()
+if (hasReleaseSigning) {
+    keystorePropertiesFile.withInputStream { keystoreProperties.load(it) }
+} else {
+    logger.warn("[DoorStore] android/keystore.properties not found - release build will use the DEBUG keystore.")
+}
+
+/**
  * The preferred build flavor of JavaScriptCore (JSC)
  *
  * For example, to use the international variant, you can use:
@@ -79,9 +93,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.doorstore"
+    namespace "com.doorstore.pk"
     defaultConfig {
-        applicationId "com.doorstore"
+        applicationId "com.doorstore.pk"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -94,15 +108,23 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        if (hasReleaseSigning) {
+            release {
+                storeFile file(keystoreProperties['DOORSTORE_STORE_FILE'])
+                storePassword keystoreProperties['DOORSTORE_STORE_PASSWORD']
+                keyAlias keystoreProperties['DOORSTORE_KEY_ALIAS']
+                keyPassword keystoreProperties['DOORSTORE_KEY_PASSWORD']
+            }
+        }
     }
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
         }
         release {
-            // Caution! In production, you need to generate your own keystore file.
-            // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
+            // Signed with the real upload key when keystore.properties is present.
+            // An AAB/APK signed with the debug keystore is rejected by Play Console.
+            signingConfig hasReleaseSigning ? signingConfigs.release : signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }

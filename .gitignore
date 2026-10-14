@@ -76,3 +76,12 @@ yarn-error.log
 
 # Android release build logs
 android/release-build*.log
+android/*.log
+
+# Release signing credentials and upload key - NEVER commit these
+android/keystore.properties
+*.jks
+*.p12
+RELEASE-CREDENTIALS.txt
+release-handout/
+*.pepk

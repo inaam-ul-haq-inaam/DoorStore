@@ -1,4 +1,4 @@
-package com.doorstore
+package com.doorstore.pk
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate

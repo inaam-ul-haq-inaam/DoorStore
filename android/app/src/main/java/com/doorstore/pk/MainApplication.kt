@@ -1,4 +1,4 @@
-package com.doorstore
+package com.doorstore.pk
 
 import android.app.Application
 import com.facebook.react.PackageList
