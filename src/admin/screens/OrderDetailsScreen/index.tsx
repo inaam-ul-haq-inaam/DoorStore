@@ -1,13 +1,19 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 import { colors } from '../../../theme/colors';
 import { spacing } from '../../../theme/spacing';
 import { PrimaryButton } from '../../../components/PrimaryButton';
 import { useOrderDetailsController } from './controller';
 import { ScreenLoader } from '../../../components/ScreenLoader';
+import { formatOrderItemQuantity } from '../../../utils/itemQuantity';
 
 export const OrderDetailsScreen = () => {
-  const { orderDetails, loading, isUpdating, handleAction, handleGoBack } = useOrderDetailsController();
+  const {
+    orderDetails, loading, isUpdating,
+    canEditItems, canCancelOrder,
+    handleAction, handleRemoveItem, handleCancelOrder, handleGoBack,
+  } = useOrderDetailsController();
 
   if (loading) {
     return <ScreenLoader />;
@@ -23,6 +29,10 @@ export const OrderDetailsScreen = () => {
       </View>
     );
   }
+
+  const statusLabel = orderDetails.status === 'on_delivery'
+    ? 'ON DELIVERY'
+    : orderDetails.status.toUpperCase();
 
   return (
     <ScrollView style={styles.container}>
@@ -53,16 +63,26 @@ export const OrderDetailsScreen = () => {
         </View>
 
         <Text style={styles.label}>Current Status:</Text>
-        <Text style={[styles.value, { color: colors.primaryDark }]}>{orderDetails.status.toUpperCase()}</Text>
+        <Text style={[styles.value, { color: colors.primaryDark }]}>{statusLabel}</Text>
       </View>
 
       <Text style={styles.sectionTitle}>Ordered Items</Text>
       {orderDetails.items && orderDetails.items.map((item: any, index: number) => (
         <View key={index} style={styles.itemRow}>
           <Text style={{ flex: 1 }}>
-            {item.quantity}x {item.name}
+            {formatOrderItemQuantity(item)} {item.name}
           </Text>
           <Text style={{ fontWeight: 'bold' }}>Rs. {(item.price * item.quantity).toFixed(2)}</Text>
+          {canEditItems && (
+            <TouchableOpacity
+              style={styles.removeItemBtn}
+              onPress={() => handleRemoveItem(index)}
+              disabled={isUpdating}
+              accessibilityLabel={`Remove ${item.name}`}
+            >
+              <Icon name="close-circle" size={22} color={colors.danger} />
+            </TouchableOpacity>
+          )}
         </View>
       ))}
 
@@ -74,13 +94,44 @@ export const OrderDetailsScreen = () => {
 
       <View style={styles.actionRow}>
         {orderDetails.status === 'incoming' && (
-          <PrimaryButton
-            title="Accept Order"
-            onPress={() => handleAction('pending')}
-            isLoading={isUpdating}
-          />
+          <View style={styles.actionButtonsRow}>
+            <TouchableOpacity
+              style={styles.bigCancelBtn}
+              onPress={handleCancelOrder}
+              disabled={isUpdating}
+            >
+              <Icon name="close-circle-outline" size={20} color="#FFF" />
+              <Text style={styles.bigCancelBtnText}>Cancel Order</Text>
+            </TouchableOpacity>
+            <View style={{ flex: 1 }}>
+              <PrimaryButton
+                title="Accept Order"
+                onPress={() => handleAction('pending')}
+                isLoading={isUpdating}
+              />
+            </View>
+          </View>
         )}
         {orderDetails.status === 'pending' && (
+          <View style={styles.actionButtonsRow}>
+            <TouchableOpacity
+              style={styles.bigCancelBtn}
+              onPress={handleCancelOrder}
+              disabled={isUpdating}
+            >
+              <Icon name="close-circle-outline" size={20} color="#FFF" />
+              <Text style={styles.bigCancelBtnText}>Cancel Order</Text>
+            </TouchableOpacity>
+            <View style={{ flex: 1 }}>
+              <PrimaryButton
+                title="Mark On Delivery"
+                onPress={() => handleAction('on_delivery')}
+                isLoading={isUpdating}
+              />
+            </View>
+          </View>
+        )}
+        {orderDetails.status === 'on_delivery' && (
           <PrimaryButton
             title="Mark as Completed"
             onPress={() => handleAction('completed')}
@@ -90,6 +141,11 @@ export const OrderDetailsScreen = () => {
         {orderDetails.status === 'completed' && (
           <View style={styles.completedBox}>
             <Text style={styles.completedText}>Order Completed ✅</Text>
+          </View>
+        )}
+        {orderDetails.status === 'cancelled' && (
+          <View style={styles.cancelledBox}>
+            <Text style={styles.cancelledText}>Order Cancelled ❌</Text>
           </View>
         )}
       </View>
@@ -161,5 +217,55 @@ const styles = StyleSheet.create({
     color: colors.primaryDark,
     fontWeight: 'bold',
     fontSize: 16,
-  }
+  },
+  removeItemBtn: {
+    paddingLeft: 12,
+    paddingVertical: 2,
+  },
+  cancelledBox: {
+    backgroundColor: '#FEE2E2',
+    padding: 16,
+    borderRadius: 30,
+    alignItems: 'center',
+  },
+  cancelledText: {
+    color: '#B91C1C',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  cancelOrderBtn: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 8,
+    backgroundColor: colors.danger,
+    paddingVertical: 14,
+    borderRadius: spacing.radiusMedium,
+    marginBottom: 50,
+  },
+  cancelOrderText: {
+    color: '#FFF',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  actionButtonsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  bigCancelBtn: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.danger,
+    paddingVertical: 14,
+    borderRadius: spacing.radiusMedium,
+    gap: 6,
+  },
+  bigCancelBtnText: {
+    color: '#FFF',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
 });

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, FlatList, StatusBar, Image, TextInput, TouchableOpacity, Animated, Easing, Modal, StyleSheet, ScrollView, Dimensions } from 'react-native';
+import { View, Text, FlatList, StatusBar, Image, TextInput, TouchableOpacity, Animated, Easing, Modal, StyleSheet, ScrollView, Dimensions, KeyboardAvoidingView, Platform } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useHomeController, Product } from './controller';
 import { styles } from './styles';
@@ -16,6 +16,7 @@ import { Avatar } from '../../../components/Avatar';
 import { ScreenLoader } from '../../../components/ScreenLoader';
 import { EmptyState } from '../../../components/EmptyState';
 import { RatingModal } from '../../../components/RatingModal';
+import { LocationAutocomplete } from '../../../components/LocationAutocomplete';
 
 export const HomeScreen = () => {
   const { 
@@ -29,6 +30,7 @@ export const HomeScreen = () => {
     setTempLocation,
     setLocationModalVisible,
     handleSaveLocation,
+    handleLocationSelect,
     handleAddToCart, 
     openProductDetails, 
     closeProductDetails, 
@@ -207,7 +209,7 @@ export const HomeScreen = () => {
       </View>
 
       <View style={{ paddingVertical: 6 }}>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 8, flexGrow: 1, justifyContent: 'space-evenly' }}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 8, flexGrow: 1, justifyContent: 'space-evenly', gap: 16 }}>
           {categories.map((cat) => {
             const isSelected = selectedCategoryId === cat.id;
             return (
@@ -385,10 +387,13 @@ export const HomeScreen = () => {
       })}
 
       <Modal visible={isLocationModalVisible} transparent={true} animationType="fade">
-        <View style={modalStyles.centerOverlay}>
+        <KeyboardAvoidingView
+          style={modalStyles.centerOverlay}
+          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        >
           <View style={modalStyles.centerSheet}>
             <Text style={modalStyles.locationModalTitle}>Set Your Delivery Address</Text>
-            <Text style={modalStyles.locationModalSub}>Type manually or use GPS to auto-detect your location.</Text>
+            <Text style={modalStyles.locationModalSub}>Search for an address or use GPS to auto-detect your location.</Text>
 
             <TouchableOpacity
               style={modalStyles.gpsButton}
@@ -402,15 +407,16 @@ export const HomeScreen = () => {
               )}
             </TouchableOpacity>
 
-            <Text style={[modalStyles.locationModalSub, { textAlign: 'center', marginBottom: 8 }]}>— OR type manually —</Text>
+            <Text style={[modalStyles.locationModalSub, { textAlign: 'center', marginBottom: 8 }]}>— OR search address —</Text>
 
-            <TextInput 
-              style={modalStyles.locationInput}
-              value={tempLocation}
-              onChangeText={setTempLocation}
-              placeholder="e.g. House 123, Street 4, Islamabad"
-              multiline
-            />
+            <View style={modalStyles.autocompleteWrapper}>
+              <LocationAutocomplete
+                value={tempLocation}
+                onLocationSelect={handleLocationSelect}
+                onChangeText={setTempLocation}
+                placeholder="e.g. House 123, Street 4, Islamabad"
+              />
+            </View>
 
             <View style={modalStyles.locationActionRow}>
               <TouchableOpacity onPress={() => setLocationModalVisible(false)} style={modalStyles.locationCancelBtn}>
@@ -419,7 +425,7 @@ export const HomeScreen = () => {
               <PrimaryButton title="Save" onPress={handleSaveLocation} style={{ flex: 1, paddingVertical: 12 }} />
             </View>
           </View>
-        </View>
+        </KeyboardAvoidingView>
       </Modal>
 
       {!isStoreOpen && (
@@ -571,16 +577,11 @@ const modalStyles = StyleSheet.create({
     color: colors.textMuted,
     marginBottom: 20,
   },
-  locationInput: {
-    backgroundColor: '#F8FAFC',
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: 12,
-    padding: 16,
-    fontSize: 16,
-    color: colors.textMain,
-    minHeight: 100,
-    textAlignVertical: 'top',
+  // Keeps the autocomplete (and its absolutely positioned suggestion
+  // dropdown) above the Save/Cancel row instead of being painted under it.
+  autocompleteWrapper: {
+    zIndex: 1000,
+    elevation: 12,
     marginBottom: 24,
   },
   locationActionRow: {

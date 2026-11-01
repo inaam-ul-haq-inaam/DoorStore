@@ -8,6 +8,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { PrimaryButton } from '../../../components/PrimaryButton';
 import { ScreenLoader } from '../../../components/ScreenLoader';
 import { EmptyState } from '../../../components/EmptyState';
+import { formatOrderItemQuantity } from '../../../utils/itemQuantity';
 
 export const OrdersScreen = () => {
   const insets = useSafeAreaInsets();
@@ -24,30 +25,38 @@ export const OrdersScreen = () => {
     handleUpdateDeliveryFee,
     updateOrderStatus, 
     openGoogleMapsRoute,
+    handleRemoveItem,
+    handleCancelOrder,
     viewRef,
     handleSaveReceipt,
     handlePrintBill
   } = useOrdersController();
 
-  const formattedStatus = status.charAt(0).toUpperCase() + status.slice(1);
+  const formattedStatus = status === 'on_delivery'
+    ? 'On Delivery'
+    : status === 'pending'
+      ? 'Accepted'
+      : status.charAt(0).toUpperCase() + status.slice(1);
 
   const getActionText = () => {
     if (status === 'incoming') return 'Accept Order';
-    if (status === 'pending') return 'Mark Completed';
+    if (status === 'pending') return 'Mark On Delivery';
+    if (status === 'on_delivery') return 'Mark Completed';
     return '';
   };
 
   const getNextStatus = () => {
     if (status === 'incoming') return 'pending';
-    if (status === 'pending') return 'completed';
+    if (status === 'pending') return 'on_delivery';
+    if (status === 'on_delivery') return 'completed';
     return '';
   };
 
   const renderOrderItem = ({ item }: { item: Order }) => (
     <TouchableOpacity style={styles.orderCard} onPress={() => openOrderDetails(item)} activeOpacity={0.7}>
       <View style={styles.cardHeader}>
-        <Text style={styles.customerName}>{item.customer_name}</Text>
-        <Text style={styles.orderTotal}>Rs. {item.total_amount.toFixed(2)}</Text>
+        <Text style={styles.customerName} numberOfLines={1} ellipsizeMode="tail">{item.customer_name}</Text>
+        <Text style={styles.orderTotal}>Rs. {Number(item.total_amount ?? 0).toFixed(2)}</Text>
       </View>
 
       <Text style={styles.phoneText}>
@@ -130,20 +139,33 @@ export const OrdersScreen = () => {
                   <View style={styles.tableHeader}>
                     <Text style={[styles.tableCol, { flex: 3, fontWeight: 'bold' }]}>Item</Text>
                     <Text style={[styles.tableCol, { flex: 1, fontWeight: 'bold', textAlign: 'center' }]}>Qty</Text>
-                    <Text style={[styles.tableCol, { flex: 1, fontWeight: 'bold', textAlign: 'right' }]}>Price</Text>
+                    <Text style={[styles.tableCol, { flex: 1.2, fontWeight: 'bold', textAlign: 'right' }]}>Price</Text>
+                    {status !== 'completed' && status !== 'cancelled' && status !== 'on_delivery' && (
+                      <View style={{ width: 28 }} />
+                    )}
                   </View>
-                  {selectedOrder.items.map((prod, index) => (
+                  {(selectedOrder.items || []).map((prod, index) => (
                     <View key={index} style={styles.tableRow}>
                       <Text style={[styles.tableCol, { flex: 3 }]}>{prod.name}</Text>
-                      <Text style={[styles.tableCol, { flex: 1, textAlign: 'center' }]}>x{prod.quantity}</Text>
-                      <Text style={[styles.tableCol, { flex: 1, textAlign: 'right' }]}>Rs. {prod.price.toFixed(0)}</Text>
+                      <Text style={[styles.tableCol, { flex: 1, textAlign: 'center' }]}>{formatOrderItemQuantity(prod)}</Text>
+                      <Text style={[styles.tableCol, { flex: 1.2, textAlign: 'right' }]}>Rs. {Number(prod.price ?? 0).toFixed(0)}</Text>
+                      {status !== 'completed' && status !== 'cancelled' && status !== 'on_delivery' && (
+                        <TouchableOpacity
+                          style={styles.removeItemBtn}
+                          onPress={() => handleRemoveItem(index)}
+                          hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                          accessibilityLabel={`Remove ${prod.name}`}
+                        >
+                          <Icon name="close-circle" size={22} color={colors.danger} />
+                        </TouchableOpacity>
+                      )}
                     </View>
                   ))}
                 </View>
 
                 <View style={styles.totalRow}>
                   <Text style={styles.totalLabel}>Subtotal:</Text>
-                  <Text style={styles.totalValue}>Rs. {(selectedOrder.delivery_fee === 'Pending' ? selectedOrder.total_amount : selectedOrder.total_amount - (selectedOrder.delivery_fee || 0)).toFixed(2)}</Text>
+                  <Text style={styles.totalValue}>Rs. {(Number(selectedOrder.total_amount ?? 0) - (selectedOrder.delivery_fee === 'Pending' ? 0 : (Number(selectedOrder.delivery_fee) || 0))).toFixed(2)}</Text>
                 </View>
                 {selectedOrder.delivery_fee !== undefined && (
                   <View style={[styles.totalRow, { marginTop: 4, alignItems: 'center' }]}>
@@ -172,7 +194,7 @@ export const OrdersScreen = () => {
                 )}
                 <View style={[styles.totalRow, { borderTopWidth: 1, borderTopColor: colors.border, paddingTop: 8, marginTop: 4 }]}>
                   <Text style={[styles.totalLabel, { color: colors.primary }]}>Total Amount:</Text>
-                  <Text style={[styles.totalValue, { color: colors.primary, fontSize: 18 }]}>Rs. {selectedOrder.total_amount.toFixed(2)}</Text>
+                  <Text style={[styles.totalValue, { color: colors.primary, fontSize: 18 }]}>Rs. {Number(selectedOrder.total_amount ?? 0).toFixed(2)}</Text>
                 </View>
               </View>
               </ViewShot>
@@ -181,10 +203,23 @@ export const OrdersScreen = () => {
 
           {selectedOrder && status !== 'completed' && (
             <View style={[styles.modalBottomBar, { paddingBottom: insets.bottom + 20 }]}>
-              <PrimaryButton 
-                title={getActionText()} 
-                onPress={() => updateOrderStatus(selectedOrder.id, getNextStatus())} 
-              />
+              <View style={styles.actionButtonsRow}>
+                {status !== 'cancelled' && (
+                  <TouchableOpacity 
+                    style={styles.bigCancelBtn} 
+                    onPress={handleCancelOrder}
+                  >
+                    <Icon name="close-circle-outline" size={20} color="#FFF" />
+                    <Text style={styles.bigCancelBtnText}>Cancel Order</Text>
+                  </TouchableOpacity>
+                )}
+                <View style={{ flex: 1 }}>
+                  <PrimaryButton 
+                    title={getActionText()} 
+                    onPress={() => updateOrderStatus(selectedOrder.id, getNextStatus())} 
+                  />
+                </View>
+              </View>
               <TouchableOpacity style={[styles.saveReceiptBtn, { marginTop: 8, backgroundColor: '#374151' }]} onPress={handlePrintBill}>
                 <Icon name="print-outline" size={20} color="#FFF" />
                 <Text style={styles.saveReceiptBtnText}>Print Bill</Text>
@@ -233,6 +268,7 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     padding: 16,
+    paddingBottom: 100,
   },
   orderCard: {
     backgroundColor: colors.surface,
@@ -252,9 +288,11 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   customerName: {
+    flex: 1,
     fontSize: 18,
     fontWeight: 'bold',
     color: colors.text,
+    marginRight: 8,
   },
   orderTotal: {
     fontSize: 18,
@@ -318,7 +356,9 @@ const styles = StyleSheet.create({
     color: colors.text,
   },
   modalContent: {
+    flex: 1,
     padding: 16,
+    paddingBottom: 24,
   },
   sectionCard: {
     backgroundColor: colors.surface,
@@ -426,5 +466,30 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
     marginLeft: 8,
+  },
+  actionButtonsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  bigCancelBtn: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.danger,
+    paddingVertical: 14,
+    borderRadius: 8,
+    gap: 6,
+  },
+  bigCancelBtnText: {
+    color: '#FFF',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  removeItemBtn: {
+    paddingLeft: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

@@ -1,9 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
 import { firebaseDb, firebaseAuth } from '../../../services/firebase';
 import { AdminDrawerNavigationProp } from '../../../navigation/types';
+import { useAuth } from '../../../context/AuthContext';
+import { CATEGORY_OPTIONS } from '../EditProductScreen/controller';
+
+// Search/filter pill list — "All" ke saath wahi categories jo product
+// add/edit me use hoti hain (ek hi source of truth, drift nahi hoga).
+export const CATEGORY_FILTER_OPTIONS = ['All', ...CATEGORY_OPTIONS];
 
 export interface InventoryItem {
   id: string;
@@ -14,12 +20,16 @@ export interface InventoryItem {
   in_stock: boolean;
   unit: string;
   unit_quantity: string;
+  category: string;
 }
 
 export const useInventoryController = () => {
   const navigation = useNavigation<AdminDrawerNavigationProp>();
+  const { userProfile } = useAuth();
   const [products, setProducts] = useState<InventoryItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('All');
 
   useEffect(() => {
     const user = firebaseAuth.currentUser;
@@ -28,9 +38,14 @@ export const useInventoryController = () => {
       return;
     }
 
-    const unsubscribe = firebaseDb
-      .collection('products')
-      .where('shopkeeper_id', '==', user.uid)
+    // Admin poora inventory dekhta hai — chahe product kisne bhi add kiya
+    // ho ya usme shopkeeper_id field hi missing ho (purane data).
+    // Shopkeeper sirf apne hi products manage karta hai.
+    const productsQuery = userProfile?.role === 'admin'
+      ? firebaseDb.collection('products')
+      : firebaseDb.collection('products').where('shopkeeper_id', '==', user.uid);
+
+    const unsubscribe = productsQuery
       .onSnapshot(
         snapshot => {
           const fetchedProducts = snapshot.docs.map(doc => {
@@ -41,9 +56,10 @@ export const useInventoryController = () => {
               price_pkr: data.price_pkr || 0,
               stock_available: data.stock_available || 0,
               image_url: data.image_url || '',
-              in_stock: data.in_stock !== false, 
+              in_stock: data.in_stock !== false && (data as any).inStock !== false, 
               unit: data.unit || 'Unit',
               unit_quantity: data.unit_quantity || '1',
+              category: data.category || 'Vegetables',
             };
           });
           setProducts(fetchedProducts);
@@ -56,7 +72,22 @@ export const useInventoryController = () => {
       );
 
     return () => unsubscribe();
-  }, []);
+  }, [userProfile?.role]);
+
+  /**
+   * Search + category filter — sirf UI-level filtering. Product ID same
+   * rehta hai, isliye toggleStock/increment/etc. Firestore par waise hi
+   * kaam karte hain chahe list filtered ho ya na ho.
+   */
+  const filteredProducts = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+    return products.filter(product => {
+      const matchesSearch = query === '' || product.name.toLowerCase().includes(query);
+      const matchesCategory =
+        selectedCategory === 'All' || product.category === selectedCategory;
+      return matchesSearch && matchesCategory;
+    });
+  }, [products, searchQuery, selectedCategory]);
 
   const handleIncrement = async (id: string) => {
     try {
@@ -80,8 +111,10 @@ export const useInventoryController = () => {
 
   const toggleStock = async (id: string, currentValue: boolean) => {
     try {
+      const nextValue = !currentValue;
       await firebaseDb.collection('products').doc(id).update({
-        in_stock: !currentValue
+        in_stock: nextValue,
+        inStock: nextValue,
       });
     } catch (error) {
       console.error("Error toggling stock:", error);
@@ -113,7 +146,12 @@ export const useInventoryController = () => {
 
   return {
     products,
+    filteredProducts,
     loading,
+    searchQuery,
+    setSearchQuery,
+    selectedCategory,
+    setSelectedCategory,
     handleIncrement,
     handleDecrement,
     toggleStock,

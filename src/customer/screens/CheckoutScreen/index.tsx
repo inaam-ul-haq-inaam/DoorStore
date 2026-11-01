@@ -9,12 +9,15 @@ import {
   Platform,
   Modal,
   StyleSheet,
+  ActivityIndicator,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 import { useCheckoutController } from './controller';
 import { styles } from './styles';
 import { colors } from '../../../theme/colors';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-
+import { LocationAutocomplete } from '../../../components/LocationAutocomplete';
+import { LocationPickerMapModal } from '../../../components/LocationPickerMapModal';
 
 import { IconButton } from '../../../components/IconButton';
 import { PrimaryButton } from '../../../components/PrimaryButton';
@@ -26,17 +29,29 @@ export const CheckoutScreen = () => {
     setFullName,
     address,
     setAddress,
+    handleAddressTextChange,
     isSubmitting,
     isBillModalVisible,
     setBillModalVisible,
     subTotal,
     deliveryFee,
     deliveryFeePending,
+    recalculating,
+    calculationError,
+    retryRecalculate,
+    deliveryLat,
+    deliveryLng,
     grandTotal,
     cartItems,
     handlePlaceOrderClick,
+    handleLocationSelect,
     confirmOrder,
     handleGoBack,
+    fetchingGps,
+    handleUseCurrentLocation,
+    isMapModalVisible,
+    setMapModalVisible,
+    handleMapLocationConfirm,
   } = useCheckoutController();
 
   return (
@@ -66,17 +81,65 @@ export const CheckoutScreen = () => {
           />
         </View>
 
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Complete Delivery Address</Text>
-          <TextInput
-            style={[styles.input, { minHeight: 80, textAlignVertical: 'top' }]}
-            placeholder="House, Street, Area, City"
-            placeholderTextColor={colors.textMuted}
+        <View style={[styles.inputContainer, { zIndex: 999 }]}>
+          <Text style={styles.label}>Delivery Address</Text>
+          <LocationAutocomplete
             value={address}
-            onChangeText={setAddress}
-            multiline
+            onLocationSelect={handleLocationSelect}
+            onChangeText={handleAddressTextChange}
+            placeholder="Search delivery address..."
           />
+
+          {/* Quick Location Action Buttons */}
+          <View style={localStyles.locationActionsRow}>
+            <TouchableOpacity
+              style={localStyles.actionBtn}
+              onPress={handleUseCurrentLocation}
+              disabled={fetchingGps}
+            >
+              {fetchingGps ? (
+                <>
+                  <ActivityIndicator size="small" color={colors.primaryDark} style={{ marginRight: 6 }} />
+                  <Text style={localStyles.actionBtnText}>Detecting GPS...</Text>
+                </>
+              ) : (
+                <>
+                  <Icon name="locate" size={17} color={colors.primaryDark} style={{ marginRight: 5 }} />
+                  <Text style={localStyles.actionBtnText}>Use Current Location</Text>
+                </>
+              )}
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[localStyles.actionBtn, localStyles.actionBtnSecondary]}
+              onPress={() => setMapModalVisible(true)}
+            >
+              <Icon name="map-outline" size={17} color={colors.primaryDark} style={{ marginRight: 5 }} />
+              <Text style={localStyles.actionBtnText}>
+                {deliveryLat ? 'Edit on Map' : 'Select on Map'}
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
+
+        {/* Delivery fee recalculation indicator */}
+        {recalculating && (
+          <View style={localStyles.recalcRow}>
+            <ActivityIndicator size="small" color={colors.primaryButton} />
+            <Text style={localStyles.recalcText}>Recalculating delivery fee...</Text>
+          </View>
+        )}
+
+        {/* Slow Internet / Calculation Error Banner */}
+        {calculationError && (
+          <View style={localStyles.errorCard}>
+            <Text style={localStyles.errorTitle}>⚠️ Slow Internet Connection</Text>
+            <Text style={localStyles.errorMessage}>{calculationError}</Text>
+            <TouchableOpacity style={localStyles.retryBtn} onPress={retryRecalculate}>
+              <Text style={localStyles.retryBtnText}>Tap to Retry</Text>
+            </TouchableOpacity>
+          </View>
+        )}
 
         <Text style={styles.sectionTitle}>Payment Method</Text>
 
@@ -89,8 +152,17 @@ export const CheckoutScreen = () => {
 
       <View style={[styles.bottomBar, { paddingBottom: insets.bottom + 16 }]}>
         <PrimaryButton
-          title="Place Order"
+          title={
+            recalculating
+              ? "Calculating Delivery Fee..."
+              : !deliveryLat
+              ? "Select Address to Continue"
+              : calculationError
+              ? "Check Internet & Retry"
+              : "Place Order"
+          }
           onPress={handlePlaceOrderClick}
+          disabled={recalculating || isSubmitting}
         />
       </View>
 
@@ -159,6 +231,15 @@ export const CheckoutScreen = () => {
           </View>
         </View>
       </Modal>
+
+      {/* Interactive Leaflet Pin Drop Map Modal */}
+      <LocationPickerMapModal
+        visible={isMapModalVisible}
+        initialLat={deliveryLat || 33.6844}
+        initialLng={deliveryLng || 73.0479}
+        onClose={() => setMapModalVisible(false)}
+        onConfirm={handleMapLocationConfirm}
+      />
 
     </KeyboardAvoidingView>
   );
@@ -269,6 +350,82 @@ const modalStyles = StyleSheet.create({
   cancelBtnText: {
     color: colors.textMuted,
     fontSize: 16,
+    fontWeight: 'bold',
+  },
+});
+
+const localStyles = StyleSheet.create({
+  locationActionsRow: {
+    flexDirection: 'row',
+    marginTop: 8,
+    gap: 8,
+  },
+  actionBtn: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#ECFDF5',
+    borderWidth: 1,
+    borderColor: '#A7F3D0',
+    paddingVertical: 10,
+    paddingHorizontal: 8,
+    borderRadius: 10,
+  },
+  actionBtnSecondary: {
+    backgroundColor: '#F3F4F6',
+    borderColor: '#E5E7EB',
+  },
+  actionBtnText: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: colors.primaryDark,
+  },
+  recalcRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#F0FDF4',
+    padding: 12,
+    borderRadius: 10,
+    marginBottom: 8,
+  },
+  recalcText: {
+    marginLeft: 10,
+    fontSize: 13,
+    color: colors.primaryDark,
+    fontWeight: '600',
+  },
+  errorCard: {
+    backgroundColor: '#FEF2F2',
+    borderWidth: 1,
+    borderColor: '#FCA5A5',
+    borderRadius: 10,
+    padding: 12,
+    marginTop: 8,
+    marginBottom: 8,
+  },
+  errorTitle: {
+    fontSize: 13,
+    fontWeight: 'bold',
+    color: '#DC2626',
+  },
+  errorMessage: {
+    fontSize: 12,
+    color: '#B91C1C',
+    marginTop: 4,
+    lineHeight: 16,
+  },
+  retryBtn: {
+    marginTop: 8,
+    alignSelf: 'flex-start',
+    backgroundColor: '#DC2626',
+    paddingVertical: 6,
+    paddingHorizontal: 14,
+    borderRadius: 6,
+  },
+  retryBtnText: {
+    color: '#FFF',
+    fontSize: 12,
     fontWeight: 'bold',
   },
 });

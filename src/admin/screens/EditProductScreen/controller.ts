@@ -6,9 +6,11 @@ import { launchImageLibrary } from 'react-native-image-picker';
 import { firebaseDb } from '../../../services/firebase';
 import { uploadImageToCloudinary } from '../../../services/cloudinary';
 import { Alert } from 'react-native';
+import { CATEGORY_OPTIONS, unitsForCategory } from '../../../constants/productCategories';
 
-export const UNIT_OPTIONS = ['Kg', 'Grams', 'Dozen', 'Pcs', 'Pack'];
-export const CATEGORY_OPTIONS = ['Vegetables', 'Fruits', 'Meat'];
+// Backwards-compatible re-exports: InventoryScreen CATEGORY_OPTIONS yahan se uthata hai.
+export { CATEGORY_OPTIONS };
+export const UNIT_OPTIONS = unitsForCategory;
 
 type EditProductRoute = { EditProduct: { productId: string } };
 

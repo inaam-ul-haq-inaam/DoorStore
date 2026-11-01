@@ -3,7 +3,8 @@ import { View, Text, TextInput, StyleSheet, ScrollView, TouchableOpacity, Image,
 import { colors } from '../../../theme/colors';
 import { spacing } from '../../../theme/spacing';
 import { PrimaryButton } from '../../../components/PrimaryButton';
-import { useEditProductController, UNIT_OPTIONS, CATEGORY_OPTIONS } from './controller';
+import { useEditProductController, CATEGORY_OPTIONS } from './controller';
+import { unitsForCategory } from '../../../constants/productCategories';
 
 export const EditProductScreen = () => {
   const {
@@ -18,6 +19,11 @@ export const EditProductScreen = () => {
     imageUrl, handleImagePick,
     saving, handleSaveChanges,
   } = useEditProductController();
+
+  // Purana product ager naye category ki unit list me fit na aaye (legacy unit)
+  // to usay bhi dikhate hain ((Random) pill active ho ke) — user choice rakhi ja sakti hai.
+  const unitOptions = unitsForCategory(category);
+  if (unit && !unitOptions.includes(unit)) unitOptions.unshift(unit);
 
   if (loadingProduct) {
     return (
@@ -75,7 +81,12 @@ export const EditProductScreen = () => {
                 styles.unitButton,
                 category === option && styles.unitButtonActive,
               ]}
-              onPress={() => setCategory(option)}
+              onPress={() => {
+                setCategory(option);
+                // Category badalne par unit reset karo (nayi category ki pehli unit)
+                const opts = unitsForCategory(option);
+                if (!opts.includes(unit)) setUnit(opts[0]);
+              }}
             >
               <Text style={[
                 styles.unitButtonText,
@@ -89,7 +100,7 @@ export const EditProductScreen = () => {
       <View style={styles.inputGroup}>
         <Text style={styles.label}>Select Unit</Text>
         <View style={styles.unitRow}>
-          {UNIT_OPTIONS.map((option) => (
+          {unitOptions.map((option) => (
             <TouchableOpacity
               key={option}
               style={[
@@ -114,7 +125,7 @@ export const EditProductScreen = () => {
           value={unitQuantity}
           onChangeText={setUnitQuantity}
           keyboardType="numeric"
-          placeholder="e.g. 250 (for Grams) or 1 (for Kg)"
+          placeholder="e.g. 250 (for Grams), 1.5 (for Litre), 800 (for ml)"
         />
       </View>
 

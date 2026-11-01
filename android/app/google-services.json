@@ -9,6 +9,25 @@
       "client_info": {
         "mobilesdk_app_id": "1:162424198129:android:65f5de4b0a5c1bce252a50",
         "android_client_info": {
+          "package_name": "com.doorstore"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSgNt100iCQ7Ly2cSWRQVbG5q0RoPOqxc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:162424198129:android:3240c3d1120d669b252a50",
+        "android_client_info": {
           "package_name": "com.doorstore.pk"
         }
       },

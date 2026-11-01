@@ -14,6 +14,7 @@ import { Avatar } from '../../../components/Avatar';
 import { ScreenLoader } from '../../../components/ScreenLoader';
 import { EmptyState } from '../../../components/EmptyState';
 import { normalizePhone } from '../../../utils/phoneUtils';
+import { useAuth } from '../../../context/AuthContext';
 
 const ROLE_LABEL: Record<string, string> = {
   buyer: 'Customer',
@@ -22,7 +23,10 @@ const ROLE_LABEL: Record<string, string> = {
 };
 
 export const UsersListScreen = () => {
-  const { users, loading, openUserDetails } = useUsersListController();
+  const { users, loading, openUserDetails, handleToggleAdmin } = useUsersListController();
+  const { userProfile } = useAuth();
+  // Role badalne ka sirf admin ke paas hi option dikhega.
+  const canManageRoles = userProfile?.role === 'admin';
 
   const renderItem = ({ item }: { item: UserItem }) => {
     const name = item.full_name || 'Unknown';
@@ -47,6 +51,22 @@ export const UsersListScreen = () => {
         <View style={[styles.roleBadge, item.role === 'admin' || item.role === 'shopkeeper' ? styles.roleBadgeAdmin : styles.roleBadgeCustomer]}>
           <Text style={styles.roleText}>{role}</Text>
         </View>
+
+        {canManageRoles && item.role !== 'shopkeeper' && (
+          <TouchableOpacity
+            style={styles.roleActionBtn}
+            onPress={() => handleToggleAdmin(item)}
+            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+            accessibilityLabel={item.role === 'admin' ? `Remove admin access from ${name}` : `Make ${name} an admin`}
+          >
+            <Icon
+              name={item.role === 'admin' ? 'shield-checkmark' : 'shield-outline'}
+              size={20}
+              color={item.role === 'admin' ? '#B45309' : colors.primaryDark}
+            />
+          </TouchableOpacity>
+        )}
+
         <Icon name="chevron-forward" size={18} color={colors.textMuted} style={{ marginLeft: 8 }} />
       </TouchableOpacity>
     );
@@ -98,7 +118,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: { color: colors.surface, fontSize: 22, fontWeight: 'bold' },
   headerSubtitle: { color: '#a0aab5', fontSize: 13, marginTop: 3 },
-  list: { paddingVertical: 8 },
+  list: { paddingVertical: 8, paddingBottom: 100 },
   userRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -119,6 +139,15 @@ const styles = StyleSheet.create({
   },
   roleBadgeCustomer: {
     backgroundColor: '#EBF4F0',
+  },
+  roleActionBtn: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#F3F4F6',
+    marginRight: 6,
   },
   roleText: {
     fontSize: 12,

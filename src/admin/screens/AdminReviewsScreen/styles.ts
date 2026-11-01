@@ -23,7 +23,7 @@ export const styles = StyleSheet.create({
   },
   listContainer: {
     padding: spacing.m,
-    paddingBottom: 40,
+    paddingBottom: 100,
   },
   reviewCard: {
     backgroundColor: colors.surface,
@@ -43,13 +43,16 @@ export const styles = StyleSheet.create({
     marginBottom: 8,
   },
   customerName: {
+    flex: 1,
     fontSize: 16,
     fontWeight: 'bold',
     color: colors.primaryDark,
+    marginRight: 8,
   },
   dateText: {
     fontSize: 12,
     color: colors.textMuted,
+    flexShrink: 0,
   },
   starsRow: {
     flexDirection: 'row',

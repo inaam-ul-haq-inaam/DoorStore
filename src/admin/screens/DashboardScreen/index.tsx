@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Switch,
+  ScrollView,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { colors } from '../../../theme/colors';
@@ -50,72 +51,94 @@ export const AdminDashboardScreen = () => {
         <Text style={styles.headerTitle}>Shopkeeper Portal</Text>
       </View>
 
+      <ScrollView 
+        style={styles.scrollContainer}
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
+        {stats.incoming > 0 && (
+          <TouchableOpacity
+            style={styles.pendingOrderAlertBanner}
+            onPress={() => handleStatPress('incoming')}
+            activeOpacity={0.85}
+          >
+            <View style={styles.alertPulse}>
+              <Icon name="notifications" size={22} color="#FFF" />
+            </View>
+            <View style={{ flex: 1, marginLeft: 12 }}>
+              <Text style={styles.alertBannerTitle}>
+                {stats.incoming} New Order{stats.incoming > 1 ? 's' : ''} Received!
+              </Text>
+              <Text style={styles.alertBannerSubtitle}>Tap to view pending orders</Text>
+            </View>
+            <Icon name="chevron-forward" size={20} color="#FFF" />
+          </TouchableOpacity>
+        )}
 
-      <View style={styles.statsRow}>
-        <StatItem title="Incoming" count={stats.incoming} color="#3B82F6" onPress={() => handleStatPress('incoming')} />
-        <StatItem title="Pending" count={stats.pending} color="#F59E0B" onPress={() => handleStatPress('pending')} />
-        <StatItem title="Completed" count={stats.completed} color="#10B981" onPress={() => handleStatPress('completed')} />
-      </View>
-
-
-      <View style={styles.toggleRow}>
-        <Text style={styles.toggleText}>Store Status: {isStoreOpen ? 'Open' : 'Closed'}</Text>
-        <Switch
-          value={isStoreOpen}
-          onValueChange={handleToggleStore}
-          trackColor={{ false: '#767577', true: colors.primaryLight }}
-          thumbColor={isStoreOpen ? colors.primaryDark : '#f4f3f4'}
-        />
-      </View>
-
-
-      <TouchableOpacity style={styles.ratingCard} onPress={handleReviews} activeOpacity={0.8}>
-        <View style={styles.ratingLeft}>
-          <Icon name="star" size={32} color="#FBBF24" />
-          <View style={{ marginLeft: 12 }}>
-            <Text style={styles.ratingMainText}>{shopRating} <Text style={{ fontSize: 14, color: colors.textMuted }}>/ 5.0</Text></Text>
-            <Text style={styles.ratingSubText}>Based on {totalReviews} reviews</Text>
-          </View>
+        <View style={styles.statsRow}>
+          <StatItem title="Incoming" count={stats.incoming} color="#3B82F6" onPress={() => handleStatPress('incoming')} />
+          <StatItem title="Accepted" count={stats.pending} color="#F59E0B" onPress={() => handleStatPress('pending')} />
+          <StatItem title="On Delivery" count={stats.on_delivery} color="#8B5CF6" onPress={() => handleStatPress('on_delivery')} />
+          <StatItem title="Completed" count={stats.completed} color="#10B981" onPress={() => handleStatPress('completed')} />
         </View>
-        <Icon name="chevron-forward" size={24} color={colors.textMuted} />
-      </TouchableOpacity>
 
-      <Text style={styles.sectionTitle}>Shop Settings & Actions</Text>
+        <View style={styles.toggleRow}>
+          <Text style={styles.toggleText}>Store Status: {isStoreOpen ? 'Open' : 'Closed'}</Text>
+          <Switch
+            value={isStoreOpen}
+            onValueChange={handleToggleStore}
+            trackColor={{ false: '#767577', true: colors.primaryLight }}
+            thumbColor={isStoreOpen ? colors.primaryDark : '#f4f3f4'}
+          />
+        </View>
 
-
-      <View style={styles.actionGrid}>
-        <TouchableOpacity style={styles.actionButton} onPress={handleAddProduct}>
-          <Icon name="add-circle-outline" size={24} color={colors.surface} />
-          <Text style={[styles.actionButtonText, { marginTop: 8 }]}>Add Product</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.actionButton} onPress={handleManageInventory}>
-          <Icon name="cube-outline" size={24} color={colors.surface} />
-          <Text style={[styles.actionButtonText, { marginTop: 8 }]}>Inventory</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.actionButton} onPress={handleDeliverySettings}>
-          <Icon name="bicycle-outline" size={24} color={colors.surface} />
-          <Text style={[styles.actionButtonText, { marginTop: 8 }]}>Delivery Fee</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={[styles.actionButton, { width: '100%', marginTop: spacing.m, flexDirection: 'row', justifyContent: 'center' }]} onPress={handleMessages}>
-          <View>
-            <Icon name="chatbubbles-outline" size={24} color={colors.surface} />
-            {unreadChats > 0 && (
-              <View style={styles.badgeContainer}>
-                <Text style={styles.badgeText}>{unreadChats > 9 ? '9+' : unreadChats}</Text>
-              </View>
-            )}
+        <TouchableOpacity style={styles.ratingCard} onPress={handleReviews} activeOpacity={0.8}>
+          <View style={styles.ratingLeft}>
+            <Icon name="star" size={32} color="#FBBF24" />
+            <View style={{ marginLeft: 12 }}>
+              <Text style={styles.ratingMainText}>{shopRating} <Text style={{ fontSize: 14, color: colors.textMuted }}>/ 5.0</Text></Text>
+              <Text style={styles.ratingSubText}>Based on {totalReviews} reviews</Text>
+            </View>
           </View>
-          <Text style={[styles.actionButtonText, { marginLeft: 10 }]}>Messages / Inbox</Text>
+          <Icon name="chevron-forward" size={24} color={colors.textMuted} />
         </TouchableOpacity>
 
-        <TouchableOpacity style={[styles.actionButton, { width: '100%', flexDirection: 'row', justifyContent: 'center' }]} onPress={handleUsers}>
-          <Icon name="people-outline" size={24} color={colors.surface} />
-          <Text style={[styles.actionButtonText, { marginLeft: 10 }]}>Customers</Text>
-        </TouchableOpacity>
-      </View>
+        <Text style={styles.sectionTitle}>Shop Settings & Actions</Text>
+
+        <View style={styles.actionGrid}>
+          <TouchableOpacity style={styles.actionButton} onPress={handleAddProduct}>
+            <Icon name="add-circle-outline" size={24} color={colors.surface} />
+            <Text style={[styles.actionButtonText, { marginTop: 8 }]}>Add Product</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.actionButton} onPress={handleManageInventory}>
+            <Icon name="cube-outline" size={24} color={colors.surface} />
+            <Text style={[styles.actionButtonText, { marginTop: 8 }]}>Inventory</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.actionButton} onPress={handleDeliverySettings}>
+            <Icon name="bicycle-outline" size={24} color={colors.surface} />
+            <Text style={[styles.actionButtonText, { marginTop: 8 }]}>Delivery Fee</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={[styles.actionButton, { width: '100%', marginTop: spacing.m, flexDirection: 'row', justifyContent: 'center' }]} onPress={handleMessages}>
+            <View>
+              <Icon name="chatbubbles-outline" size={24} color={colors.surface} />
+              {unreadChats > 0 && (
+                <View style={styles.badgeContainer}>
+                  <Text style={styles.badgeText}>{unreadChats > 9 ? '9+' : unreadChats}</Text>
+                </View>
+              )}
+            </View>
+            <Text style={[styles.actionButtonText, { marginLeft: 10 }]}>Messages / Inbox</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={[styles.actionButton, { width: '100%', flexDirection: 'row', justifyContent: 'center' }]} onPress={handleUsers}>
+            <Icon name="people-outline" size={24} color={colors.surface} />
+            <Text style={[styles.actionButtonText, { marginLeft: 10 }]}>Customers</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
 
       <ShopLocationModal 
         visible={isLocationModalVisible} 
@@ -125,7 +148,6 @@ export const AdminDashboardScreen = () => {
     </View>
   );
 };
-
 
 const StatItem = ({
   title,
@@ -146,6 +168,8 @@ const StatItem = ({
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
+  scrollContainer: { flex: 1 },
+  scrollContent: { paddingBottom: spacing.xxl + 24 },
   header: {
     padding: spacing.xl,
     backgroundColor: colors.primaryDark,
@@ -178,14 +202,17 @@ const styles = StyleSheet.create({
   },
   statsRow: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
     padding: spacing.m,
     justifyContent: 'space-between',
+    paddingBottom: 0,
   },
   statBox: {
     backgroundColor: colors.surface,
-    padding: spacing.m,
+    padding: spacing.s,
     borderRadius: spacing.radiusMedium,
-    width: '30%',
+    width: '48%',
+    marginBottom: spacing.s,
     alignItems: 'center',
     borderTopWidth: 4,
     elevation: 2,
@@ -251,8 +278,8 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     paddingHorizontal: spacing.m,
     justifyContent: 'space-between',
-    marginTop: 'auto',
-    marginBottom: spacing.xl,
+    marginTop: spacing.xs,
+    marginBottom: spacing.l,
   },
   actionButton: {
     backgroundColor: colors.primaryDark,
@@ -291,5 +318,38 @@ const styles = StyleSheet.create({
     color: '#FFF',
     fontSize: 10,
     fontWeight: 'bold',
-  }
+  },
+  pendingOrderAlertBanner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#DC2626',
+    marginHorizontal: spacing.m,
+    marginTop: spacing.m,
+    padding: spacing.m,
+    borderRadius: spacing.radiusMedium,
+    elevation: 4,
+    shadowColor: '#DC2626',
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 3 },
+  },
+  alertPulse: {
+    backgroundColor: 'rgba(255,255,255,0.25)',
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  alertBannerTitle: {
+    color: '#FFF',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  alertBannerSubtitle: {
+    color: 'rgba(255,255,255,0.9)',
+    fontSize: 13,
+    marginTop: 2,
+    fontWeight: '500',
+  },
 });

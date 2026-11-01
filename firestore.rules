@@ -40,17 +40,18 @@ service cloud.firestore {
         && request.auth.uid == userId
         && request.resource.data.role == 'buyer';
 
-      // Profile update — user apna data update kar sakta hai,
-      // lekin apna role change nahi kar sakta
+      // Profile update — user sirf apna data update kar sakta hai,
+      // role KABHI change nahi hota (staff ke liye bhi — ye role-escalation
+      // block hai: pehle shopkeeper apne doc par role likh kar khud ko
+      // admin bana sakta tha, kyunki staff wali rule par koi role guard nahi tha).
       allow update: if isLoggedIn()
         && request.auth.uid == userId
         && request.resource.data.role == resource.data.role;
 
-      // Staff apna profile update kar sakta hai (delivery settings etc.)
-      // Aur SIRF admin kisi aur user ka role badal sakta hai
-      // (yahi se aap kisi ko admin/shopkeeper banate ho)
-      allow update: if isStaff()
-        && (request.auth.uid == userId || isAdmin());
+      // SIRF admin kisi bhi user ka role badal sakta hai
+      // (yahi se aap kisi ko admin/shopkeeper banate ho — sirf ye rule
+      // role change allow karta hai, aur koi nahi).
+      allow update: if isAdmin();
     }
 
     // ============================================
@@ -81,6 +82,13 @@ service cloud.firestore {
         && resource.data.customer_id == request.auth.uid
         && request.resource.data.diff(resource.data).affectedKeys()
              .hasOnly(['rating', 'review_text', 'is_rated']);
+
+      // Customers may cancel only their own order before it is sent out.
+      allow update: if isLoggedIn()
+        && resource.data.customer_id == request.auth.uid
+        && resource.data.status in ['incoming', 'pending']
+        && request.resource.data.status == 'cancelled'
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status']);
 
       // Staff order status / delivery fee update kar sakta hai
       allow update: if isStaff();

@@ -1,3 +1,6 @@
+buildDir = file("build_out")
+layout.buildDirectory.set(file("build_out"))
+
 apply plugin: "com.android.application"
 apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
@@ -59,7 +62,7 @@ react {
 /**
  * Set this to true to Run Proguard on Release builds to minify the Java bytecode.
  */
-def enableProguardInReleaseBuilds = false
+def enableProguardInReleaseBuilds = true
 
 /**
  * Release signing credentials live in android/keystore.properties (gitignored).
@@ -98,8 +101,8 @@ android {
         applicationId "com.doorstore.pk"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 8
+        versionName "1.0.7"
     }
     signingConfigs {
         debug {
@@ -127,6 +130,11 @@ android {
             signingConfig hasReleaseSigning ? signingConfigs.release : signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            // Security pin: production build kabhi cleartext HTTP allow nahi karegi.
+            // RN Gradle plugin release ke liye false set karta hai — yahan explicit
+            // pin, taake ye value plugin updates par silently change na ho.
+            // (Debug par plugin true rakhta hai — Metro http:// se bundle load karta hai.)
+            manifestPlaceholders["usesCleartextTraffic"] = "false"
         }
     }
 }

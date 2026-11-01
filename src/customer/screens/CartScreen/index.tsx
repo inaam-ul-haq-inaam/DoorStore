@@ -19,11 +19,13 @@ export const CartScreen = () => {
     grandTotal,
     calculatingFee,
     deliveryFeePending,
+    feeError,
     distance,
     shopAddress,
     handleIncrease,
     handleDecrease,
     handleCheckout,
+    retryFetchFee,
     handleGoBack,
   } = useCartController();
 
@@ -94,10 +96,25 @@ export const CartScreen = () => {
                   </View>
                 ) : null}
 
+                {feeError ? (
+                  <View style={{ backgroundColor: '#FEF2F2', padding: 12, borderRadius: 8, marginBottom: 12, borderWidth: 1, borderColor: '#FCA5A5' }}>
+                    <Text style={{ fontSize: 13, color: '#DC2626', fontWeight: 'bold' }}>⚠️ Slow Internet Connection</Text>
+                    <Text style={{ fontSize: 12, color: '#B91C1C', marginTop: 2 }}>{feeError}</Text>
+                    <TouchableOpacity
+                      onPress={retryFetchFee}
+                      style={{ marginTop: 8, alignSelf: 'flex-start', backgroundColor: '#DC2626', paddingVertical: 6, paddingHorizontal: 14, borderRadius: 6 }}
+                    >
+                      <Text style={{ color: '#FFF', fontSize: 12, fontWeight: 'bold' }}>Tap to Retry</Text>
+                    </TouchableOpacity>
+                  </View>
+                ) : null}
+
                 <View style={styles.receiptRow}>
                   <Text style={styles.receiptLabel}>Delivery Fee</Text>
                   {calculatingFee ? (
                     <ActivityIndicator size="small" color={colors.primaryDark} />
+                  ) : feeError ? (
+                    <Text style={[styles.receiptValue, { color: colors.danger }]}>Please check internet</Text>
                   ) : deliveryFeePending ? (
                     <Text style={styles.receiptValue}>Shop will confirm</Text>
                   ) : (
@@ -111,6 +128,8 @@ export const CartScreen = () => {
                   <Text style={styles.totalLabel}>Total Amount</Text>
                   {calculatingFee ? (
                      <ActivityIndicator size="small" color={colors.primaryDark} />
+                  ) : feeError ? (
+                    <Text style={[styles.totalValue, { fontSize: 16, color: colors.danger }]}>Retry connection</Text>
                   ) : (
                     <Text style={styles.totalValue}>Rs. {grandTotal.toFixed(2)}</Text>
                   )}
@@ -125,14 +144,20 @@ export const CartScreen = () => {
                 <Text style={styles.bottomTotalLabel}>Total Pay</Text>
                 {calculatingFee ? (
                    <ActivityIndicator size="small" color="#FFF" />
+                ) : feeError ? (
+                  <Text style={[styles.bottomTotalValue, { fontSize: 15, color: '#FCA5A5' }]}>Check Internet</Text>
                 ) : (
                   <Text style={styles.bottomTotalValue}>Rs. {grandTotal.toFixed(2)}</Text>
                 )}
               </View>
 
-              <TouchableOpacity style={styles.checkoutButton} onPress={handleCheckout} disabled={calculatingFee}>
-                <Text style={styles.checkoutBtnText}>Checkout</Text>
-                <Icon name="arrow-forward" size={18} color="#FFF" />
+              <TouchableOpacity
+                style={[styles.checkoutButton, (calculatingFee || !!feeError) && { backgroundColor: '#6B7280' }]}
+                onPress={handleCheckout}
+                disabled={calculatingFee}
+              >
+                <Text style={styles.checkoutBtnText}>{feeError ? 'Retry' : 'Checkout'}</Text>
+                <Icon name={feeError ? 'refresh' : 'arrow-forward'} size={18} color="#FFF" />
               </TouchableOpacity>
             </View>
           </View>

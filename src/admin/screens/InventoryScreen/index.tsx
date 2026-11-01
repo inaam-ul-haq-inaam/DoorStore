@@ -1,13 +1,22 @@
 import React from 'react';
-import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity, Switch } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity, Switch, TextInput, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { colors } from '../../../theme/colors';
 import { spacing } from '../../../theme/spacing';
-import { useInventoryController, InventoryItem } from './controller';
+import {
+  useInventoryController,
+  InventoryItem,
+  CATEGORY_FILTER_OPTIONS,
+} from './controller';
 import { ScreenLoader } from '../../../components/ScreenLoader';
 
 export const InventoryScreen = () => {
-  const { products, loading, handleIncrement, handleDecrement, toggleStock, handleDelete, navigation } = useInventoryController();
+  const {
+    products, filteredProducts, loading,
+    searchQuery, setSearchQuery,
+    selectedCategory, setSelectedCategory,
+    handleIncrement, handleDecrement, toggleStock, handleDelete, navigation,
+  } = useInventoryController();
 
   if (loading) {
     return <ScreenLoader />;
@@ -71,6 +80,8 @@ export const InventoryScreen = () => {
     </View>
   );
 
+  const hasActiveFilter = searchQuery.trim() !== '' || selectedCategory !== 'All';
+
   return (
     <View style={styles.container}>
       {products.length === 0 ? (
@@ -79,13 +90,81 @@ export const InventoryScreen = () => {
           <Text style={styles.emptyText}>No products found.</Text>
         </View>
       ) : (
-        <FlatList
-          data={products}
-          keyExtractor={(item) => item.id}
-          renderItem={renderItem}
-          contentContainerStyle={styles.listContent}
-          showsVerticalScrollIndicator={false}
-        />
+        <>
+          <View style={styles.filterBar}>
+            <View style={styles.searchBox}>
+              <Icon name="search-outline" size={18} color={colors.textMuted} />
+              <TextInput
+                style={styles.searchInput}
+                value={searchQuery}
+                onChangeText={setSearchQuery}
+                placeholder="Search product name..."
+                placeholderTextColor={colors.textMuted}
+                autoCorrect={false}
+              />
+              {searchQuery.length > 0 && (
+                <TouchableOpacity onPress={() => setSearchQuery('')}>
+                  <Icon name="close-circle" size={18} color={colors.textMuted} />
+                </TouchableOpacity>
+              )}
+            </View>
+
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.categoryRow}
+            >
+              {CATEGORY_FILTER_OPTIONS.map((option) => {
+                const isActive = selectedCategory === option;
+                return (
+                  <TouchableOpacity
+                    key={option}
+                    style={[styles.categoryPill, isActive && styles.categoryPillActive]}
+                    onPress={() => setSelectedCategory(option)}
+                  >
+                    <Text
+                      style={[
+                        styles.categoryPillText,
+                        isActive && styles.categoryPillTextActive,
+                      ]}
+                    >
+                      {option}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </ScrollView>
+          </View>
+
+          <FlatList
+            data={filteredProducts}
+            keyExtractor={(item) => item.id}
+            renderItem={renderItem}
+            contentContainerStyle={styles.listContent}
+            showsVerticalScrollIndicator={false}
+            keyboardShouldPersistTaps="handled"
+            ListEmptyComponent={
+              <View style={styles.noMatchContainer}>
+                <Icon name="search-outline" size={48} color={colors.textMuted} />
+                <Text style={styles.emptyText}>
+                  {hasActiveFilter
+                    ? 'No products match your search/filter.'
+                    : 'No products found.'}
+                </Text>
+                {hasActiveFilter && (
+                  <TouchableOpacity
+                    onPress={() => {
+                      setSearchQuery('');
+                      setSelectedCategory('All');
+                    }}
+                  >
+                    <Text style={styles.clearFilterText}>Clear filters</Text>
+                  </TouchableOpacity>
+                )}
+              </View>
+            }
+          />
+        </>
       )}
     </View>
   );
@@ -104,6 +183,66 @@ const styles = StyleSheet.create({
   },
   listContent: {
     padding: spacing.m,
+    paddingBottom: 100,
+    flexGrow: 1,
+  },
+  filterBar: {
+    paddingHorizontal: spacing.m,
+    paddingTop: spacing.m,
+    paddingBottom: spacing.s,
+    backgroundColor: colors.background,
+  },
+  searchBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.surface,
+    borderRadius: spacing.radiusMedium,
+    borderWidth: 1,
+    borderColor: colors.border,
+    paddingHorizontal: spacing.m,
+    marginBottom: spacing.s,
+  },
+  searchInput: {
+    flex: 1,
+    paddingVertical: 10,
+    marginLeft: 8,
+    fontSize: 14,
+    color: colors.textMain,
+  },
+  categoryRow: {
+    gap: 8,
+    paddingVertical: 4,
+    paddingRight: spacing.m,
+  },
+  categoryPill: {
+    paddingVertical: 8,
+    paddingHorizontal: 14,
+    borderRadius: 20,
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  categoryPillActive: {
+    backgroundColor: colors.primaryLight,
+    borderColor: colors.primary,
+  },
+  categoryPillText: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: colors.textMuted,
+  },
+  categoryPillTextActive: {
+    color: colors.primaryDark,
+  },
+  noMatchContainer: {
+    alignItems: 'center',
+    paddingTop: 40,
+  },
+  clearFilterText: {
+    marginTop: spacing.m,
+    color: colors.primaryDark,
+    fontWeight: 'bold',
+    textDecorationLine: 'underline',
   },
   emptyText: {
     marginTop: spacing.m,

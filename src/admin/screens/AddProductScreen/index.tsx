@@ -4,9 +4,7 @@ import { colors } from '../../../theme/colors';
 import { spacing } from '../../../theme/spacing';
 import { PrimaryButton } from '../../../components/PrimaryButton';
 import { useAddProductController } from './controller';
-
-const UNIT_OPTIONS = ['Kg', 'Grams', 'Dozen', 'Pcs', 'Pack'];
-const CATEGORY_OPTIONS = ['Vegetables', 'Fruits', 'Meat'];
+import { CATEGORY_OPTIONS, unitsForCategory } from '../../../constants/productCategories';
 
 export const AddProductScreen = () => {
   const { 
@@ -69,7 +67,12 @@ export const AddProductScreen = () => {
                 styles.unitButton, 
                 category === option && styles.unitButtonActive
               ]}
-              onPress={() => setCategory(option)}
+              onPress={() => {
+                setCategory(option);
+                // Category badalne par unit reset karo (nayi category ki pehli unit)
+                const opts = unitsForCategory(option);
+                if (!opts.includes(unit)) setUnit(opts[0]);
+              }}
             >
               <Text style={[
                 styles.unitButtonText,
@@ -84,7 +87,7 @@ export const AddProductScreen = () => {
       <View style={styles.inputGroup}>
         <Text style={styles.label}>Select Unit</Text>
         <View style={styles.unitRow}>
-          {UNIT_OPTIONS.map((option) => (
+          {unitsForCategory(category).map((option) => (
             <TouchableOpacity 
               key={option}
               style={[
@@ -109,7 +112,7 @@ export const AddProductScreen = () => {
           value={unitQuantity}
           onChangeText={setUnitQuantity}
           keyboardType="numeric"
-          placeholder="e.g. 250 (for Grams) or 1 (for Kg)"
+          placeholder="e.g. 250 (for Grams), 1.5 (for Litre), 800 (for ml)"
         />
       </View>
 

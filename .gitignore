@@ -85,3 +85,19 @@ android/keystore.properties
 RELEASE-CREDENTIALS.txt
 release-handout/
 *.pepk
+
+# Local environment files — real API keys live here, never commit these
+.env
+!.env.example
+*.apk
+*.aab
+*.pem
+*.log
+*.bak
+android/app/build_out/
+
+*.log.*
+PLAY-RESET-INFO.txt
+play-reset-package/
+scan-node-modules.js
+order-notifier-daemon.js

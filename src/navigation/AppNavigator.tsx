@@ -14,6 +14,8 @@ import { OnboardingScreen } from '../onboarding/screens/OnboardingScreen';
 import { SplashScreen } from '../splash/SplashScreen';
 
 import { RootStackParamList } from './types';
+import { navigationRef } from './navigationRef';
+import { attachPushListeners, configurePushNotifications } from '../services/notifications';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -40,12 +42,22 @@ export const AppNavigator = () => {
     checkFirstLaunch();
   }, []);
 
+  // FCM listeners app lifetime me sirf ek baar attach hote hain.
+  useEffect(() => {
+    attachPushListeners();
+  }, []);
+
+  // Sirf admin ke liye device token register/remove hota hai (role/uid change par dobara).
+  useEffect(() => {
+    configurePushNotifications({ uid: user?.uid ?? null, role: userProfile?.role });
+  }, [user?.uid, userProfile?.role]);
+
   if (isFirstLaunch === null || authLoading || !isSplashAnimationDone) {
     return <SplashScreen onAnimationComplete={() => setIsSplashAnimationDone(true)} />;
   }
 
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
       <Stack.Navigator 
         screenOptions={{ headerShown: false, animation: 'fade' }}
         initialRouteName={isFirstLaunch ? "Onboarding" : (!user || !userProfile?.full_name) ? "AuthStack" : (userProfile?.role === 'admin' || userProfile?.role === 'shopkeeper') ? "AdminApp" : "CustomerApp"}

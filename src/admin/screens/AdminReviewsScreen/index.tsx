@@ -17,7 +17,7 @@ export const AdminReviewsScreen = () => {
     return (
       <View style={styles.reviewCard}>
         <View style={styles.cardHeader}>
-          <Text style={styles.customerName}>{item.customer_name}</Text>
+          <Text style={styles.customerName} numberOfLines={1} ellipsizeMode="tail">{item.customer_name}</Text>
           <Text style={styles.dateText}>{formattedDate}</Text>
         </View>
 

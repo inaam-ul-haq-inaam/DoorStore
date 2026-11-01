@@ -1,10 +1,11 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StatusBar, Modal, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, StatusBar, Modal, ScrollView, Image } from 'react-native';
 import ViewShot from 'react-native-view-shot';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useOrderSuccessController } from './controller';
 import { styles } from './styles';
 import { colors } from '../../../theme/colors';
+import { formatOrderItemQuantity } from '../../../utils/itemQuantity';
 
 export const OrderSuccessScreen = () => {
   const { 
@@ -22,9 +23,30 @@ export const OrderSuccessScreen = () => {
   } = useOrderSuccessController();
 
   const isStep1 = true; 
-  const isStep2 = orderStatus === 'pending' || orderStatus === 'completed';
-  const isStep3 = orderStatus === 'pending' || orderStatus === 'completed';
-  const isStep4 = orderStatus === 'completed';
+  const isStep2 = orderStatus === 'pending' || orderStatus === 'on_delivery' || orderStatus === 'completed';
+  const isStep3 = orderStatus === 'pending' || orderStatus === 'on_delivery' || orderStatus === 'completed';
+  const isStep4 = orderStatus === 'on_delivery' || orderStatus === 'completed';
+  const isStep5 = orderStatus === 'completed';
+  const receiptItems = Array.isArray(orderData?.items) ? orderData.items : [];
+  const totalAmount = Number(orderData?.total_amount ?? 0);
+  const deliveryFee = orderData?.delivery_fee;
+  const numericDeliveryFee = typeof deliveryFee === 'number' ? deliveryFee : 0;
+  const subtotal = deliveryFee === 'Pending'
+    ? totalAmount
+    : Math.max(0, totalAmount - numericDeliveryFee);
+  const formatCurrency = (value: number) => `Rs. ${value.toLocaleString('en-PK')}`;
+  const createdAt = orderData?.created_at ? new Date(orderData.created_at) : null;
+  const receiptDate = createdAt && !Number.isNaN(createdAt.getTime())
+    ? createdAt.toLocaleString('en-GB', {
+        day: 'numeric',
+        month: 'numeric',
+        year: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true,
+      })
+    : 'N/A';
 
   return (
     <View style={styles.container}>
@@ -104,9 +126,20 @@ export const OrderSuccessScreen = () => {
               <View style={styles.timelineItem}>
                 <View style={styles.timelineLineBox}>
                   <View style={isStep4 ? styles.timelineDotActive : styles.timelineDotInactive} />
+                  <View style={styles.timelineLine} />
                 </View>
                 <View style={styles.timelineTextContainer}>
-                  <Text style={isStep4 ? styles.timelineTitleActive : styles.timelineTitleInactive}>Delivered</Text>
+                  <Text style={isStep4 ? styles.timelineTitleActive : styles.timelineTitleInactive}>On the Way</Text>
+                  <Text style={styles.timelineDesc}>Your order is on the way</Text>
+                </View>
+              </View>
+
+              <View style={styles.timelineItem}>
+                <View style={styles.timelineLineBox}>
+                  <View style={isStep5 ? styles.timelineDotActive : styles.timelineDotInactive} />
+                </View>
+                <View style={styles.timelineTextContainer}>
+                  <Text style={isStep5 ? styles.timelineTitleActive : styles.timelineTitleInactive}>Received</Text>
                   <Text style={styles.timelineDesc}>Order has arrived!</Text>
                 </View>
               </View>
@@ -121,16 +154,21 @@ export const OrderSuccessScreen = () => {
 
       <Modal visible={isReceiptModalVisible} transparent animationType="fade">
         <View style={styles.receiptOverlay}>
-          <ViewShot ref={viewRef} style={styles.receiptPaper} options={{ format: 'png', quality: 1 }}>
-            <ScrollView showsVerticalScrollIndicator={false}>
-
+          <ScrollView
+            contentContainerStyle={styles.receiptModalContent}
+            showsVerticalScrollIndicator={false}
+          >
+            <ViewShot ref={viewRef} style={styles.receiptPaper} options={{ format: 'png', quality: 1 }}>
               <View style={styles.receiptHeader}>
+                <Image source={require('../../../assets/logo.png')} style={styles.receiptLogo} resizeMode="contain" />
                 <Text style={styles.receiptBrand}>DOOR STORE</Text>
                 <Text style={styles.receiptSlogan}>Your fresh food partner</Text>
+                <Text style={styles.receiptStoreTitle}>CHUNG LAHORE</Text>
+                <Text style={styles.receiptContact}>WhatsApp: 03025769675</Text>
               </View>
 
-              <Text style={styles.receiptDashedLine}>- - - - - - - - - - - - - - - - - - - - - - - -</Text>
-
+              <View style={styles.receiptDashedLine} />
+              <Text style={styles.receiptSectionTitle}>ORDER DETAILS</Text>
               <View style={styles.receiptInfoSection}>
                 <View style={styles.receiptRowInfo}>
                   <Text style={styles.receiptLabelText}>Order ID:</Text>
@@ -138,69 +176,84 @@ export const OrderSuccessScreen = () => {
                 </View>
                 <View style={styles.receiptRowInfo}>
                   <Text style={styles.receiptLabelText}>Date:</Text>
-                  <Text style={styles.receiptValueText}>
-                    {orderData?.created_at ? new Date(orderData.created_at).toLocaleString() : 'N/A'}
-                  </Text>
+                  <Text style={styles.receiptValueText}>{receiptDate}</Text>
                 </View>
+              </View>
+
+              <View style={styles.receiptDashedLine} />
+              <Text style={styles.receiptSectionTitle}>CUSTOMER DETAILS</Text>
+              <View style={styles.receiptInfoSection}>
                 <View style={styles.receiptRowInfo}>
                   <Text style={styles.receiptLabelText}>Customer:</Text>
                   <Text style={styles.receiptValueText}>{orderData?.customer_name || 'N/A'}</Text>
                 </View>
                 <View style={styles.receiptRowInfo}>
-                  <Text style={styles.receiptLabelText}>Payment:</Text>
-                  <Text style={styles.receiptValueText}>{orderData?.payment_method || 'COD'}</Text>
+                  <Text style={styles.receiptLabelText}>Phone:</Text>
+                  <Text style={styles.receiptValueText}>{orderData?.customer_phone || 'N/A'}</Text>
+                </View>
+                <View style={styles.receiptRowInfo}>
+                  <Text style={styles.receiptLabelText}>Address:</Text>
+                  <Text style={styles.receiptValueText}>{orderData?.delivery_address || 'N/A'}</Text>
                 </View>
               </View>
 
-              <Text style={styles.receiptDashedLine}>- - - - - - - - - - - - - - - - - - - - - - - -</Text>
-
+              <View style={styles.receiptDashedLine} />
+              <Text style={styles.receiptSectionTitle}>ITEMS</Text>
               <View style={styles.receiptItemsSection}>
-                <View style={[styles.receiptRowItem, { marginBottom: 8 }]}>
-                  <Text style={[styles.receiptLabelText, { flex: 0.2 }]}>Qty</Text>
-                  <Text style={[styles.receiptLabelText, { flex: 0.5 }]}>Item</Text>
-                  <Text style={[styles.receiptLabelText, { flex: 0.3, textAlign: 'right' }]}>Amount</Text>
-                </View>
-
-                {orderData?.items?.map((item: any, idx: number) => (
-                  <View key={idx} style={styles.receiptRowItem}>
-                    <Text style={[styles.receiptItemText, { flex: 0.2 }]}>{item.quantity}x</Text>
-                    <Text style={[styles.receiptItemText, { flex: 0.5 }]} numberOfLines={2}>{item.name}</Text>
-                    <Text style={[styles.receiptItemText, { flex: 0.3, textAlign: 'right' }]}>Rs. {item.price * item.quantity}</Text>
-                  </View>
-                ))}
+                {receiptItems.map((item: any, idx: number) => {
+                  const quantity = Number(item?.quantity ?? 0);
+                  const amount = Number(item?.price ?? 0) * quantity;
+                  return (
+                    <View key={`${item?.name ?? 'item'}-${idx}`} style={styles.receiptRowItem}>
+                      <Text style={styles.receiptItemText}>{item?.name ?? 'Item'}</Text>
+                      <Text style={styles.receiptItemQuantity}>{formatOrderItemQuantity(item)}</Text>
+                      <Text style={styles.receiptItemAmount}>{formatCurrency(amount)}</Text>
+                    </View>
+                  );
+                })}
               </View>
 
-              <Text style={styles.receiptDashedLine}>- - - - - - - - - - - - - - - - - - - - - - - -</Text>
-
+              <View style={styles.receiptDashedLine} />
               <View style={styles.receiptTotalsSection}>
                 <View style={styles.receiptRowInfo}>
-                  <Text style={styles.receiptLabelText}>Subtotal</Text>
-                  <Text style={styles.receiptValueText}>Rs. {orderData?.total_amount - orderData?.delivery_fee}</Text>
+                  <Text style={styles.receiptLabelText}>Subtotal:</Text>
+                  <Text style={styles.receiptValueText}>{formatCurrency(subtotal)}</Text>
                 </View>
                 <View style={styles.receiptRowInfo}>
-                  <Text style={styles.receiptLabelText}>Delivery Fee</Text>
-                  <Text style={styles.receiptValueText}>Rs. {orderData?.delivery_fee}</Text>
+                  <Text style={styles.receiptLabelText}>Delivery Fee:</Text>
+                  <Text style={styles.receiptValueText}>
+                    {deliveryFee === 'Pending' ? 'Pending' : formatCurrency(numericDeliveryFee)}
+                  </Text>
                 </View>
-                <View style={[styles.receiptRowInfo, { marginTop: 8 }]}>
-                  <Text style={styles.receiptGrandTotalText}>Total</Text>
-                  <Text style={styles.receiptGrandTotalValue}>Rs. {orderData?.total_amount}</Text>
+                {!!orderData?.distance_km && (
+                  <View style={styles.receiptRowInfo}>
+                    <Text style={styles.receiptLabelText}>Distance:</Text>
+                    <Text style={styles.receiptValueText}>{Number(orderData.distance_km).toFixed(2)} KM</Text>
+                  </View>
+                )}
+                <View style={styles.receiptGrandTotal}>
+                  <Text style={styles.receiptGrandTotalText}>TOTAL:</Text>
+                  <Text style={styles.receiptGrandTotalValue}>{formatCurrency(totalAmount)}</Text>
                 </View>
               </View>
 
-              <Text style={styles.receiptDashedLine}>- - - - - - - - - - - - - - - - - - - - - - - -</Text>
-
+              <View style={styles.receiptDashedLine} />
               <Text style={styles.receiptFooterText}>Thank you for your order!</Text>
-            </ScrollView>
-          </ViewShot>
+              <Text style={styles.receiptFooterNote}>
+                We appreciate you choosing DOOR STORE{'\n'}— your fresh food partner.
+              </Text>
+              <Text style={styles.receiptKeepNote}>Please keep this receipt for your records</Text>
+            </ViewShot>
 
-          <TouchableOpacity style={styles.receiptSaveBtn} onPress={handleSaveReceipt}>
-            <Icon name="download-outline" size={20} color="#FFF" />
-            <Text style={styles.receiptSaveBtnText}>Save to Gallery</Text>
-          </TouchableOpacity>
+            <TouchableOpacity style={styles.receiptSaveBtn} onPress={handleSaveReceipt}>
+              <Icon name="download-outline" size={20} color="#FFF" />
+              <Text style={styles.receiptSaveBtnText}>Save to Gallery</Text>
+            </TouchableOpacity>
 
-          <TouchableOpacity style={styles.receiptCloseBtn} onPress={() => setReceiptModalVisible(false)}>
-            <Text style={styles.receiptCloseBtnText}>Close</Text>
-          </TouchableOpacity>
+            <TouchableOpacity style={styles.receiptCloseBtn} onPress={() => setReceiptModalVisible(false)}>
+              <Text style={styles.receiptCloseBtnText}>Close</Text>
+            </TouchableOpacity>
+          </ScrollView>
         </View>
       </Modal>
 

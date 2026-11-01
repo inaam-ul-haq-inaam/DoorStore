@@ -16,6 +16,7 @@ export interface Product {
   image: string;
   stock_available?: number;
   unit?: string;
+  unit_quantity?: string | number;
   description?: string;
   category?: string;
   rating?: number;
@@ -35,6 +36,9 @@ export const useHomeController = () => {
     { id: 'cat_2', name: 'Vegetables', imageUrl: 'https://images.unsplash.com/photo-1597362925123-77861d3fbac7?w=200&q=80&auto=format&fit=crop' },
     { id: 'cat_3', name: 'Fruits', imageUrl: 'https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=200&q=80&auto=format&fit=crop' },
     { id: 'cat_4', name: 'Meat', imageUrl: 'https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?w=200&q=80&auto=format&fit=crop' },
+    { id: 'cat_5', name: 'Grocery Items', imageUrl: 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=200&q=80&auto=format&fit=crop' },
+    { id: 'cat_6', name: 'Spices & Masala', imageUrl: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=200&q=80&auto=format&fit=crop' },
+    { id: 'cat_7', name: 'Washing & Cleaning', imageUrl: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=200&q=80&auto=format&fit=crop' },
   ];
   const [selectedCategoryId, setSelectedCategoryId] = useState(categories[0].id);
 
@@ -43,6 +47,8 @@ export const useHomeController = () => {
   const [userLocation, setUserLocation] = useState('Islamabad, Pakistan');
   const [isLocationModalVisible, setLocationModalVisible] = useState(false);
   const [tempLocation, setTempLocation] = useState('');
+  // Coordinates of the delivery location chosen from the autocomplete dropdown.
+  const [deliveryCoords, setDeliveryCoords] = useState<{ lat: number; lng: number } | null>(null);
 
   const [unratedOrder, setUnratedOrder] = useState<any>(null);
   const [isRatingModalVisible, setRatingModalVisible] = useState(false);
@@ -94,6 +100,7 @@ export const useHomeController = () => {
               image: data.image_url || '',
               stock_available: data.stock_available || 0,
               unit: data.unit || 'Unit',
+              unit_quantity: data.unit_quantity || '1',
               description: data.description || '',
               category: data.category || 'Vegetables',
               rating: typeof data.rating === 'number' ? data.rating : 0,
@@ -174,6 +181,31 @@ export const useHomeController = () => {
         console.log('Error saving location', e);
       }
     }
+    setLocationModalVisible(false);
+  };
+
+  /**
+   * Used by <LocationAutocomplete /> inside the "Set Your Delivery Address"
+   * modal. Receives the selected latitude, longitude and formatted address,
+   * updates the active delivery location and closes the modal automatically.
+   */
+  const handleLocationSelect = async (lat: number, lng: number, formattedAddress: string) => {
+    const address = formattedAddress.trim();
+    if (!address) return;
+
+    setTempLocation(address);
+    setUserLocation(address);
+    setDeliveryCoords({ lat, lng });
+
+    try {
+      const stored = await AsyncStorage.getItem('@customer_profile');
+      const profile = stored ? JSON.parse(stored) : {};
+      profile.address = address;
+      await AsyncStorage.setItem('@customer_profile', JSON.stringify(profile));
+    } catch (e) {
+      console.log('Error saving location', e);
+    }
+
     setLocationModalVisible(false);
   };
 
@@ -320,7 +352,9 @@ export const useHomeController = () => {
     tempLocation,
     setTempLocation,
     setLocationModalVisible,
+    deliveryCoords,
     handleSaveLocation,
+    handleLocationSelect,
     handleAddToCart,
     openProductDetails,
     closeProductDetails,

@@ -67,7 +67,11 @@ export const UserDetailsScreen = () => {
   const joinedDate = formatDate(user.created_at);
 
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+    <ScrollView
+      style={styles.container}
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={{ paddingBottom: 40 }}
+    >
       <View style={styles.header}>
         <TouchableOpacity style={styles.backButton} onPress={handleGoBack}>
           <Icon name="chevron-back" size={24} color={colors.surface} />

@@ -1,4 +1,5 @@
 import { NavigatorScreenParams, CompositeNavigationProp } from '@react-navigation/native';
+import type { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
@@ -13,7 +14,13 @@ export type MainTabParamList = {
 export type CustomerStackParamList = {
   MainTabs: NavigatorScreenParams<MainTabParamList> | undefined;
   ProductDetails: { productId: string };
-  Checkout: { deliveryFee: number, distance: number, deliveryFeePending?: boolean } | undefined;
+  Checkout: {
+    deliveryFee: number;
+    distance: number;
+    deliveryFeePending?: boolean;
+    latitude?: number;
+    longitude?: number;
+  } | undefined;
   OrderSuccess: { orderId: string };
   CustomerChat: undefined;
   Policy: undefined;
@@ -38,6 +45,7 @@ export type AuthStackParamList = {
   Login: undefined;
   Register: undefined;
   CompleteProfile: undefined;
+  Otp: { phone: string; confirmation: FirebaseAuthTypes.ConfirmationResult };
 };
 
 export type RootStackParamList = {

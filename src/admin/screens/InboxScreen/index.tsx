@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
   center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   emptyTitle: { fontSize: 18, fontWeight: 'bold', color: colors.textMain, marginTop: 16 },
   emptyText: { fontSize: 14, color: colors.textMuted, marginTop: 6 },
-  list: { paddingVertical: 8 },
+  list: { paddingVertical: 8, paddingBottom: 100 },
   chatRow: {
     flexDirection: 'row',
     alignItems: 'center',

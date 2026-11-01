@@ -1,0 +1,20 @@
+{
+  "name": "doorstore-backend",
+  "version": "1.0.0",
+  "description": "Door Store order-notification backend - sends FCM push notifications for the DoorStore app. Deployed on Vercel (free Hobby plan, no Firebase Blaze required).",
+  "private": true,
+  "main": "api/index.js",
+  "scripts": {
+    "start": "node api/index.js",
+    "dev": "node api/index.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.2",
+    "firebase-admin": "^13.2.0"
+  }
+}

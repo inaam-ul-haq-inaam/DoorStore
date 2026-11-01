@@ -70,9 +70,13 @@ const normalizeSettings = (raw: any): DeliverySettingsConfig | null => {
  * `settings/delivery` se shop location + delivery settings padho.
  * Rules deny / network error hone pe bhi crash nahi karega — empty config wapas.
  */
-export const readDeliveryConfig = async (): Promise<DeliveryConfig> => {
+export const readDeliveryConfig = async (timeoutMs = 8000): Promise<DeliveryConfig> => {
   try {
-    const doc = await firebaseDb.collection(CONFIG_COLLECTION).doc(CONFIG_DOC_ID).get();
+    const fetchPromise = firebaseDb.collection(CONFIG_COLLECTION).doc(CONFIG_DOC_ID).get();
+    const timeoutPromise = new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error('Timeout reading delivery config from Firestore')), timeoutMs)
+    );
+    const doc = await Promise.race([fetchPromise, timeoutPromise]);
     if (!doc.exists()) return EMPTY_CONFIG;
 
     const data = doc.data();

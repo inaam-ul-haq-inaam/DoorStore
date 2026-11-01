@@ -13,6 +13,7 @@ export const useAdminDashboardController = () => {
   const [stats, setStats] = useState({
     incoming: 0,
     pending: 0,
+    on_delivery: 0,
     completed: 0,
   });
   const [unreadChats, setUnreadChats] = useState(0);
@@ -24,6 +25,7 @@ export const useAdminDashboardController = () => {
     const unsubscribeOrders = firebaseDb.collection('orders').onSnapshot(snapshot => {
       let incoming = 0;
       let pending = 0;
+      let onDelivery = 0;
       let completed = 0;
 
       let totalRatingValue = 0;
@@ -33,6 +35,7 @@ export const useAdminDashboardController = () => {
         const data = doc.data();
         if (data.status === 'incoming') incoming++;
         if (data.status === 'pending') pending++;
+        if (data.status === 'on_delivery') onDelivery++;
         if (data.status === 'completed') completed++;
 
         if (data.is_rated && typeof data.rating === 'number') {
@@ -41,7 +44,7 @@ export const useAdminDashboardController = () => {
         }
       });
 
-      setStats({ incoming, pending, completed });
+      setStats({ incoming, pending, on_delivery: onDelivery, completed });
 
       if (ratedOrdersCount > 0) {
         setShopRating((totalRatingValue / ratedOrdersCount).toFixed(1));
