@@ -1,0 +1,17 @@
+{
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ],
+  "builds": [
+    {
+      "src": "admin-portal/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "admin-portal/dist"
+      }
+    }
+  ]
+}
